@@ -30,18 +30,16 @@ public class DetailMovieActivity extends AppCompatActivity {
     public static final String EXTRA_MOVIE = "extra_movie";
     public static final String EXTRA_TVSHOW = "extra_tvshow";
 
-    private ImageView mIvCoverdetail;
-    private ImageView mIvImgdetail;
-    private TextView mTxtTitledetail;
-    private RatingBar mRbRatingdetail;
-    private TextView mTxtRatemovie;
-    private TextView mTxtDatedetail;
-    private TextView mTxtDescdetail;
+    private ImageView ivCoverdetail;
+    private ImageView ivImgdetail;
+    private TextView txtTitledetail;
+    private RatingBar rbRatingdetail;
+    private TextView txtRatemovie;
+    private TextView txtDatedetail;
+    private TextView txtDescdetail;
 
     private DateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private DateFormat outputDate = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
-
-    private DetailMovieViewModel detailMovieViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +59,15 @@ public class DetailMovieActivity extends AppCompatActivity {
             view.setSystemUiVisibility(view.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
 
-        detailMovieViewModel = ViewModelProviders.of(this).get(DetailMovieViewModel.class);
+        DetailMovieViewModel detailMovieViewModel = ViewModelProviders.of(this).get(DetailMovieViewModel.class);
 
-        mIvCoverdetail = findViewById(R.id.iv_coverdetail);
-        mIvImgdetail = findViewById(R.id.iv_imgdetail);
-        mTxtTitledetail = findViewById(R.id.txt_titledetail);
-        mRbRatingdetail = findViewById(R.id.rb_ratingdetail);
-        mTxtRatemovie = findViewById(R.id.txt_ratemovie);
-        mTxtDatedetail = findViewById(R.id.txt_datedetail);
-        mTxtDescdetail = findViewById(R.id.txt_descdetail);
+        ivCoverdetail = findViewById(R.id.iv_coverdetail);
+        ivImgdetail = findViewById(R.id.iv_imgdetail);
+        txtTitledetail = findViewById(R.id.txt_titledetail);
+        rbRatingdetail = findViewById(R.id.rb_ratingdetail);
+        txtRatemovie = findViewById(R.id.txt_ratemovie);
+        txtDatedetail = findViewById(R.id.txt_datedetail);
+        txtDescdetail = findViewById(R.id.txt_descdetail);
 
         int movieId = getIntent().getIntExtra(EXTRA_MOVIE, 0);
         if (movieId != 0) {
@@ -87,20 +85,20 @@ public class DetailMovieActivity extends AppCompatActivity {
     }
 
     private void itemMovie(MovieEntity entity) {
-        mTxtTitledetail.setText(entity.getName());
-        mTxtRatemovie.setText(entity.getRating());
+        txtTitledetail.setText(entity.getName());
+        txtRatemovie.setText(entity.getRating());
         int rate = (int) Double.parseDouble(entity.getRating());
         float movieRating = (float) (rate / 2);
-        mRbRatingdetail.setRating(movieRating);
+        rbRatingdetail.setRating(movieRating);
         GlideApp.with(this)
                 .load(entity.getImagePath())
                 .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
-                .into(mIvImgdetail);
+                .into(ivImgdetail);
         GlideApp.with(this)
                 .load(entity.getImagePath())
                 .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
-                .into(mIvCoverdetail);
-        mTxtDescdetail.setText(entity.getDesc());
+                .into(ivCoverdetail);
+        txtDescdetail.setText(entity.getDesc());
 
         try {
             Date date = inputDate.parse(entity.getDate());
@@ -108,27 +106,27 @@ public class DetailMovieActivity extends AppCompatActivity {
             if (date != null) {
                 releaseDate = outputDate.format(date);
             }
-            mTxtDatedetail.setText(releaseDate);
+            txtDatedetail.setText(releaseDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
     private void itemTVShow(TVShowEntity entity) {
-        mTxtTitledetail.setText(entity.getName());
-        mTxtRatemovie.setText(entity.getRating());
+        txtTitledetail.setText(entity.getName());
+        txtRatemovie.setText(entity.getRating());
         int rate = (int) Double.parseDouble(entity.getRating());
         float movieRating = (float) (rate / 2);
-        mRbRatingdetail.setRating(movieRating);
+        rbRatingdetail.setRating(movieRating);
         GlideApp.with(this)
                 .load(entity.getImagePath())
                 .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
-                .into(mIvImgdetail);
+                .into(ivImgdetail);
         GlideApp.with(this)
                 .load(entity.getImagePath())
                 .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
-                .into(mIvCoverdetail);
-        mTxtDescdetail.setText(entity.getDesc());
+                .into(ivCoverdetail);
+        txtDescdetail.setText(entity.getDesc());
 
         try {
             Date date = inputDate.parse(entity.getDate());
@@ -136,7 +134,7 @@ public class DetailMovieActivity extends AppCompatActivity {
             if (date != null) {
                 releaseDate = outputDate.format(date);
             }
-            mTxtDatedetail.setText(releaseDate);
+            txtDatedetail.setText(releaseDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
