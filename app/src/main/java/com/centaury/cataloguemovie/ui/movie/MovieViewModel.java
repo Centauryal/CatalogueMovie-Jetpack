@@ -2,7 +2,7 @@ package com.centaury.cataloguemovie.ui.movie;
 
 import androidx.lifecycle.ViewModel;
 
-import com.centaury.cataloguemovie.data.MovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.utils.DataDummy;
 
 import java.util.List;

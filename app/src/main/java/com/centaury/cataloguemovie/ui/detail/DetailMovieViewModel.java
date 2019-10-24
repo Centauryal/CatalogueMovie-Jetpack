@@ -2,8 +2,8 @@ package com.centaury.cataloguemovie.ui.detail;
 
 import androidx.lifecycle.ViewModel;
 
-import com.centaury.cataloguemovie.data.MovieEntity;
-import com.centaury.cataloguemovie.data.TVShowEntity;
+import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 import com.centaury.cataloguemovie.utils.DataDummy;
 
 /**

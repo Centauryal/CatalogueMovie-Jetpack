@@ -1,19 +1,19 @@
-package com.centaury.cataloguemovie.data;
+package com.centaury.cataloguemovie.data.local.entity;
 
 /**
  * Created by Centaury on 10/6/2019.
  */
-public class MovieEntity {
+public class TVShowEntity {
 
-    private int movieId;
+    private int tvshowId;
     private String name;
     private String imagePath;
     private String date;
     private String desc;
     private String rating;
 
-    public MovieEntity(int movieId, String name, String imagePath, String date, String desc, String rating) {
-        this.movieId = movieId;
+    public TVShowEntity(int tvshowId, String name, String imagePath, String date, String desc, String rating) {
+        this.tvshowId = tvshowId;
         this.name = name;
         this.imagePath = imagePath;
         this.date = date;
@@ -21,12 +21,12 @@ public class MovieEntity {
         this.rating = rating;
     }
 
-    public int getMovieId() {
-        return movieId;
+    public int getTvshowId() {
+        return tvshowId;
     }
 
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
+    public void setTvshowId(int tvshowId) {
+        this.tvshowId = tvshowId;
     }
 
     public String getName() {

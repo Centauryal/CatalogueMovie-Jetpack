@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.data.MovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.utils.Helper;
 import com.facebook.shimmer.ShimmerFrameLayout;
 

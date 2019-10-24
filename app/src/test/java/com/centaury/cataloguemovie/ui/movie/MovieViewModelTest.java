@@ -1,6 +1,6 @@
 package com.centaury.cataloguemovie.ui.movie;
 
-import com.centaury.cataloguemovie.data.MovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 
 import org.junit.Before;
 import org.junit.Test;

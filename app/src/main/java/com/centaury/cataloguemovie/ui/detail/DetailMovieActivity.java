@@ -15,8 +15,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.data.MovieEntity;
-import com.centaury.cataloguemovie.data.TVShowEntity;
+import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
+import com.centaury.cataloguemovie.utils.AppConstants;
 import com.centaury.cataloguemovie.utils.GlideApp;
 
 import java.text.DateFormat;
@@ -26,9 +27,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DetailMovieActivity extends AppCompatActivity {
-
-    public static final String EXTRA_MOVIE = "extra_movie";
-    public static final String EXTRA_TVSHOW = "extra_tvshow";
 
     private ImageView ivCoverdetail;
     private ImageView ivImgdetail;
@@ -69,14 +67,14 @@ public class DetailMovieActivity extends AppCompatActivity {
         txtDatedetail = findViewById(R.id.txt_datedetail);
         txtDescdetail = findViewById(R.id.txt_descdetail);
 
-        int movieId = getIntent().getIntExtra(EXTRA_MOVIE, 0);
+        int movieId = getIntent().getIntExtra(AppConstants.DETAIL_EXTRA_MOVIE, 0);
         if (movieId != 0) {
             detailMovieViewModel.setMovieId(movieId);
             if (detailMovieViewModel.getMovie() != null) {
                 itemMovie(detailMovieViewModel.getMovie());
             }
         } else {
-            int tvshowId = getIntent().getIntExtra(EXTRA_TVSHOW, 0);
+            int tvshowId = getIntent().getIntExtra(AppConstants.DETAIL_EXTRA_TVSHOW, 0);
             detailMovieViewModel.setTvshowId(tvshowId);
             if (detailMovieViewModel.getTvShow() != null) {
                 itemTVShow(detailMovieViewModel.getTvShow());

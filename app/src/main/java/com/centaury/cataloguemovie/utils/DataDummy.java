@@ -1,7 +1,7 @@
 package com.centaury.cataloguemovie.utils;
 
-import com.centaury.cataloguemovie.data.MovieEntity;
-import com.centaury.cataloguemovie.data.TVShowEntity;
+import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 
 import java.util.ArrayList;
 

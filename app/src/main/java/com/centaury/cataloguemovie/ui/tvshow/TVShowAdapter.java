@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.data.TVShowEntity;
+import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity;
+import com.centaury.cataloguemovie.utils.AppConstants;
 import com.centaury.cataloguemovie.utils.GlideApp;
 
 import java.text.DateFormat;
@@ -61,7 +62,7 @@ public class TVShowAdapter extends RecyclerView.Adapter<TVShowAdapter.TVShowView
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(activity, DetailMovieActivity.class);
-            intent.putExtra(DetailMovieActivity.EXTRA_TVSHOW, getListTVShows().get(position).getTvshowId());
+            intent.putExtra(AppConstants.DETAIL_EXTRA_TVSHOW, getListTVShows().get(position).getTvshowId());
             activity.startActivity(intent);
         });
     }

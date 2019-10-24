@@ -7,5 +7,5 @@ import com.bumptech.glide.module.AppGlideModule;
  * Created by Centaury on 10/6/2019.
  */
 @GlideModule
-public class MyAppGlideModule extends AppGlideModule {
+public final class MyAppGlideModule extends AppGlideModule {
 }

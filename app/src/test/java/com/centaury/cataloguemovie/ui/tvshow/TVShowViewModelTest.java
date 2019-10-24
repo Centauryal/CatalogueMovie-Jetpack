@@ -1,6 +1,6 @@
 package com.centaury.cataloguemovie.ui.tvshow;
 
-import com.centaury.cataloguemovie.data.TVShowEntity;
+import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 
 import org.junit.Before;
 import org.junit.Test;

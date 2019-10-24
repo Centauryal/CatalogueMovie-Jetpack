@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.data.MovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity;
+import com.centaury.cataloguemovie.utils.AppConstants;
 import com.centaury.cataloguemovie.utils.GlideApp;
 
 import java.text.DateFormat;
@@ -61,7 +62,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(activity, DetailMovieActivity.class);
-            intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, getListMovies().get(position).getMovieId());
+            intent.putExtra(AppConstants.DETAIL_EXTRA_MOVIE, getListMovies().get(position).getMovieId());
             activity.startActivity(intent);
         });
     }

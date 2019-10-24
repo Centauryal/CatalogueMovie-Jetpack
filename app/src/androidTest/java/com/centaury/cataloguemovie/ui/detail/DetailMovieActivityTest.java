@@ -7,7 +7,8 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.data.MovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
+import com.centaury.cataloguemovie.utils.AppConstants;
 import com.centaury.cataloguemovie.utils.FakeDataDummy;
 
 import org.junit.Rule;
@@ -32,7 +33,7 @@ public class DetailMovieActivityTest {
         protected Intent getActivityIntent() {
             Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
             Intent intent = new Intent(targetContext, DetailMovieActivity.class);
-            intent.putExtra(DetailMovieActivity.EXTRA_MOVIE, movieEntity.getMovieId());
+            intent.putExtra(AppConstants.DETAIL_EXTRA_MOVIE, movieEntity.getMovieId());
             return intent;
         }
     };
