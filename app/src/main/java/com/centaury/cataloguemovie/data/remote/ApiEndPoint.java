@@ -8,9 +8,11 @@ import com.centaury.cataloguemovie.BuildConfig;
 public final class ApiEndPoint {
 
     public static final String ENDPOINT_DISCOVER_MOVIE = BuildConfig.BASE_URL + "discover/movie";
+    public static final String ENDPOINT_DETAIL_MOVIE = BuildConfig.BASE_URL + "movie/{movie_id}";
     public static final String ENDPOINT_GENRE_MOVIE = BuildConfig.BASE_URL + "genre/movie/list";
 
     public static final String ENDPOINT_DISCOVER_TVSHOW = BuildConfig.BASE_URL + "discover/tv";
+    public static final String ENDPOINT_DETAIL_TVSHOW = BuildConfig.BASE_URL + "tv/{tv_id}";
     public static final String ENDPOINT_GENRE_TVSHOW = BuildConfig.BASE_URL + "genre/tv/list";
 
 

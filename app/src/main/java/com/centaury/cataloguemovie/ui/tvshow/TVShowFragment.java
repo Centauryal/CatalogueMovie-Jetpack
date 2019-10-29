@@ -5,79 +5,112 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
+import com.centaury.cataloguemovie.ViewModelProviderFactory;
 import com.centaury.cataloguemovie.utils.Helper;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
-import java.util.List;
+import java.util.Locale;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TVShowFragment extends Fragment {
 
-    private RecyclerView rvTVShow;
-    private ShimmerFrameLayout shimmerFrameLayout;
+    @BindView(R.id.rv_tvshow)
+    RecyclerView mRvTvshow;
+    @BindView(R.id.shimmer_view_container)
+    ShimmerFrameLayout mShimmerViewContainer;
+    @BindView(R.id.empty_state)
+    LinearLayout mEmptyState;
+    private Unbinder unbinder;
 
     public TVShowFragment() {
         // Required empty public constructor
-    }
-
-    public static Fragment newInstance() {
-        return new TVShowFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tvshow, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_tvshow, container, false);
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        rvTVShow = view.findViewById(R.id.rv_tvshow);
-        shimmerFrameLayout = view.findViewById(R.id.shimmer_view_container);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
-            TVShowViewModel tvShowViewModel = ViewModelProviders.of(this).get(TVShowViewModel.class);
-            List<TVShowEntity> tvShowEntities = tvShowViewModel.getTVShows();
+            TVShowViewModel tvShowViewModel = obtainViewModel(getActivity());
+            String language = Locale.getDefault().toLanguageTag();
 
             TVShowAdapter tvShowAdapter = new TVShowAdapter(getActivity());
-            shimmerFrameLayout.stopShimmer();
-            shimmerFrameLayout.setVisibility(View.GONE);
-            tvShowAdapter.setListTVShows(tvShowEntities);
+            tvShowViewModel.getTVShows(language).observe(this, tvShowResultsItems -> {
+                mShimmerViewContainer.stopShimmer();
+                mShimmerViewContainer.setVisibility(View.GONE);
+                toggleEmptyMovies(tvShowResultsItems.size());
+                tvShowAdapter.setListTVShows(tvShowResultsItems);
+                tvShowAdapter.notifyDataSetChanged();
+            });
+            tvShowViewModel.getGenreTVShow(language).observe(this, genresItemList -> {
+                tvShowAdapter.setListGenreTVShow(genresItemList);
+                tvShowAdapter.notifyDataSetChanged();
+            });
 
-            rvTVShow.setLayoutManager(new LinearLayoutManager(getContext()));
-            rvTVShow.setHasFixedSize(true);
-            rvTVShow.setAdapter(tvShowAdapter);
-            rvTVShow.addItemDecoration(new Helper.TopItemDecoration(55));
+            mRvTvshow.setLayoutManager(new LinearLayoutManager(getContext()));
+            mRvTvshow.setHasFixedSize(true);
+            mRvTvshow.setAdapter(tvShowAdapter);
+            mRvTvshow.addItemDecoration(new Helper.TopItemDecoration(55));
+        }
+    }
+
+    @NonNull
+    private static TVShowViewModel obtainViewModel(FragmentActivity activity) {
+        ViewModelProviderFactory factory = ViewModelProviderFactory.getInstance(activity.getApplication());
+        return ViewModelProviders.of(activity, factory).get(TVShowViewModel.class);
+    }
+
+    private void toggleEmptyMovies(int size) {
+        if (size > 0) {
+            mEmptyState.setVisibility(View.GONE);
+            mRvTvshow.setVisibility(View.VISIBLE);
+        } else {
+            mRvTvshow.setVisibility(View.GONE);
+            mEmptyState.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        shimmerFrameLayout.startShimmer();
+        mShimmerViewContainer.startShimmer();
     }
 
     @Override
     public void onPause() {
-        shimmerFrameLayout.stopShimmer();
+        mShimmerViewContainer.stopShimmer();
         super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

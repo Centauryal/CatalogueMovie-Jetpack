@@ -2,6 +2,7 @@ package com.centaury.cataloguemovie.ui.movie;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.request.RequestOptions;
+import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
+import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
+import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
 import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity;
 import com.centaury.cataloguemovie.utils.AppConstants;
 import com.centaury.cataloguemovie.utils.GlideApp;
@@ -26,26 +29,36 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Centaury on 10/7/2019.
  */
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     private final Activity activity;
-    private List<MovieEntity> movieEntities = new ArrayList<>();
+    private List<MovieResultsItem> movieResultsList = new ArrayList<>();
+    private List<GenresItem> genresItemList = new ArrayList<>();
 
     public MovieAdapter(Activity activity) {
         this.activity = activity;
     }
 
-    private List<MovieEntity> getListMovies() {
-        return movieEntities;
+    private List<MovieResultsItem> getListMovies() {
+        return movieResultsList;
     }
 
-    void setListMovies(List<MovieEntity> listMovies) {
+    void setListMovies(List<MovieResultsItem> listMovies) {
         if (listMovies == null) return;
-        this.movieEntities.clear();
-        this.movieEntities.addAll(listMovies);
+        this.movieResultsList.clear();
+        this.movieResultsList.addAll(listMovies);
+    }
+
+    void setListGenreMovie(List<GenresItem> genreMovie) {
+        if (genreMovie == null) return;
+        this.genresItemList.clear();
+        this.genresItemList.addAll(genreMovie);
     }
 
     @NonNull
@@ -57,12 +70,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        MovieEntity entity = movieEntities.get(position);
-        holder.bind(entity);
+        MovieResultsItem movie = movieResultsList.get(position);
+        holder.bind(movie);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(activity, DetailMovieActivity.class);
-            intent.putExtra(AppConstants.DETAIL_EXTRA_MOVIE, getListMovies().get(position).getMovieId());
+            intent.putExtra(AppConstants.DETAIL_EXTRA_MOVIE, getListMovies().get(position).getId());
             activity.startActivity(intent);
         });
     }
@@ -73,30 +86,44 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder {
-        final TextView mTxtTitlebackground;
-        final ImageView mIvMovielist;
-        final TextView mTxtTitlemovielist;
-        final TextView mTxtDescmovielist;
-        final TextView mTxtDatemovielist;
+        @BindView(R.id.txt_titlebackground)
+        TextView mTxtTitlebackground;
+        @BindView(R.id.iv_movielist)
+        ImageView mIvMovielist;
+        @BindView(R.id.txt_genremovielist)
+        TextView mTxtGenremovielist;
+        @BindView(R.id.txt_titlemovielist)
+        TextView mTxtTitlemovielist;
+        @BindView(R.id.txt_descmovielist)
+        TextView mTxtDescmovielist;
+        @BindView(R.id.txt_datemovielist)
+        TextView mTxtDatemovielist;
 
         MovieViewHolder(View itemView) {
             super(itemView);
-            mTxtTitlebackground = itemView.findViewById(R.id.txt_titlebackground);
-            mIvMovielist = itemView.findViewById(R.id.iv_movielist);
-            mTxtTitlemovielist = itemView.findViewById(R.id.txt_titlemovielist);
-            mTxtDescmovielist = itemView.findViewById(R.id.txt_descmovielist);
-            mTxtDatemovielist = itemView.findViewById(R.id.txt_datemovielist);
+            ButterKnife.bind(this, itemView);
         }
 
-        void bind(MovieEntity entity) {
-            mTxtTitlemovielist.setText(entity.getName());
-            mTxtTitlebackground.setText(entity.getName());
-            mTxtDescmovielist.setText(entity.getDesc());
+        void bind(MovieResultsItem movie) {
+            mTxtTitlemovielist.setText(movie.getTitle());
+            mTxtTitlebackground.setText(movie.getOriginalTitle());
+
+            if (movie.getOverview() == null || movie.getOverview().equals("")) {
+                mTxtDescmovielist.setText(activity.getString(R.string.txt_nodesc));
+            } else {
+                mTxtDescmovielist.setText(movie.getOverview());
+            }
+
+            if (movie.getGenreIds().size() == 0) {
+                mTxtGenremovielist.setText(activity.getString(R.string.txt_no_genre));
+            } else {
+                mTxtGenremovielist.setText(getGenres(movie.getGenreIds()));
+            }
 
             DateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             DateFormat outputDate = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
             try {
-                Date date = inputDate.parse(entity.getDate());
+                Date date = inputDate.parse(movie.getReleaseDate());
                 String releaseDate = null;
                 if (date != null) {
                     releaseDate = outputDate.format(date);
@@ -107,9 +134,36 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             }
 
             GlideApp.with(itemView.getContext())
-                    .load(entity.getImagePath())
+                    .load(BuildConfig.IMAGE_URL + AppConstants.SIZE_IMAGE + movie.getPosterPath())
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
                     .into(mIvMovielist);
+        }
+
+        private String getGenres(List<Integer> genreList) {
+            List<String> genreMovies = new ArrayList<>();
+            try {
+                if (genreList.size() == 1) {
+                    for (Integer genreId : genreList) {
+                        for (GenresItem genresItem : genresItemList) {
+                            if (genresItem.getId() == genreId) {
+                                genreMovies.add(genresItem.getName());
+                            }
+                        }
+                    }
+                } else {
+                    List<Integer> integers = genreList.subList(0, 2);
+                    for (Integer genreId : integers) {
+                        for (GenresItem genresItem : genresItemList) {
+                            if (genresItem.getId() == genreId) {
+                                genreMovies.add(genresItem.getName());
+                            }
+                        }
+                    }
+                }
+            } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
+                System.out.println("Exception thrown : " + e);
+            }
+            return TextUtils.join(", ", genreMovies);
         }
     }
 }

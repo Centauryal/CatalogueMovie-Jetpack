@@ -51,6 +51,15 @@ public class MovieResultsItem {
     @SerializedName("vote_count")
     private int voteCount;
 
+    public MovieResultsItem(int id, String title, String posterPath, String releaseDate, String overview, double voteAverage) {
+        this.id = id;
+        this.title = title;
+        this.posterPath = posterPath;
+        this.releaseDate = releaseDate;
+        this.overview = overview;
+        this.voteAverage = voteAverage;
+    }
+
     public void setOverview(String overview) {
         this.overview = overview;
     }

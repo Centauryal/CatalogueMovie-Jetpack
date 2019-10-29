@@ -1,56 +1,38 @@
 package com.centaury.cataloguemovie.ui.detail;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
-import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
-import com.centaury.cataloguemovie.utils.DataDummy;
+import com.centaury.cataloguemovie.data.CatalogueRepository;
+import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse;
+import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowResponse;
 
 /**
  * Created by Centaury on 10/7/2019.
  */
 public class DetailMovieViewModel extends ViewModel {
 
-    private MovieEntity movieEntity;
-    private TVShowEntity tvShowEntity;
-    private Integer movieId;
-    private Integer tvshowId;
+    private CatalogueRepository catalogueRepository;
+    private String movieId;
+    private String tvshowId;
 
-    public MovieEntity getMovie() {
-        for (int i = 0; i < DataDummy.generateDummyMovies().size(); i++) {
-            MovieEntity entity = DataDummy.generateDummyMovies().get(i);
-            if (entity.getMovieId() == movieId) {
-                movieEntity = entity;
-            }
-        }
-
-        return movieEntity;
+    public DetailMovieViewModel(CatalogueRepository catalogueRepository) {
+        this.catalogueRepository = catalogueRepository;
     }
 
-    public TVShowEntity getTvShow() {
-        for (int i = 0; i < DataDummy.generateDummyTVShows().size(); i++) {
-            TVShowEntity entity = DataDummy.generateDummyTVShows().get(i);
-            if (entity.getTvshowId() == tvshowId) {
-                tvShowEntity = entity;
-            }
-        }
-
-        return tvShowEntity;
+    LiveData<DetailMovieResponse> getDetailMovie(String language) {
+        return catalogueRepository.getDetailMovie(movieId, language);
     }
 
-    public int getMovieId() {
-        return movieId;
+    LiveData<DetailTVShowResponse> getDetailTVShow(String language) {
+        return catalogueRepository.getDetailTVShow(tvshowId, language);
     }
 
-    public void setMovieId(int movieId) {
+    public void setMovieId(String movieId) {
         this.movieId = movieId;
     }
 
-    public int getTvshowId() {
-        return tvshowId;
-    }
-
-    public void setTvshowId(int tvshowId) {
+    public void setTvshowId(String tvshowId) {
         this.tvshowId = tvshowId;
     }
 }

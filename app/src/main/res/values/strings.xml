@@ -13,6 +13,16 @@
     <string name="title_tv_show">TV Show</string>
 
     <string name="txt_error_state">No movies were found</string>
+    <string name="txt_nodesc">No description</string>
+    <string name="txt_loading">Please wait! This may take a moment.</string>
+    <string name="txt_no_genre">No Genre</string>
+    <string name="txt_no_internet">Not connected to internet</string>
+    <string name="txt_add_movie">Favorite movie added</string>
+    <string name="txt_remove_movie">Favorite movie deleted</string>
+    <string name="txt_add_tvshow">Favorite TVshow added</string>
+    <string name="txt_remove_tvshow">Favorite TVshow deleted</string>
+    <string name="txt_title_delete_dialog">Are you sure to delete this favorite?</string>
+    <string name="txt_showcase_one">New! special page to see your favorite contents</string>
 
     <string name="contentdesc_coverimage_detail">cover image on detail</string>
     <string name="contentdesc_image_detail">image on detail</string>

@@ -48,6 +48,15 @@ public class TVShowResultsItem {
     @SerializedName("vote_count")
     private int voteCount;
 
+    public TVShowResultsItem(int id, String name, String posterPath, String firstAirDate, String overview, double voteAverage) {
+        this.id = id;
+        this.name = name;
+        this.posterPath = posterPath;
+        this.firstAirDate = firstAirDate;
+        this.overview = overview;
+        this.voteAverage = voteAverage;
+    }
+
     public void setFirstAirDate(String firstAirDate) {
         this.firstAirDate = firstAirDate;
     }
