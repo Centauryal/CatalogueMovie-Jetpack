@@ -13,6 +13,11 @@ public class GenresItem {
     @SerializedName("id")
     private int id;
 
+    public GenresItem(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
