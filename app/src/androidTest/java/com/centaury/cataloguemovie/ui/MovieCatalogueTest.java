@@ -40,6 +40,6 @@ public class MovieCatalogueTest {
         onView(withId(R.id.rv_tvshow)).check(matches(isDisplayed()));
         onView(withId(R.id.rv_tvshow)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.txt_titledetail)).check(matches(isDisplayed()));
-        onView(withId(R.id.txt_titledetail)).check(matches(withText("The Simpsons")));
+        onView(withId(R.id.txt_titledetail)).check(matches(withText("Arrow")));
     }
 }

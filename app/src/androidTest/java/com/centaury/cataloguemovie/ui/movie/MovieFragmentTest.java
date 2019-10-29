@@ -1,11 +1,14 @@
 package com.centaury.cataloguemovie.ui.movie;
 
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.centaury.cataloguemovie.R;
 import com.centaury.cataloguemovie.testing.SingleFragmentActivity;
+import com.centaury.cataloguemovie.utils.EspressoIdlingResource;
 import com.centaury.cataloguemovie.utils.RecyclerViewItemCountAssertion;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,12 +28,18 @@ public class MovieFragmentTest {
 
     @Before
     public void setUp() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource());
         activityRule.getActivity().setFragment(movieFragment);
+    }
+
+    @After
+    public void tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getEspressoIdlingResource());
     }
 
     @Test
     public void loadMovies() {
         onView(withId(R.id.rv_movie)).check(matches(isDisplayed()));
-        onView(withId(R.id.rv_movie)).check(new RecyclerViewItemCountAssertion(10));
+        onView(withId(R.id.rv_movie)).check(new RecyclerViewItemCountAssertion(20));
     }
 }

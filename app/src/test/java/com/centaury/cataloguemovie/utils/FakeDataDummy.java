@@ -17,13 +17,13 @@ public class FakeDataDummy {
 
         ArrayList<MovieResultsItem> movieEntities = new ArrayList<>();
 
-        movieEntities.add(new MovieResultsItem(1,
+        movieEntities.add(new MovieResultsItem(475557,
                 "Joker",
                 "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
                 "2019-10-04",
                 "During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure.",
                 8.8));
-        movieEntities.add(new MovieResultsItem(2,
+        movieEntities.add(new MovieResultsItem(429617,
                 "Spider-Man: Far from Home",
                 "https://image.tmdb.org/t/p/w500/lcq8dVxeeOqHvvgcte707K0KVx5.jpg",
                 "2019-07-02",
@@ -37,13 +37,13 @@ public class FakeDataDummy {
 
         ArrayList<TVShowResultsItem> tvShowEntities = new ArrayList<>();
 
-        tvShowEntities.add(new TVShowResultsItem(1,
+        tvShowEntities.add(new TVShowResultsItem(1412,
                 "Arrow",
                 "https://image.tmdb.org/t/p/w500/mo0FP1GxOFZT4UDde7RFDz5APXF.jpg",
                 "2012-10-10",
                 "Spoiled billionaire playboy Oliver Queen is missing and presumed dead when his yacht is lost at sea. He returns five years later a changed man, determined to clean up the city as a hooded vigilante armed with a bow.",
                 5.8));
-        tvShowEntities.add(new TVShowResultsItem(2,
+        tvShowEntities.add(new TVShowResultsItem(60735,
                 "The Flash",
                 "https://image.tmdb.org/t/p/w500/wHa6KOJAoNTFLFtp7wguUJKSnju.jpg",
                 "2014-10-07",
@@ -57,13 +57,13 @@ public class FakeDataDummy {
 
         ArrayList<DetailMovieResponse> detailMovieResponses = new ArrayList<>();
 
-        detailMovieResponses.add(new DetailMovieResponse(1,
+        detailMovieResponses.add(new DetailMovieResponse(475557,
                 "Joker",
                 "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
                 "2019-10-04",
                 "During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure.",
                 8.8));
-        detailMovieResponses.add(new DetailMovieResponse(2,
+        detailMovieResponses.add(new DetailMovieResponse(429617,
                 "Spider-Man: Far from Home",
                 "https://image.tmdb.org/t/p/w500/lcq8dVxeeOqHvvgcte707K0KVx5.jpg",
                 "2019-07-02",
@@ -77,13 +77,13 @@ public class FakeDataDummy {
 
         ArrayList<DetailTVShowResponse> detailTVShowResponses = new ArrayList<>();
 
-        detailTVShowResponses.add(new DetailTVShowResponse(1,
+        detailTVShowResponses.add(new DetailTVShowResponse(1412,
                 "Arrow",
                 "https://image.tmdb.org/t/p/w500/mo0FP1GxOFZT4UDde7RFDz5APXF.jpg",
                 "2012-10-10",
                 "Spoiled billionaire playboy Oliver Queen is missing and presumed dead when his yacht is lost at sea. He returns five years later a changed man, determined to clean up the city as a hooded vigilante armed with a bow.",
                 5.8));
-        detailTVShowResponses.add(new DetailTVShowResponse(2,
+        detailTVShowResponses.add(new DetailTVShowResponse(60735,
                 "The Flash",
                 "https://image.tmdb.org/t/p/w500/wHa6KOJAoNTFLFtp7wguUJKSnju.jpg",
                 "2014-10-07",
