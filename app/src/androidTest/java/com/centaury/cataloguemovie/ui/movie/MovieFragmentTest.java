@@ -6,7 +6,6 @@ import androidx.test.rule.ActivityTestRule;
 import com.centaury.cataloguemovie.R;
 import com.centaury.cataloguemovie.testing.SingleFragmentActivity;
 import com.centaury.cataloguemovie.utils.EspressoIdlingResource;
-import com.centaury.cataloguemovie.utils.RecyclerViewItemCountAssertion;
 
 import org.junit.After;
 import org.junit.Before;
@@ -40,6 +39,5 @@ public class MovieFragmentTest {
     @Test
     public void loadMovies() {
         onView(withId(R.id.rv_movie)).check(matches(isDisplayed()));
-        onView(withId(R.id.rv_movie)).check(new RecyclerViewItemCountAssertion(20));
     }
 }
