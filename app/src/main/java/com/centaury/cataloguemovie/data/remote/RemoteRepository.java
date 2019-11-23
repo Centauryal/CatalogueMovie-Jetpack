@@ -2,6 +2,9 @@ package com.centaury.cataloguemovie.data.remote;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -15,6 +18,7 @@ import com.centaury.cataloguemovie.data.remote.movie.MovieResponse;
 import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
 import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResponse;
 import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResultsItem;
+import com.centaury.cataloguemovie.utils.EspressoIdlingResource;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -40,8 +44,11 @@ public class RemoteRepository {
         return INSTANCE;
     }
 
-    public void getMovies(String language, LoadMoviesCallback callback) {
-        //EspressoIdlingResource.increment();
+    public LiveData<ApiResponse<List<MovieResultsItem>>> getMovies(String language) {
+        EspressoIdlingResource.increment();
+
+        MutableLiveData<ApiResponse<List<MovieResultsItem>>> resultMovie = new MutableLiveData<>();
+
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_MOVIE)
                 .addQueryParameter("api_key", ApiKey)
                 .addQueryParameter("language", language)
@@ -51,20 +58,29 @@ public class RemoteRepository {
                     @Override
                     public void onResponse(JSONObject response) {
                         MovieResponse movieResponse = new Gson().fromJson(response + "", MovieResponse.class);
-                        callback.onResponse(movieResponse.getResults());
-                        //EspressoIdlingResource.decrement();
+                        resultMovie.setValue(ApiResponse.success(movieResponse.getResults()));
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
 
                     @Override
                     public void onError(ANError anError) {
-                        callback.onErrorResponse("onError: " + anError.getErrorBody());
-                        //EspressoIdlingResource.decrement();
+                        resultMovie.setValue(ApiResponse.error("onErrorMovie: " + anError.getErrorBody()));
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
                 });
+
+        return resultMovie;
     }
 
-    public void getMovieDetail(String movieId, String language, GetMovieDetailCallback callback) {
-        //EspressoIdlingResource.increment();
+    public LiveData<ApiResponse<DetailMovieResponse>> getMovieDetail(String movieId, String language) {
+        EspressoIdlingResource.increment();
+
+        MutableLiveData<ApiResponse<DetailMovieResponse>> resultDetail = new MutableLiveData<>();
+
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_DETAIL_MOVIE)
                 .addPathParameter("movie_id", movieId)
                 .addQueryParameter("api_key", ApiKey)
@@ -75,20 +91,29 @@ public class RemoteRepository {
                     @Override
                     public void onResponse(JSONObject response) {
                         DetailMovieResponse resultsItem = new Gson().fromJson(response + "", DetailMovieResponse.class);
-                        callback.onResponse(resultsItem);
-                        //EspressoIdlingResource.decrement();
+                        resultDetail.setValue(ApiResponse.success(resultsItem));
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
 
                     @Override
                     public void onError(ANError anError) {
-                        callback.onErrorResponse("onError: " + anError.getErrorBody());
-                        //EspressoIdlingResource.decrement();
+                        resultDetail.setValue(ApiResponse.error("onErrorMovieDetail: " + anError.getErrorBody()));
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
                 });
+
+        return resultDetail;
     }
 
-    public void getGenreMovie(String language, GetGenreMovieCallback callback) {
-        //EspressoIdlingResource.increment();
+    public LiveData<ApiResponse<List<GenresItem>>> getGenreMovie(String language) {
+        EspressoIdlingResource.increment();
+
+        MutableLiveData<ApiResponse<List<GenresItem>>> resultGenre = new MutableLiveData<>();
+
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_GENRE_MOVIE)
                 .addQueryParameter("api_key", ApiKey)
                 .addQueryParameter("language", language)
@@ -98,20 +123,29 @@ public class RemoteRepository {
                     @Override
                     public void onResponse(JSONObject response) {
                         GenreResponse genreResponse = new Gson().fromJson(response + "", GenreResponse.class);
-                        callback.onResponse(genreResponse.getGenres());
-                        //EspressoIdlingResource.decrement();
+                        resultGenre.setValue(ApiResponse.success(genreResponse.getGenres()));
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
 
                     @Override
                     public void onError(ANError anError) {
-                        callback.onErrorResponse("onError: " + anError.getErrorBody());
-                        //EspressoIdlingResource.decrement();
+                        resultGenre.setValue(ApiResponse.error("onErrorGenreMovie: " + anError.getErrorBody()));
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
                 });
+
+        return resultGenre;
     }
 
-    public void getTVShows(String language, LoadTVShowsCallback callback) {
-        //EspressoIdlingResource.increment();
+    public LiveData<ApiResponse<List<TVShowResultsItem>>> getTVShows(String language) {
+        EspressoIdlingResource.increment();
+
+        MutableLiveData<ApiResponse<List<TVShowResultsItem>>> resultTVShow = new MutableLiveData<>();
+
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_TVSHOW)
                 .addQueryParameter("api_key", ApiKey)
                 .addQueryParameter("language", language)
@@ -121,20 +155,29 @@ public class RemoteRepository {
                     @Override
                     public void onResponse(JSONObject response) {
                         TVShowResponse tvShowResponse = new Gson().fromJson(response + "", TVShowResponse.class);
-                        callback.onResponse(tvShowResponse.getResults());
-                        //EspressoIdlingResource.decrement();
+                        resultTVShow.setValue(ApiResponse.success(tvShowResponse.getResults()));
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
 
                     @Override
                     public void onError(ANError anError) {
-                        callback.onErrorResponse("onError: " + anError.getErrorBody());
-                        //EspressoIdlingResource.decrement();
+                        resultTVShow.setValue(ApiResponse.error("onErrorTVShow: " + anError.getErrorBody()));
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
                 });
+
+        return resultTVShow;
     }
 
-    public void getTVShowDetail(String tvshowId, String language, GetTVShowDetailCallback callback) {
-        //EspressoIdlingResource.increment();
+    public LiveData<ApiResponse<DetailTVShowResponse>> getTVShowDetail(String tvshowId, String language) {
+        EspressoIdlingResource.increment();
+
+        MutableLiveData<ApiResponse<DetailTVShowResponse>> resultDetail = new MutableLiveData<>();
+
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_DETAIL_TVSHOW)
                 .addPathParameter("tv_id", tvshowId)
                 .addQueryParameter("api_key", ApiKey)
@@ -145,20 +188,29 @@ public class RemoteRepository {
                     @Override
                     public void onResponse(JSONObject response) {
                         DetailTVShowResponse resultsItem = new Gson().fromJson(response + "", DetailTVShowResponse.class);
-                        callback.onResponse(resultsItem);
-                        //EspressoIdlingResource.decrement();
+                        resultDetail.setValue(ApiResponse.success(resultsItem));
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
 
                     @Override
                     public void onError(ANError anError) {
-                        callback.onErrorResponse("onError: " + anError.getErrorBody());
-                        //EspressoIdlingResource.decrement();
+                        resultDetail.setValue(ApiResponse.error("onErrorTVShowDetail: " + anError.getErrorBody()));
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
                 });
+
+        return resultDetail;
     }
 
-    public void getGenreTVShow(String language, GetGenreTVShowCallback callback) {
-        //EspressoIdlingResource.increment();
+    public LiveData<ApiResponse<List<GenresItem>>> getGenreTVShow(String language) {
+        EspressoIdlingResource.increment();
+
+        MutableLiveData<ApiResponse<List<GenresItem>>> resultGenre = new MutableLiveData<>();
+
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_GENRE_TVSHOW)
                 .addQueryParameter("api_key", ApiKey)
                 .addQueryParameter("language", language)
@@ -168,52 +220,22 @@ public class RemoteRepository {
                     @Override
                     public void onResponse(JSONObject response) {
                         GenreResponse genreResponse = new Gson().fromJson(response + "", GenreResponse.class);
-                        callback.onResponse(genreResponse.getGenres());
-                        //EspressoIdlingResource.decrement();
+                        resultGenre.setValue(ApiResponse.success(genreResponse.getGenres()));
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
 
                     @Override
                     public void onError(ANError anError) {
-                        callback.onErrorResponse("onError: " + anError.getErrorBody());
-                        //EspressoIdlingResource.decrement();
+                        resultGenre.setValue(ApiResponse.error("onErrorTVShowGenre: " + anError.getErrorBody()));
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
                 });
-    }
 
-    public interface LoadMoviesCallback {
-        void onResponse(List<MovieResultsItem> movieResultsItemList);
-
-        void onErrorResponse(String message);
-    }
-
-    public interface GetMovieDetailCallback {
-        void onResponse(DetailMovieResponse detailMovieResponse);
-
-        void onErrorResponse(String message);
-    }
-
-    public interface GetGenreMovieCallback {
-        void onResponse(List<GenresItem> genresItemList);
-
-        void onErrorResponse(String message);
-    }
-
-    public interface LoadTVShowsCallback {
-        void onResponse(List<TVShowResultsItem> tvShowResultsItemList);
-
-        void onErrorResponse(String message);
-    }
-
-    public interface GetTVShowDetailCallback {
-        void onResponse(DetailTVShowResponse detailTVShowResponse);
-
-        void onErrorResponse(String message);
-    }
-
-    public interface GetGenreTVShowCallback {
-        void onResponse(List<GenresItem> genresItemList);
-
-        void onErrorResponse(String message);
+        return resultGenre;
     }
 
 }

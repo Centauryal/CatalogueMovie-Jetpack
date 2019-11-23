@@ -11,7 +11,9 @@
     <string name="title_storyline">Storyline</string>
     <string name="title_movie">Movie</string>
     <string name="title_tv_show">TV Show</string>
+    <string name="title_favorite">Favorite</string>
 
+    <string name="txt_error">Terjadi kesalahan</string>
     <string name="txt_error_state">No movies were found</string>
     <string name="txt_nodesc">No description</string>
     <string name="txt_loading">Please wait! This may take a moment.</string>
@@ -38,5 +40,4 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_detail_movie">DetailMovieActivity</string>
 </resources>

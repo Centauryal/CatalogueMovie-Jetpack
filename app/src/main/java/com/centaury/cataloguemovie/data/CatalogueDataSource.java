@@ -2,11 +2,11 @@ package com.centaury.cataloguemovie.data;
 
 import androidx.lifecycle.LiveData;
 
-import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse;
-import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowResponse;
-import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
-import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
-import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResultsItem;
+import com.centaury.cataloguemovie.data.local.entity.GenreMovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.GenreTVShowEntity;
+import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
+import com.centaury.cataloguemovie.vo.Resource;
 
 import java.util.List;
 
@@ -15,15 +15,23 @@ import java.util.List;
  */
 public interface CatalogueDataSource {
 
-    LiveData<List<MovieResultsItem>> getMovies(String language);
+    LiveData<Resource<List<MovieEntity>>> getMovies(String language);
 
-    LiveData<DetailMovieResponse> getDetailMovie(String movieId, String language);
+    LiveData<Resource<List<MovieEntity>>> getFavoritedMovies();
 
-    LiveData<List<GenresItem>> getGenreMovie(String language);
+    LiveData<Resource<MovieEntity>> getDetailMovie(String movieId, String language);
 
-    LiveData<List<TVShowResultsItem>> getTVShows(String language);
+    LiveData<Resource<List<GenreMovieEntity>>> getGenreMovie(String language);
 
-    LiveData<DetailTVShowResponse> getDetailTVShow(String tvshowId, String language);
+    LiveData<Resource<List<TVShowEntity>>> getTVShows(String language);
 
-    LiveData<List<GenresItem>> getGenreTVShow(String language);
+    LiveData<Resource<List<TVShowEntity>>> getFavoritedTVShows();
+
+    LiveData<Resource<TVShowEntity>> getDetailTVShow(String tvshowId, String language);
+
+    LiveData<Resource<List<GenreTVShowEntity>>> getGenreTVShow(String language);
+
+    void setFavoriteMovie(MovieEntity movieEntity, boolean state);
+
+    void setFavoriteTVShow(TVShowEntity tvShowEntity, boolean state);
 }

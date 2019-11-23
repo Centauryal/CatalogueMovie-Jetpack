@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.request.RequestOptions;
 import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.R;
@@ -60,12 +61,15 @@ public class DetailMovieActivity extends AppCompatActivity {
     ShimmerFrameLayout mShimmerViewContainer;
     @BindView(R.id.cl_data)
     ConstraintLayout mClData;
+    @BindView(R.id.btn_favorite)
+    LottieAnimationView mBtnFavorite;
 
     private DateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private DateFormat outputDate = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 
     private String imageBaseUrl = BuildConfig.IMAGE_URL;
     private String sizeImage = AppConstants.SIZE_IMAGE;
+    private Boolean isFavorite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,12 +100,12 @@ public class DetailMovieActivity extends AppCompatActivity {
             mShimmerViewContainer.startShimmer();
             detailMovieViewModel.setMovieId(String.valueOf(movieId));
 
-            detailMovieViewModel.getDetailMovie(language).observe(this, detailMovieResponse -> {
+            /*detailMovieViewModel.getDetailMovie(language).observe(this, detailMovieResponse -> {
                 mShimmerViewContainer.stopShimmer();
                 mShimmerViewContainer.setVisibility(View.GONE);
                 mClData.setVisibility(View.VISIBLE);
                 itemMovie(detailMovieResponse);
-            });
+            });*/
         } else {
             int tvshowId = getIntent().getIntExtra(AppConstants.DETAIL_EXTRA_TVSHOW, 0);
             mClData.setVisibility(View.GONE);
@@ -109,13 +113,15 @@ public class DetailMovieActivity extends AppCompatActivity {
             mShimmerViewContainer.startShimmer();
             detailMovieViewModel.setTvshowId(String.valueOf(tvshowId));
 
-            detailMovieViewModel.getDetailTVShow(language).observe(this, detailTVShowResponse -> {
+            /*detailMovieViewModel.getDetailTVShow(language).observe(this, detailTVShowResponse -> {
                 mShimmerViewContainer.stopShimmer();
                 mShimmerViewContainer.setVisibility(View.GONE);
                 mClData.setVisibility(View.VISIBLE);
                 itemTVShow(detailTVShowResponse);
-            });
+            });*/
         }
+
+        mBtnFavorite.setScale(2.481f);
     }
 
     @NonNull
@@ -245,6 +251,16 @@ public class DetailMovieActivity extends AppCompatActivity {
             }
         } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
             System.out.println("Exception thrown : " + e);
+        }
+    }
+
+    private void setFavorite() {
+        if (isFavorite) {
+            mBtnFavorite.setSpeed(1f);
+            mBtnFavorite.setProgress(1f);
+        } else {
+            mBtnFavorite.setProgress(0f);
+            mBtnFavorite.setSpeed(-2f);
         }
     }
 

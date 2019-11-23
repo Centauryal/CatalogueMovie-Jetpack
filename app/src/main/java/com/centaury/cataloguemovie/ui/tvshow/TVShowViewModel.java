@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.centaury.cataloguemovie.data.CatalogueRepository;
-import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
-import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResultsItem;
+import com.centaury.cataloguemovie.data.local.entity.GenreTVShowEntity;
+import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
+import com.centaury.cataloguemovie.vo.Resource;
 
 import java.util.List;
 
@@ -20,11 +21,11 @@ public class TVShowViewModel extends ViewModel {
         this.catalogueRepository = catalogueRepository;
     }
 
-    LiveData<List<TVShowResultsItem>> getTVShows(String language) {
+    LiveData<Resource<List<TVShowEntity>>> getTVShows(String language) {
         return catalogueRepository.getTVShows(language);
     }
 
-    LiveData<List<GenresItem>> getGenreTVShow(String language) {
+    LiveData<Resource<List<GenreTVShowEntity>>> getGenreTVShow(String language) {
         return catalogueRepository.getGenreTVShow(language);
     }
 }

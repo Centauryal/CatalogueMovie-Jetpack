@@ -1,24 +1,75 @@
 package com.centaury.cataloguemovie.data.local.entity;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import static com.centaury.cataloguemovie.data.local.entity.TVShowEntity.TABLE_NAME;
+
 /**
  * Created by Centaury on 10/6/2019.
  */
+@Entity(tableName = TABLE_NAME)
 public class TVShowEntity {
 
-    private int tvshowId;
-    private String name;
-    private String imagePath;
-    private String date;
-    private String desc;
-    private String rating;
+    public static final String TABLE_NAME = "tvshowentities";
+    public static final String COLUMN_TVSHOW_ID = "tvshowId";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_ORIGINAL_NAME = "originalName";
+    public static final String COLUMN_POSTER = "posterPath";
+    public static final String COLUMN_BACKDROP = "backdropPath";
+    public static final String COLUMN_GENRE = "genre";
+    public static final String COLUMN_RELEASE_DATE = "releaseDate";
+    public static final String COLUMN_OVERVIEW = "overview";
+    public static final String COLUMN_VOTE_AVERAGE = "voteAverage";
+    public static final String COLUMN_TVSHOW_FAVORITED = "tvshowFavorite";
 
-    public TVShowEntity(int tvshowId, String name, String imagePath, String date, String desc, String rating) {
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = COLUMN_TVSHOW_ID)
+    private int tvshowId;
+
+    @ColumnInfo(name = COLUMN_NAME)
+    private String name;
+
+    @ColumnInfo(name = COLUMN_ORIGINAL_NAME)
+    private String originalName;
+
+    @ColumnInfo(name = COLUMN_POSTER)
+    private String posterPath;
+
+    @ColumnInfo(name = COLUMN_BACKDROP)
+    private String backdropPath;
+
+    @ColumnInfo(name = COLUMN_GENRE)
+    private String genres;
+
+    @ColumnInfo(name = COLUMN_RELEASE_DATE)
+    private String releaseDate;
+
+    @ColumnInfo(name = COLUMN_OVERVIEW)
+    private String overview;
+
+    @ColumnInfo(name = COLUMN_VOTE_AVERAGE)
+    private double voteAverage;
+
+    @ColumnInfo(name = COLUMN_TVSHOW_FAVORITED)
+    private boolean tvshowFavorited = false;
+
+    public TVShowEntity(int tvshowId, String name, String originalName, String posterPath, String backdropPath, String genres, String releaseDate, String overview, double voteAverage, Boolean tvshowFavorited) {
         this.tvshowId = tvshowId;
         this.name = name;
-        this.imagePath = imagePath;
-        this.date = date;
-        this.desc = desc;
-        this.rating = rating;
+        this.originalName = originalName;
+        this.posterPath = posterPath;
+        this.backdropPath = backdropPath;
+        this.genres = genres;
+        this.releaseDate = releaseDate;
+        this.overview = overview;
+        this.voteAverage = voteAverage;
+        if (tvshowFavorited != null) {
+            this.tvshowFavorited = tvshowFavorited;
+        }
     }
 
     public int getTvshowId() {
@@ -37,35 +88,67 @@ public class TVShowEntity {
         this.name = name;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public String getOriginalName() {
+        return originalName;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName;
     }
 
-    public String getDate() {
-        return date;
+    public String getPosterPath() {
+        return posterPath;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getBackdropPath() {
+        return backdropPath;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
     }
 
-    public String getRating() {
-        return rating;
+    public String getGenres() {
+        return genres;
     }
 
-    public void setRating(String rating) {
-        this.rating = rating;
+    public void setGenres(String genres) {
+        this.genres = genres;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public boolean isTvshowFavorited() {
+        return tvshowFavorited;
+    }
+
+    public void setTvshowFavorited(boolean tvshowFavorited) {
+        this.tvshowFavorited = tvshowFavorited;
     }
 }

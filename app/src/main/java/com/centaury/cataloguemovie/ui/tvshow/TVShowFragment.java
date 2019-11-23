@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -62,15 +63,40 @@ public class TVShowFragment extends Fragment {
 
             TVShowAdapter tvShowAdapter = new TVShowAdapter(getActivity());
             tvShowViewModel.getTVShows(language).observe(this, tvShowResultsItems -> {
-                mShimmerViewContainer.stopShimmer();
-                mShimmerViewContainer.setVisibility(View.GONE);
-                toggleEmptyMovies(tvShowResultsItems.size());
-                tvShowAdapter.setListTVShows(tvShowResultsItems);
-                tvShowAdapter.notifyDataSetChanged();
+                if (tvShowResultsItems != null) {
+                    switch (tvShowResultsItems.status) {
+                        case LOADING:
+                            mShimmerViewContainer.startShimmer();
+                            break;
+                        case SUCCESS:
+                            mShimmerViewContainer.stopShimmer();
+                            mShimmerViewContainer.setVisibility(View.GONE);
+                            toggleEmptyMovies(tvShowResultsItems.data.size());
+                            tvShowAdapter.setListTVShows(tvShowResultsItems.data);
+                            tvShowAdapter.notifyDataSetChanged();
+                            break;
+                        case ERROR:
+                            mShimmerViewContainer.stopShimmer();
+                            mShimmerViewContainer.setVisibility(View.GONE);
+                            Toast.makeText(getContext(), getString(R.string.txt_error), Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
             });
             tvShowViewModel.getGenreTVShow(language).observe(this, genresItemList -> {
-                tvShowAdapter.setListGenreTVShow(genresItemList);
-                tvShowAdapter.notifyDataSetChanged();
+                if (genresItemList != null) {
+                    switch (genresItemList.status) {
+                        case LOADING:
+                            break;
+                        case SUCCESS:
+                            tvShowAdapter.setListGenreTVShow(genresItemList.data);
+                            tvShowAdapter.notifyDataSetChanged();
+                            break;
+                        case ERROR:
+                            Toast.makeText(getContext(), getString(R.string.txt_error), Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
             });
 
             mRvTvshow.setLayoutManager(new LinearLayoutManager(getContext()));

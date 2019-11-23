@@ -1,4 +1,4 @@
-package com.centaury.cataloguemovie.ui.movie;
+package com.centaury.cataloguemovie.ui.favorite.fragment;
 
 
 import android.os.Bundle;
@@ -18,10 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.centaury.cataloguemovie.R;
 import com.centaury.cataloguemovie.ViewModelProviderFactory;
+import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteMovieAdapter;
+import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteMovieViewModel;
 import com.centaury.cataloguemovie.utils.Helper;
 import com.facebook.shimmer.ShimmerFrameLayout;
-
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,25 +30,26 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieFragment extends Fragment {
+public class FavoriteMovieFragment extends Fragment {
 
-    @BindView(R.id.rv_movie)
-    RecyclerView mRvMovie;
+    @BindView(R.id.rv_favmovie)
+    RecyclerView mRvFavMovie;
     @BindView(R.id.shimmer_view_container)
     ShimmerFrameLayout mShimmerViewContainer;
     @BindView(R.id.empty_state)
     LinearLayout mEmptyState;
     private Unbinder unbinder;
 
-    public MovieFragment() {
+    public FavoriteMovieFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_movie, container, false);
+        View view = inflater.inflate(R.layout.fragment_favorite_movie, container, false);
 
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -58,22 +59,22 @@ public class MovieFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
-            MovieViewModel movieViewModel = obtainViewModel(getActivity());
-            String language = Locale.getDefault().toLanguageTag();
+            FavoriteMovieViewModel favoriteMovieViewModel = obtainViewModel(getActivity());
 
-            MovieAdapter movieAdapter = new MovieAdapter(getActivity());
-            movieViewModel.getMovies(language).observe(this, movies -> {
-                if (movies != null) {
-                    switch (movies.status) {
+            FavoriteMovieAdapter favoriteMovieAdapter = new FavoriteMovieAdapter(getActivity());
+
+            favoriteMovieViewModel.getFavoriteMovie().observe(getActivity(), favoriteMovie -> {
+                if (favoriteMovie != null) {
+                    switch (favoriteMovie.status) {
                         case LOADING:
                             mShimmerViewContainer.startShimmer();
                             break;
                         case SUCCESS:
                             mShimmerViewContainer.stopShimmer();
                             mShimmerViewContainer.setVisibility(View.GONE);
-                            toggleEmptyMovies(movies.data.size());
-                            movieAdapter.setListMovies(movies.data);
-                            movieAdapter.notifyDataSetChanged();
+                            toggleEmptyMovies(favoriteMovie.data.size());
+                            favoriteMovieAdapter.setFavoriteMovieList(favoriteMovie.data);
+                            favoriteMovieAdapter.notifyDataSetChanged();
                             break;
                         case ERROR:
                             mShimmerViewContainer.stopShimmer();
@@ -83,41 +84,26 @@ public class MovieFragment extends Fragment {
                     }
                 }
             });
-            movieViewModel.getGenreMovie(language).observe(this, genresItemList -> {
-                if (genresItemList != null) {
-                    switch (genresItemList.status) {
-                        case LOADING:
-                            break;
-                        case SUCCESS:
-                            movieAdapter.setListGenreMovie(genresItemList.data);
-                            movieAdapter.notifyDataSetChanged();
-                            break;
-                        case ERROR:
-                            Toast.makeText(getContext(), getString(R.string.txt_error), Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                }
-            });
 
-            mRvMovie.setLayoutManager(new LinearLayoutManager(getContext()));
-            mRvMovie.setHasFixedSize(true);
-            mRvMovie.setAdapter(movieAdapter);
-            mRvMovie.addItemDecoration(new Helper.TopItemDecoration(55));
+            mRvFavMovie.setLayoutManager(new LinearLayoutManager(getContext()));
+            mRvFavMovie.setHasFixedSize(true);
+            mRvFavMovie.setAdapter(favoriteMovieAdapter);
+            mRvFavMovie.addItemDecoration(new Helper.TopItemDecoration(55));
         }
     }
 
     @NonNull
-    private static MovieViewModel obtainViewModel(FragmentActivity activity) {
+    private static FavoriteMovieViewModel obtainViewModel(FragmentActivity activity) {
         ViewModelProviderFactory factory = ViewModelProviderFactory.getInstance(activity.getApplication());
-        return ViewModelProviders.of(activity, factory).get(MovieViewModel.class);
+        return ViewModelProviders.of(activity, factory).get(FavoriteMovieViewModel.class);
     }
 
     private void toggleEmptyMovies(int size) {
         if (size > 0) {
             mEmptyState.setVisibility(View.GONE);
-            mRvMovie.setVisibility(View.VISIBLE);
+            mRvFavMovie.setVisibility(View.VISIBLE);
         } else {
-            mRvMovie.setVisibility(View.GONE);
+            mRvFavMovie.setVisibility(View.GONE);
             mEmptyState.setVisibility(View.VISIBLE);
         }
     }

@@ -4,10 +4,11 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:3.5.2'
         
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -18,6 +19,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         
     }
 }
@@ -37,7 +39,7 @@ ext {
     cardVersion = '1.0.0'
     recyclerViewVersion = '1.0.0'
     dexMakerVersion = '1.2'
-    roomVersion = '2.2.0'
+    roomVersion = '2.2.1'
     archLifecycleVersion = '2.1.0'
     archVersion = '1.1.1'
     pagingVersion = '2.1.0'
@@ -47,6 +49,7 @@ ext {
     glassfishJavaxVersion = '10.0-b28'
     gsonVersion = '2.8.5'
     shimmerVersion = '0.4.0'
+    lottieVersion = '3.2.2'
     intuitVersion = '1.0.6'
 
     // Test dependencies

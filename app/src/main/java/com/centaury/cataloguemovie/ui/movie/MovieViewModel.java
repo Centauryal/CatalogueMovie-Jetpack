@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.centaury.cataloguemovie.data.CatalogueRepository;
-import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
-import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
+import com.centaury.cataloguemovie.data.local.entity.GenreMovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
+import com.centaury.cataloguemovie.vo.Resource;
 
 import java.util.List;
 
@@ -20,11 +21,11 @@ public class MovieViewModel extends ViewModel {
         this.catalogueRepository = catalogueRepository;
     }
 
-    LiveData<List<MovieResultsItem>> getMovies(String language) {
+    LiveData<Resource<List<MovieEntity>>> getMovies(String language) {
         return catalogueRepository.getMovies(language);
     }
 
-    LiveData<List<GenresItem>> getGenreMovie(String language) {
+    LiveData<Resource<List<GenreMovieEntity>>> getGenreMovie(String language) {
         return catalogueRepository.getGenreMovie(language);
     }
 }
