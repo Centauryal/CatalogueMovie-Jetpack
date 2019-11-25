@@ -23,6 +23,8 @@ import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteMovieViewModel;
 import com.centaury.cataloguemovie.utils.Helper;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -60,9 +62,9 @@ public class FavoriteMovieFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
             FavoriteMovieViewModel favoriteMovieViewModel = obtainViewModel(getActivity());
+            String language = Locale.getDefault().toLanguageTag();
 
             FavoriteMovieAdapter favoriteMovieAdapter = new FavoriteMovieAdapter(getActivity());
-
             favoriteMovieViewModel.getFavoriteMovie().observe(getActivity(), favoriteMovie -> {
                 if (favoriteMovie != null) {
                     switch (favoriteMovie.status) {
@@ -79,6 +81,22 @@ public class FavoriteMovieFragment extends Fragment {
                         case ERROR:
                             mShimmerViewContainer.stopShimmer();
                             mShimmerViewContainer.setVisibility(View.GONE);
+                            Toast.makeText(getContext(), getString(R.string.txt_error), Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
+            });
+
+            favoriteMovieViewModel.getGenreMovie(language).observe(getActivity(), genresItemList -> {
+                if (genresItemList != null) {
+                    switch (genresItemList.status) {
+                        case LOADING:
+                            break;
+                        case SUCCESS:
+                            favoriteMovieAdapter.setListGenreMovie(genresItemList.data);
+                            favoriteMovieAdapter.notifyDataSetChanged();
+                            break;
+                        case ERROR:
                             Toast.makeText(getContext(), getString(R.string.txt_error), Toast.LENGTH_SHORT).show();
                             break;
                     }

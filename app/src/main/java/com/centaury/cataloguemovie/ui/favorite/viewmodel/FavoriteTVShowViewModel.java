@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.centaury.cataloguemovie.data.CatalogueRepository;
+import com.centaury.cataloguemovie.data.local.entity.GenreTVShowEntity;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 import com.centaury.cataloguemovie.vo.Resource;
 
@@ -22,5 +23,9 @@ public class FavoriteTVShowViewModel extends ViewModel {
 
     public LiveData<Resource<List<TVShowEntity>>> getFavoriteTVShow() {
         return catalogueRepository.getFavoritedTVShows();
+    }
+
+    public LiveData<Resource<List<GenreTVShowEntity>>> getGenreTVShow(String language) {
+        return catalogueRepository.getGenreTVShow(language);
     }
 }

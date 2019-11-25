@@ -2,7 +2,7 @@ package com.centaury.cataloguemovie.ui.favorite.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +25,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -59,7 +60,6 @@ public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdap
         if (genreMovie == null) return;
         this.genresItemList.clear();
         this.genresItemList.addAll(genreMovie);
-        Log.e("setListGenreMovie: ", genreMovie + "");
     }
 
     @NonNull
@@ -115,12 +115,11 @@ public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdap
                 mTxtDescmovielist.setText(movie.getOverview());
             }
 
-            Log.e("bind: ", movie.getGenres());
-            /*if (movie.getGenreIds().size() == 0) {
+            if (movie.getGenres() == null | movie.getGenres().equals("")) {
                 mTxtGenremovielist.setText(activity.getString(R.string.txt_no_genre));
             } else {
-                mTxtGenremovielist.setText(getGenres(movie.getGenreIds()));
-            }*/
+                mTxtGenremovielist.setText(getGenres(movie.getGenres()));
+            }
 
             DateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             DateFormat outputDate = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
@@ -141,22 +140,23 @@ public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdap
                     .into(mIvMovielist);
         }
 
-        /*private String getGenres(List<Integer> genreList) {
+        private String getGenres(String genreList) {
+            List<String> genre = new ArrayList<>(Arrays.asList(genreList.split(", ")));
             List<String> genreMovies = new ArrayList<>();
             try {
-                if (genreList.size() == 1) {
-                    for (Integer genreId : genreList) {
-                        for (GenresItem genresItem : genresItemList) {
-                            if (genresItem.getId() == genreId) {
+                if (genre.size() == 1) {
+                    for (String genreId : genre) {
+                        for (GenreMovieEntity genresItem : genresItemList) {
+                            if (genresItem.getGenreId() == Integer.parseInt(genreId)) {
                                 genreMovies.add(genresItem.getName());
                             }
                         }
                     }
                 } else {
-                    List<Integer> integers = genreList.subList(0, 2);
-                    for (Integer genreId : integers) {
-                        for (GenresItem genresItem : genresItemList) {
-                            if (genresItem.getId() == genreId) {
+                    List<String> integers = genre.subList(0, 2);
+                    for (String genreId : integers) {
+                        for (GenreMovieEntity genresItem : genresItemList) {
+                            if (genresItem.getGenreId() == Integer.parseInt(genreId)) {
                                 genreMovies.add(genresItem.getName());
                             }
                         }
@@ -166,6 +166,6 @@ public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdap
                 System.out.println("Exception thrown : " + e);
             }
             return TextUtils.join(", ", genreMovies);
-        }*/
+        }
     }
 }

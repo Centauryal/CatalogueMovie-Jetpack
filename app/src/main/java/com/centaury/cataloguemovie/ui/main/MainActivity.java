@@ -9,6 +9,7 @@ import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -25,6 +26,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.tabs)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
             Window window = getWindow();
             window.setStatusBarColor(getColor(R.color.colorPrimaryDark));
         }
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);

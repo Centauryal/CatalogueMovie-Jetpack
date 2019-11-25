@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.favorite.FavoriteActivity"></activity>
+        <activity
+            android:name=".ui.favorite.FavoriteActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.detail.DetailMovieActivity"
             android:parentActivityName=".ui.main.MainActivity"

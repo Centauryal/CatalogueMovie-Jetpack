@@ -4,9 +4,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.centaury.cataloguemovie.data.CatalogueRepository;
+import com.centaury.cataloguemovie.data.local.entity.GenreMovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.GenreTVShowEntity;
 import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 import com.centaury.cataloguemovie.vo.Resource;
+
+import java.util.List;
 
 /**
  * Created by Centaury on 10/7/2019.
@@ -26,8 +30,16 @@ public class DetailMovieViewModel extends ViewModel {
         return catalogueRepository.getDetailMovie(movieId, language);
     }
 
+    LiveData<Resource<List<GenreMovieEntity>>> getGenreMovie() {
+        return catalogueRepository.getGenreMovie(language);
+    }
+
     LiveData<Resource<TVShowEntity>> getDetailTVShow() {
         return catalogueRepository.getDetailTVShow(tvshowId, language);
+    }
+
+    LiveData<Resource<List<GenreTVShowEntity>>> getGenreTVShow() {
+        return catalogueRepository.getGenreTVShow(language);
     }
 
     public void setMovieId(String movieId) {
@@ -42,25 +54,11 @@ public class DetailMovieViewModel extends ViewModel {
         this.language = language;
     }
 
-    void setFavoriteMovie() {
-        if (getDetailMovie().getValue() != null) {
-            MovieEntity movieEntity = getDetailMovie().getValue().data;
-
-            if (movieEntity != null) {
-                final boolean newState = !movieEntity.isMovieFavorited();
-                catalogueRepository.setFavoriteMovie(movieEntity, newState);
-            }
-        }
+    void setFavoriteMovie(MovieEntity movieEntity, boolean newState) {
+        catalogueRepository.setFavoriteMovie(movieEntity, newState);
     }
 
-    void setFavoriteTVShow() {
-        if (getDetailTVShow().getValue() != null) {
-            TVShowEntity tvShowEntity = getDetailTVShow().getValue().data;
-
-            if (tvShowEntity != null) {
-                final boolean newState = !tvShowEntity.isTvshowFavorited();
-                catalogueRepository.setFavoriteTVShow(tvShowEntity, newState);
-            }
-        }
+    void setFavoriteTVShow(TVShowEntity tvShowEntity, boolean newState) {
+        catalogueRepository.setFavoriteTVShow(tvShowEntity, newState);
     }
 }
