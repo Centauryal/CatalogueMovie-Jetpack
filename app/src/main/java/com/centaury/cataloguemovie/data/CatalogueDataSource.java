@@ -1,6 +1,7 @@
 package com.centaury.cataloguemovie.data;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.PagedList;
 
 import com.centaury.cataloguemovie.data.local.entity.GenreMovieEntity;
 import com.centaury.cataloguemovie.data.local.entity.GenreTVShowEntity;
@@ -17,7 +18,7 @@ public interface CatalogueDataSource {
 
     LiveData<Resource<List<MovieEntity>>> getMovies(String language);
 
-    LiveData<Resource<List<MovieEntity>>> getFavoritedMovies();
+    LiveData<Resource<PagedList<MovieEntity>>> getFavoritedMovies();
 
     LiveData<Resource<MovieEntity>> getDetailMovie(String movieId, String language);
 
@@ -25,7 +26,7 @@ public interface CatalogueDataSource {
 
     LiveData<Resource<List<TVShowEntity>>> getTVShows(String language);
 
-    LiveData<Resource<List<TVShowEntity>>> getFavoritedTVShows();
+    LiveData<Resource<PagedList<TVShowEntity>>> getFavoritedTVShows();
 
     LiveData<Resource<TVShowEntity>> getDetailTVShow(String tvshowId, String language);
 

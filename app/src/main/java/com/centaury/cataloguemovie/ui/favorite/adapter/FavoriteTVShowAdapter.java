@@ -1,5 +1,6 @@
 package com.centaury.cataloguemovie.ui.favorite.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.request.RequestOptions;
@@ -36,13 +39,14 @@ import butterknife.ButterKnife;
 /**
  * Created by Centaury on 11/23/2019.
  */
-public class FavoriteTVShowAdapter extends RecyclerView.Adapter<FavoriteTVShowAdapter.FavoriteTVShowViewHolder> {
+public class FavoriteTVShowAdapter extends PagedListAdapter<TVShowEntity, FavoriteTVShowAdapter.FavoriteTVShowViewHolder> {
 
     private final Activity activity;
     private List<TVShowEntity> favoriteTVShowList = new ArrayList<>();
     private List<GenreTVShowEntity> genresItemList = new ArrayList<>();
 
     public FavoriteTVShowAdapter(Activity activity) {
+        super(DIFF_CALLBACK);
         this.activity = activity;
     }
 
@@ -85,6 +89,20 @@ public class FavoriteTVShowAdapter extends RecyclerView.Adapter<FavoriteTVShowAd
     public int getItemCount() {
         return getFavoriteTVShowList().size();
     }
+
+    private static DiffUtil.ItemCallback<TVShowEntity> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<TVShowEntity>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull TVShowEntity oldItem, @NonNull TVShowEntity newItem) {
+                    return oldItem.getTvshowId() == newItem.getTvshowId();
+                }
+
+                @SuppressLint("DiffUtilEquals")
+                @Override
+                public boolean areContentsTheSame(@NonNull TVShowEntity oldItem, @NonNull TVShowEntity newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
 
     class FavoriteTVShowViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.txt_titlebackground)

@@ -2,6 +2,7 @@ package com.centaury.cataloguemovie.data.local.db;
 
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -33,7 +34,7 @@ public interface CatalogueDao {
 
     @WorkerThread
     @Query("SELECT * FROM movieentities WHERE " + COLUMN_MOVIE_FAVORITED + " = 1")
-    LiveData<List<MovieEntity>> getFavoritedMovie();
+    DataSource.Factory<Integer, MovieEntity> getFavoritedMovie();
 
     @Transaction
     @Query("SELECT * FROM movieentities WHERE " + COLUMN_MOVIE_ID + "= :id")
@@ -51,7 +52,7 @@ public interface CatalogueDao {
 
     @WorkerThread
     @Query("SELECT * FROM tvshowentities WHERE " + COLUMN_TVSHOW_FAVORITED + " = 1")
-    LiveData<List<TVShowEntity>> getFavoritedTVShow();
+    DataSource.Factory<Integer, TVShowEntity> getFavoritedTVShow();
 
     @Transaction
     @Query("SELECT * FROM tvshowentities WHERE " + COLUMN_TVSHOW_ID + "= :id")

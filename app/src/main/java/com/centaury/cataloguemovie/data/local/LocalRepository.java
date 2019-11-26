@@ -1,6 +1,7 @@
 package com.centaury.cataloguemovie.data.local;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 
 import com.centaury.cataloguemovie.data.local.db.CatalogueDao;
 import com.centaury.cataloguemovie.data.local.entity.GenreMovieEntity;
@@ -33,7 +34,7 @@ public class LocalRepository {
         return catalogueDao.getAllMovies();
     }
 
-    public LiveData<List<MovieEntity>> getFavoritedMovies() {
+    public DataSource.Factory<Integer, MovieEntity> getFavoritedMovies() {
         return catalogueDao.getFavoritedMovie();
     }
 
@@ -54,7 +55,7 @@ public class LocalRepository {
         return catalogueDao.getAllTVShow();
     }
 
-    public LiveData<List<TVShowEntity>> getFavoritedTVShows() {
+    public DataSource.Factory<Integer, TVShowEntity> getFavoritedTVShows() {
         return catalogueDao.getFavoritedTVShow();
     }
 

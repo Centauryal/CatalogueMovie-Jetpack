@@ -2,6 +2,7 @@ package com.centaury.cataloguemovie.ui.favorite.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.paging.PagedList;
 
 import com.centaury.cataloguemovie.data.CatalogueRepository;
 import com.centaury.cataloguemovie.data.local.entity.GenreMovieEntity;
@@ -21,7 +22,7 @@ public class FavoriteMovieViewModel extends ViewModel {
         this.catalogueRepository = catalogueRepository;
     }
 
-    public LiveData<Resource<List<MovieEntity>>> getFavoriteMovie() {
+    public LiveData<Resource<PagedList<MovieEntity>>> getFavoriteMovie() {
         return catalogueRepository.getFavoritedMovies();
     }
 

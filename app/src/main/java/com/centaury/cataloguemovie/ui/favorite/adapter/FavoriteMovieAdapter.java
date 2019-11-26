@@ -1,5 +1,6 @@
 package com.centaury.cataloguemovie.ui.favorite.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.request.RequestOptions;
@@ -36,13 +39,14 @@ import butterknife.ButterKnife;
 /**
  * Created by Centaury on 11/23/2019.
  */
-public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdapter.FavoriteMovieViewHolder> {
+public class FavoriteMovieAdapter extends PagedListAdapter<MovieEntity, FavoriteMovieAdapter.FavoriteMovieViewHolder> {
 
     private final Activity activity;
     private List<MovieEntity> favoriteMovieList = new ArrayList<>();
     private List<GenreMovieEntity> genresItemList = new ArrayList<>();
 
     public FavoriteMovieAdapter(Activity activity) {
+        super(DIFF_CALLBACK);
         this.activity = activity;
     }
 
@@ -85,6 +89,20 @@ public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdap
     public int getItemCount() {
         return getFavoriteMovie().size();
     }
+
+    private static DiffUtil.ItemCallback<MovieEntity> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<MovieEntity>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull MovieEntity oldItem, @NonNull MovieEntity newItem) {
+                    return oldItem.getMovieId() == newItem.getMovieId();
+                }
+
+                @SuppressLint("DiffUtilEquals")
+                @Override
+                public boolean areContentsTheSame(@NonNull MovieEntity oldItem, @NonNull MovieEntity newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
 
     class FavoriteMovieViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.txt_titlebackground)

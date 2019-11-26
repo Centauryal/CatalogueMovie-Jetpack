@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import com.centaury.cataloguemovie.data.local.LocalRepository;
 import com.centaury.cataloguemovie.data.local.entity.GenreMovieEntity;
@@ -93,16 +95,16 @@ public class CatalogueRepository implements CatalogueDataSource {
     }
 
     @Override
-    public LiveData<Resource<List<MovieEntity>>> getFavoritedMovies() {
-        return new NetworkBoundResource<List<MovieEntity>, List<MovieResultsItem>>(appExecutors) {
+    public LiveData<Resource<PagedList<MovieEntity>>> getFavoritedMovies() {
+        return new NetworkBoundResource<PagedList<MovieEntity>, List<MovieResultsItem>>(appExecutors) {
 
             @Override
-            protected LiveData<List<MovieEntity>> loadFromDB() {
-                return localRepository.getFavoritedMovies();
+            protected LiveData<PagedList<MovieEntity>> loadFromDB() {
+                return new LivePagedListBuilder<>(localRepository.getFavoritedMovies(), 20).build();
             }
 
             @Override
-            protected Boolean shouldFetch(List<MovieEntity> data) {
+            protected Boolean shouldFetch(PagedList<MovieEntity> data) {
                 return false;
             }
 
@@ -219,16 +221,16 @@ public class CatalogueRepository implements CatalogueDataSource {
     }
 
     @Override
-    public LiveData<Resource<List<TVShowEntity>>> getFavoritedTVShows() {
-        return new NetworkBoundResource<List<TVShowEntity>, List<TVShowResultsItem>>(appExecutors) {
+    public LiveData<Resource<PagedList<TVShowEntity>>> getFavoritedTVShows() {
+        return new NetworkBoundResource<PagedList<TVShowEntity>, List<TVShowResultsItem>>(appExecutors) {
 
             @Override
-            protected LiveData<List<TVShowEntity>> loadFromDB() {
-                return localRepository.getFavoritedTVShows();
+            protected LiveData<PagedList<TVShowEntity>> loadFromDB() {
+                return new LivePagedListBuilder<>(localRepository.getFavoritedTVShows(), 20).build();
             }
 
             @Override
-            protected Boolean shouldFetch(List<TVShowEntity> data) {
+            protected Boolean shouldFetch(PagedList<TVShowEntity> data) {
                 return false;
             }
 
