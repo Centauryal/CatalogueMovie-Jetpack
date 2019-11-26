@@ -1,4 +1,4 @@
-package com.centaury.cataloguemovie.ui.tvshow;
+package com.centaury.cataloguemovie.ui.favorite.viewmodel;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
@@ -22,20 +22,19 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by Centaury on 10/7/2019.
+ * Created by Centaury on 11/26/2019.
  */
-public class TVShowViewModelTest {
-
+public class FavoriteTVShowViewModelTest {
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
-    private TVShowViewModel tvShowViewModel;
+    private FavoriteTVShowViewModel favoriteTVShowViewModel;
     private CatalogueRepository catalogueRepository = mock(CatalogueRepository.class);
     private String language = Locale.getDefault().toLanguageTag();
 
     @Before
     public void setUp() {
-        tvShowViewModel = new TVShowViewModel(catalogueRepository);
+        favoriteTVShowViewModel = new FavoriteTVShowViewModel(catalogueRepository);
     }
 
     @Test
@@ -46,10 +45,10 @@ public class TVShowViewModelTest {
         MutableLiveData<Resource<List<TVShowEntity>>> dummyTVShow = new MutableLiveData<>();
         dummyTVShow.setValue(resource);
 
-        when(catalogueRepository.getTVShows(language)).thenReturn(dummyTVShow);
+        when(catalogueRepository.getFavoritedTVShows()).thenReturn(dummyTVShow);
         Observer<Resource<List<TVShowEntity>>> observer = mock(Observer.class);
 
-        tvShowViewModel.getTVShows(language).observeForever(observer);
+        favoriteTVShowViewModel.getFavoriteTVShow().observeForever(observer);
         verify(observer).onChanged(resource);
     }
 
@@ -63,7 +62,7 @@ public class TVShowViewModelTest {
         when(catalogueRepository.getGenreTVShow(language)).thenReturn(dummyGenre);
         Observer<Resource<List<GenreTVShowEntity>>> observer = mock(Observer.class);
 
-        tvShowViewModel.getGenreTVShow(language).observeForever(observer);
+        favoriteTVShowViewModel.getGenreTVShow(language).observeForever(observer);
         verify(observer).onChanged(resource);
     }
 }

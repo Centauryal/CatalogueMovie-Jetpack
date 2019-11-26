@@ -72,6 +72,10 @@ public class MovieEntity {
         }
     }
 
+    public MovieEntity() {
+
+    }
+
     public int getMovieId() {
         return movieId;
     }

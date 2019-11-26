@@ -1,4 +1,4 @@
-package com.centaury.cataloguemovie.ui.movie;
+package com.centaury.cataloguemovie.ui.favorite.viewmodel;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
@@ -22,39 +22,40 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by Centaury on 10/7/2019.
+ * Created by Centaury on 11/26/2019.
  */
-public class MovieViewModelTest {
+public class FavoriteMovieViewModelTest {
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
-    private MovieViewModel movieViewModel;
+    private FavoriteMovieViewModel favoriteMovieViewModel;
     private CatalogueRepository catalogueRepository = mock(CatalogueRepository.class);
     private String language = Locale.getDefault().toLanguageTag();
 
     @Before
     public void setUp() {
-        movieViewModel = new MovieViewModel(catalogueRepository);
+        favoriteMovieViewModel = new FavoriteMovieViewModel(catalogueRepository);
     }
 
     @Test
-    public void getMovies() {
+    public void getFavoriteMovies() {
 
         Resource<List<MovieEntity>> resource = Resource.success(FakeDataDummy.generateDummyMovies());
 
         MutableLiveData<Resource<List<MovieEntity>>> dummyMovie = new MutableLiveData<>();
         dummyMovie.setValue(resource);
 
-        when(catalogueRepository.getMovies(language)).thenReturn(dummyMovie);
+        when(catalogueRepository.getFavoritedMovies()).thenReturn(dummyMovie);
         Observer<Resource<List<MovieEntity>>> observer = mock(Observer.class);
 
-        movieViewModel.getMovies(language).observeForever(observer);
+        favoriteMovieViewModel.getFavoriteMovie().observeForever(observer);
         verify(observer).onChanged(resource);
     }
 
     @Test
-    public void getGenre() {
+    public void getGenreFavoriteMovie() {
+
         Resource<List<GenreMovieEntity>> resource = Resource.success(FakeDataDummy.generateDummyGenreMovie());
 
         MutableLiveData<Resource<List<GenreMovieEntity>>> dummyGenre = new MutableLiveData<>();
@@ -63,7 +64,7 @@ public class MovieViewModelTest {
         when(catalogueRepository.getGenreMovie(language)).thenReturn(dummyGenre);
         Observer<Resource<List<GenreMovieEntity>>> observer = mock(Observer.class);
 
-        movieViewModel.getGenreMovie(language).observeForever(observer);
+        favoriteMovieViewModel.getGenreMovie(language).observeForever(observer);
         verify(observer).onChanged(resource);
     }
 }

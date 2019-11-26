@@ -40,4 +40,11 @@ public class MovieCatalogueTest {
         onView(withId(R.id.rv_tvshow)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.txt_titledetail)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void toFavorite() {
+        onView(withId(R.id.action_favorite)).check(matches(isDisplayed()));
+        onView(withId(R.id.action_favorite)).perform(click());
+
+    }
 }

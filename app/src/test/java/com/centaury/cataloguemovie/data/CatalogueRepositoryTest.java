@@ -1,7 +1,13 @@
 package com.centaury.cataloguemovie.data;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.MutableLiveData;
 
+import com.centaury.cataloguemovie.data.local.LocalRepository;
+import com.centaury.cataloguemovie.data.local.entity.GenreMovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.GenreTVShowEntity;
+import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
+import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 import com.centaury.cataloguemovie.data.remote.RemoteRepository;
 import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse;
 import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowResponse;
@@ -9,7 +15,9 @@ import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
 import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
 import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResultsItem;
 import com.centaury.cataloguemovie.utils.FakeDataDummy;
+import com.centaury.cataloguemovie.utils.InstantAppExecutors;
 import com.centaury.cataloguemovie.utils.LiveDataTestUtil;
+import com.centaury.cataloguemovie.vo.Resource;
 
 import org.junit.After;
 import org.junit.Before;
@@ -21,12 +29,9 @@ import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Centaury on 10/29/2019.
@@ -36,17 +41,19 @@ public class CatalogueRepositoryTest {
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
+    private LocalRepository localRepository = mock(LocalRepository.class);
     private RemoteRepository remoteRepository = mock(RemoteRepository.class);
-    private FakeCatalogueRepository fakeCatalogueRepository = new FakeCatalogueRepository(remoteRepository);
+    private InstantAppExecutors instantAppExecutors = mock(InstantAppExecutors.class);
+    private FakeCatalogueRepository fakeCatalogueRepository = new FakeCatalogueRepository(localRepository, remoteRepository, instantAppExecutors);
 
-    private List<MovieResultsItem> movieResultsItems = FakeDataDummy.generateDummyMovies();
-    private List<GenresItem> genreMovieList = FakeDataDummy.generateDummyGenreMovie();
+    private List<MovieResultsItem> movieResultsItems = FakeDataDummy.generateDummyResponseMovies();
+    private List<GenresItem> genreMovieList = FakeDataDummy.generateDummyResponseGenreMovie();
     private String movieId = String.valueOf(movieResultsItems.get(0).getId());
-    private List<TVShowResultsItem> tvShowResultsItems = FakeDataDummy.generateDummyTVShows();
-    private List<GenresItem> genreTVShowList = FakeDataDummy.generateDummyGenreTVShow();
+    private List<TVShowResultsItem> tvShowResultsItems = FakeDataDummy.generateDummyResponseTVShows();
+    private List<GenresItem> genreTVShowList = FakeDataDummy.generateDummyResponseGenreTVShow();
     private String tvshowId = String.valueOf(tvShowResultsItems.get(0).getId());
-    private DetailMovieResponse detailMovieResponse = FakeDataDummy.generateDummyDetailMovies().get(0);
-    private DetailTVShowResponse detailTVShowResponse = FakeDataDummy.generateDummyDetailTVShows().get(0);
+    private DetailMovieResponse detailMovieResponse = FakeDataDummy.generateDummyResponseDetailMovies().get(0);
+    private DetailTVShowResponse detailTVShowResponse = FakeDataDummy.generateDummyResponseDetailTVShows().get(0);
     private String language = Locale.getDefault().toLanguageTag();
 
     @Before
@@ -61,95 +68,114 @@ public class CatalogueRepositoryTest {
 
     @Test
     public void getAllMovies() {
-        doAnswer(invocation -> {
-            ((RemoteRepository.LoadMoviesCallback) invocation.getArguments()[1])
-                    .onResponse(movieResultsItems);
-            return null;
-        }).when(remoteRepository).getMovies(eq(language), any(RemoteRepository.LoadMoviesCallback.class));
 
-        List<MovieResultsItem> resultsItems = LiveDataTestUtil.getValue(fakeCatalogueRepository.getMovies(language));
+        MutableLiveData<List<MovieEntity>> dummyMovie = new MutableLiveData<>();
+        dummyMovie.setValue(FakeDataDummy.generateDummyMovies());
 
-        verify(remoteRepository, times(1)).getMovies(eq(language), any(RemoteRepository.LoadMoviesCallback.class));
-        assertNotNull(resultsItems);
-        assertEquals(movieResultsItems.size(), resultsItems.size());
+        when(localRepository.getAllMovies()).thenReturn(dummyMovie);
+
+        Resource<List<MovieEntity>> result = LiveDataTestUtil.getValue(fakeCatalogueRepository.getMovies(language));
+
+        verify(localRepository).getAllMovies();
+        assertNotNull(result.data);
+        assertEquals(movieResultsItems.size(), result.data.size());
     }
 
     @Test
     public void getAllTVShows() {
-        doAnswer(invocation -> {
-            ((RemoteRepository.LoadTVShowsCallback) invocation.getArguments()[1])
-                    .onResponse(tvShowResultsItems);
-            return null;
-        }).when(remoteRepository).getTVShows(eq(language), any(RemoteRepository.LoadTVShowsCallback.class));
+        MutableLiveData<List<TVShowEntity>> dummyTVShow = new MutableLiveData<>();
+        dummyTVShow.setValue(FakeDataDummy.generateDummyTVShows());
 
-        List<TVShowResultsItem> resultsItems = LiveDataTestUtil.getValue(fakeCatalogueRepository.getTVShows(language));
+        when(localRepository.getAllTVShows()).thenReturn(dummyTVShow);
 
-        verify(remoteRepository, times(1)).getTVShows(eq(language), any(RemoteRepository.LoadTVShowsCallback.class));
-        assertNotNull(resultsItems);
-        assertEquals(tvShowResultsItems.size(), resultsItems.size());
+        Resource<List<TVShowEntity>> result = LiveDataTestUtil.getValue(fakeCatalogueRepository.getTVShows(language));
+
+        verify(localRepository).getAllTVShows();
+        assertNotNull(result.data);
+        assertEquals(tvShowResultsItems.size(), result.data.size());
     }
 
     @Test
     public void getGenreMovies() {
-        doAnswer(invocation -> {
-            ((RemoteRepository.GetGenreMovieCallback) invocation.getArguments()[1])
-                    .onResponse(genreMovieList);
-            return null;
-        }).when(remoteRepository).getGenreMovie(eq(language), any(RemoteRepository.GetGenreMovieCallback.class));
+        MutableLiveData<List<GenreMovieEntity>> dummyGenreMovie = new MutableLiveData<>();
+        dummyGenreMovie.setValue(FakeDataDummy.generateDummyGenreMovie());
 
-        List<GenresItem> resultsItems = LiveDataTestUtil.getValue(fakeCatalogueRepository.getGenreMovie(language));
+        when(localRepository.getAllGenresMovie()).thenReturn(dummyGenreMovie);
 
-        verify(remoteRepository, times(1)).getGenreMovie(eq(language), any(RemoteRepository.GetGenreMovieCallback.class));
-        assertNotNull(resultsItems);
-        assertEquals(genreMovieList.size(), resultsItems.size());
+        Resource<List<GenreMovieEntity>> result = LiveDataTestUtil.getValue(fakeCatalogueRepository.getGenreMovie(language));
+
+        verify(localRepository).getAllGenresMovie();
+        assertNotNull(result.data);
+        assertEquals(genreMovieList.size(), result.data.size());
     }
 
     @Test
     public void getGenreTVShows() {
-        doAnswer(invocation -> {
-            ((RemoteRepository.GetGenreTVShowCallback) invocation.getArguments()[1])
-                    .onResponse(genreTVShowList);
-            return null;
-        }).when(remoteRepository).getGenreTVShow(eq(language), any(RemoteRepository.GetGenreTVShowCallback.class));
+        MutableLiveData<List<GenreTVShowEntity>> dummyGenreTVShow = new MutableLiveData<>();
+        dummyGenreTVShow.setValue(FakeDataDummy.generateDummyGenreTVShow());
 
-        List<GenresItem> resultsItems = LiveDataTestUtil.getValue(fakeCatalogueRepository.getGenreTVShow(language));
+        when(localRepository.getAllGenresTVShow()).thenReturn(dummyGenreTVShow);
 
-        verify(remoteRepository, times(1)).getGenreTVShow(eq(language), any(RemoteRepository.GetGenreTVShowCallback.class));
-        assertNotNull(resultsItems);
-        assertEquals(genreTVShowList.size(), resultsItems.size());
+        Resource<List<GenreTVShowEntity>> result = LiveDataTestUtil.getValue(fakeCatalogueRepository.getGenreTVShow(language));
+
+        verify(localRepository).getAllGenresTVShow();
+        assertNotNull(result.data);
+        assertEquals(genreTVShowList.size(), result.data.size());
     }
 
     @Test
     public void getDetailMovie() {
-        doAnswer(invocation -> {
-            ((RemoteRepository.GetMovieDetailCallback) invocation.getArguments()[2])
-                    .onResponse(detailMovieResponse);
-            return null;
-        }).when(remoteRepository).getMovieDetail(eq(movieId), eq(language), any(RemoteRepository.GetMovieDetailCallback.class));
+        MutableLiveData<MovieEntity> dummyMovie = new MutableLiveData<>();
+        dummyMovie.setValue(FakeDataDummy.generateDummyMovies().get(0));
 
-        DetailMovieResponse resultDetail = LiveDataTestUtil.getValue(fakeCatalogueRepository.getDetailMovie(movieId, language));
+        when(localRepository.getMovieById(Integer.parseInt(movieId))).thenReturn(dummyMovie);
 
-        verify(remoteRepository, times(1))
-                .getMovieDetail(eq(movieId), eq(language), any(RemoteRepository.GetMovieDetailCallback.class));
+        Resource<MovieEntity> result = LiveDataTestUtil.getValue(fakeCatalogueRepository.getDetailMovie(movieId, language));
 
-        assertNotNull(resultDetail);
-        assertEquals(detailMovieResponse.getTitle(), resultDetail.getTitle());
+        verify(localRepository).getMovieById(Integer.parseInt(movieId));
+        assertNotNull(result.data);
+        assertNotNull(result.data.getName());
     }
 
     @Test
     public void getDetailTVShow() {
-        doAnswer(invocation -> {
-            ((RemoteRepository.GetTVShowDetailCallback) invocation.getArguments()[2])
-                    .onResponse(detailTVShowResponse);
-            return null;
-        }).when(remoteRepository).getTVShowDetail(eq(tvshowId), eq(language), any(RemoteRepository.GetTVShowDetailCallback.class));
+        MutableLiveData<TVShowEntity> dummyTVShow = new MutableLiveData<>();
+        dummyTVShow.setValue(FakeDataDummy.generateDummyTVShows().get(0));
 
-        DetailTVShowResponse resultDetail = LiveDataTestUtil.getValue(fakeCatalogueRepository.getDetailTVShow(tvshowId, language));
+        when(localRepository.getTVShowById(Integer.parseInt(tvshowId))).thenReturn(dummyTVShow);
 
-        verify(remoteRepository, times(1))
-                .getTVShowDetail(eq(tvshowId), eq(language), any(RemoteRepository.GetTVShowDetailCallback.class));
+        Resource<TVShowEntity> result = LiveDataTestUtil.getValue(fakeCatalogueRepository.getDetailTVShow(tvshowId, language));
 
-        assertNotNull(resultDetail);
-        assertEquals(detailTVShowResponse.getName(), resultDetail.getName());
+        verify(localRepository).getTVShowById(Integer.parseInt(tvshowId));
+        assertNotNull(result.data);
+        assertNotNull(result.data.getName());
+    }
+
+    @Test
+    public void getFavoriteMovie() {
+        MutableLiveData<List<MovieEntity>> dummyFavoriteMovie = new MutableLiveData<>();
+        dummyFavoriteMovie.setValue(FakeDataDummy.generateDummyMovies());
+
+        when(localRepository.getFavoritedMovies()).thenReturn(dummyFavoriteMovie);
+
+        Resource<List<MovieEntity>> result = LiveDataTestUtil.getValue(fakeCatalogueRepository.getFavoritedMovies());
+
+        verify(localRepository).getFavoritedMovies();
+        assertNotNull(result.data);
+        assertEquals(movieResultsItems.size(), result.data.size());
+    }
+
+    @Test
+    public void getFavoriteTVShow() {
+        MutableLiveData<List<TVShowEntity>> dummyFavoriteTVSshow = new MutableLiveData<>();
+        dummyFavoriteTVSshow.setValue(FakeDataDummy.generateDummyTVShows());
+
+        when(localRepository.getFavoritedTVShows()).thenReturn(dummyFavoriteTVSshow);
+
+        Resource<List<TVShowEntity>> result = LiveDataTestUtil.getValue(fakeCatalogueRepository.getFavoritedTVShows());
+
+        verify(localRepository).getFavoritedTVShows();
+        assertNotNull(result.data);
+        assertEquals(tvShowResultsItems.size(), result.data.size());
     }
 }

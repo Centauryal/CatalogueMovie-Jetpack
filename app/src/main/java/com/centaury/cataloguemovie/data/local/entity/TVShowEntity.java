@@ -72,6 +72,10 @@ public class TVShowEntity {
         }
     }
 
+    public TVShowEntity() {
+
+    }
+
     public int getTvshowId() {
         return tvshowId;
     }
