@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,8 +35,8 @@ public class TVShowFragment extends Fragment {
     RecyclerView mRvTvshow;
     @BindView(R.id.shimmer_view_container)
     ShimmerFrameLayout mShimmerViewContainer;
-    @BindView(R.id.empty_state)
-    LinearLayout mEmptyState;
+    @BindView(R.id.txt_loadmore)
+    TextView mTxtLoadMore;
     private Unbinder unbinder;
 
     public TVShowFragment() {
@@ -62,40 +61,30 @@ public class TVShowFragment extends Fragment {
             String language = Locale.getDefault().toLanguageTag();
 
             TVShowAdapter tvShowAdapter = new TVShowAdapter(getActivity());
-            tvShowViewModel.getTVShows(language).observe(this, tvShowResultsItems -> {
-                if (tvShowResultsItems != null) {
-                    switch (tvShowResultsItems.status) {
-                        case LOADING:
-                            mShimmerViewContainer.startShimmer();
-                            break;
-                        case SUCCESS:
-                            mShimmerViewContainer.stopShimmer();
-                            mShimmerViewContainer.setVisibility(View.GONE);
-                            toggleEmptyMovies(tvShowResultsItems.data.size());
-                            tvShowAdapter.setListTVShows(tvShowResultsItems.data);
-                            tvShowAdapter.notifyDataSetChanged();
-                            break;
-                        case ERROR:
-                            mShimmerViewContainer.stopShimmer();
-                            mShimmerViewContainer.setVisibility(View.GONE);
-                            Toast.makeText(getContext(), getString(R.string.txt_error), Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                }
+            tvShowViewModel.getTVShows().observe(this, tvShowResultsItems -> {
+                tvShowAdapter.submitList(tvShowResultsItems);
+                tvShowAdapter.notifyDataSetChanged();
             });
             tvShowViewModel.getGenreTVShow(language).observe(this, genresItemList -> {
-                if (genresItemList != null) {
-                    switch (genresItemList.status) {
-                        case LOADING:
-                            break;
-                        case SUCCESS:
-                            tvShowAdapter.setListGenreTVShow(genresItemList.data);
-                            tvShowAdapter.notifyDataSetChanged();
-                            break;
-                        case ERROR:
-                            Toast.makeText(getContext(), getString(R.string.txt_error), Toast.LENGTH_SHORT).show();
-                            break;
-                    }
+                tvShowAdapter.setListGenreTVShow(genresItemList);
+                tvShowAdapter.notifyDataSetChanged();
+            });
+
+            tvShowViewModel.getLoadingState().observe(this, loadingState -> {
+                if (loadingState) {
+                    mShimmerViewContainer.startShimmer();
+                    mShimmerViewContainer.setVisibility(View.VISIBLE);
+                } else {
+                    mShimmerViewContainer.stopShimmer();
+                    mShimmerViewContainer.setVisibility(View.GONE);
+                }
+            });
+
+            tvShowViewModel.getLoadMoreLoadingState().observe(this, loadMore -> {
+                if (loadMore) {
+                    mTxtLoadMore.setVisibility(View.VISIBLE);
+                } else {
+                    mTxtLoadMore.setVisibility(View.GONE);
                 }
             });
 
@@ -110,16 +99,6 @@ public class TVShowFragment extends Fragment {
     private static TVShowViewModel obtainViewModel(FragmentActivity activity) {
         ViewModelProviderFactory factory = ViewModelProviderFactory.getInstance(activity.getApplication());
         return ViewModelProviders.of(activity, factory).get(TVShowViewModel.class);
-    }
-
-    private void toggleEmptyMovies(int size) {
-        if (size > 0) {
-            mEmptyState.setVisibility(View.GONE);
-            mRvTvshow.setVisibility(View.VISIBLE);
-        } else {
-            mRvTvshow.setVisibility(View.GONE);
-            mEmptyState.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override

@@ -1,35 +1,22 @@
 package com.centaury.cataloguemovie.ui.detail;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.centaury.cataloguemovie.data.CatalogueRepository;
 import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
-import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse;
-import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowResponse;
 
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Centaury on 10/7/2019.
+ * Created by Centaury on 11/27/2019.
  */
-public class DetailMovieViewModel extends ViewModel {
+public class DetailFavoriteMovieViewModel extends ViewModel {
 
     private CatalogueRepository catalogueRepository;
-    private String movieId;
-    private String tvshowId;
 
-    public DetailMovieViewModel(CatalogueRepository catalogueRepository) {
+    public DetailFavoriteMovieViewModel(CatalogueRepository catalogueRepository) {
         this.catalogueRepository = catalogueRepository;
-    }
-
-    LiveData<DetailMovieResponse> getDetailMovie(String language) {
-        return catalogueRepository.getDetailMovie(movieId, language);
-    }
-
-    LiveData<DetailTVShowResponse> getDetailTVShow(String language) {
-        return catalogueRepository.getDetailTVShow(tvshowId, language);
     }
 
     public MovieEntity getDetailFavMovie(int id) throws ExecutionException, InterruptedException {
@@ -38,14 +25,6 @@ public class DetailMovieViewModel extends ViewModel {
 
     public TVShowEntity getDetailFavTVShow(int id) throws ExecutionException, InterruptedException {
         return catalogueRepository.getDetailFavTVShow(id);
-    }
-
-    public void setMovieId(String movieId) {
-        this.movieId = movieId;
-    }
-
-    public void setTvshowId(String tvshowId) {
-        this.tvshowId = tvshowId;
     }
 
     void insertFavoriteMovie(MovieEntity movieEntity) {

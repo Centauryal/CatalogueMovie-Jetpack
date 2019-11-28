@@ -2,9 +2,6 @@ package com.centaury.cataloguemovie.data.remote;
 
 import android.app.Application;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -14,10 +11,6 @@ import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse;
 import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowResponse;
 import com.centaury.cataloguemovie.data.remote.genre.GenreResponse;
 import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
-import com.centaury.cataloguemovie.data.remote.movie.MovieResponse;
-import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
-import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResponse;
-import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResultsItem;
 import com.centaury.cataloguemovie.utils.EspressoIdlingResource;
 import com.google.gson.Gson;
 
@@ -44,42 +37,8 @@ public class RemoteRepository {
         return INSTANCE;
     }
 
-    public LiveData<ApiResponse<List<MovieResultsItem>>> getMovies(String language) {
+    public void getMovieDetail(String movieId, String language, GetMovieDetailCallback callback) {
         EspressoIdlingResource.increment();
-
-        MutableLiveData<ApiResponse<List<MovieResultsItem>>> resultMovie = new MutableLiveData<>();
-
-        AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_MOVIE)
-                .addQueryParameter("api_key", ApiKey)
-                .addQueryParameter("language", language)
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        MovieResponse movieResponse = new Gson().fromJson(response + "", MovieResponse.class);
-                        resultMovie.setValue(ApiResponse.success(movieResponse.getResults()));
-                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
-                            EspressoIdlingResource.decrement();
-                        }
-                    }
-
-                    @Override
-                    public void onError(ANError anError) {
-                        resultMovie.setValue(ApiResponse.error("onErrorMovie: " + anError.getErrorBody()));
-                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
-                            EspressoIdlingResource.decrement();
-                        }
-                    }
-                });
-
-        return resultMovie;
-    }
-
-    public LiveData<ApiResponse<DetailMovieResponse>> getMovieDetail(String movieId, String language) {
-        EspressoIdlingResource.increment();
-
-        MutableLiveData<ApiResponse<DetailMovieResponse>> resultDetail = new MutableLiveData<>();
 
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_DETAIL_MOVIE)
                 .addPathParameter("movie_id", movieId)
@@ -91,7 +50,7 @@ public class RemoteRepository {
                     @Override
                     public void onResponse(JSONObject response) {
                         DetailMovieResponse resultsItem = new Gson().fromJson(response + "", DetailMovieResponse.class);
-                        resultDetail.setValue(ApiResponse.success(resultsItem));
+                        callback.onResponse(resultsItem);
                         if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
                             EspressoIdlingResource.decrement();
                         }
@@ -99,20 +58,16 @@ public class RemoteRepository {
 
                     @Override
                     public void onError(ANError anError) {
-                        resultDetail.setValue(ApiResponse.error("onErrorMovieDetail: " + anError.getErrorBody()));
+                        callback.onErrorResponse("onError: " + anError.getErrorBody());
                         if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
                             EspressoIdlingResource.decrement();
                         }
                     }
                 });
-
-        return resultDetail;
     }
 
-    public LiveData<ApiResponse<List<GenresItem>>> getGenreMovie(String language) {
+    public void getGenreMovie(String language, GetGenreMovieCallback callback) {
         EspressoIdlingResource.increment();
-
-        MutableLiveData<ApiResponse<List<GenresItem>>> resultGenre = new MutableLiveData<>();
 
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_GENRE_MOVIE)
                 .addQueryParameter("api_key", ApiKey)
@@ -123,7 +78,7 @@ public class RemoteRepository {
                     @Override
                     public void onResponse(JSONObject response) {
                         GenreResponse genreResponse = new Gson().fromJson(response + "", GenreResponse.class);
-                        resultGenre.setValue(ApiResponse.success(genreResponse.getGenres()));
+                        callback.onResponse(genreResponse.getGenres());
                         if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
                             EspressoIdlingResource.decrement();
                         }
@@ -131,52 +86,16 @@ public class RemoteRepository {
 
                     @Override
                     public void onError(ANError anError) {
-                        resultGenre.setValue(ApiResponse.error("onErrorGenreMovie: " + anError.getErrorBody()));
+                        callback.onErrorResponse("onError: " + anError.getErrorBody());
                         if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
                             EspressoIdlingResource.decrement();
                         }
                     }
                 });
-
-        return resultGenre;
     }
 
-    public LiveData<ApiResponse<List<TVShowResultsItem>>> getTVShows(String language) {
+    public void getTVShowDetail(String tvshowId, String language, GetTVShowDetailCallback callback) {
         EspressoIdlingResource.increment();
-
-        MutableLiveData<ApiResponse<List<TVShowResultsItem>>> resultTVShow = new MutableLiveData<>();
-
-        AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_TVSHOW)
-                .addQueryParameter("api_key", ApiKey)
-                .addQueryParameter("language", language)
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        TVShowResponse tvShowResponse = new Gson().fromJson(response + "", TVShowResponse.class);
-                        resultTVShow.setValue(ApiResponse.success(tvShowResponse.getResults()));
-                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
-                            EspressoIdlingResource.decrement();
-                        }
-                    }
-
-                    @Override
-                    public void onError(ANError anError) {
-                        resultTVShow.setValue(ApiResponse.error("onErrorTVShow: " + anError.getErrorBody()));
-                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
-                            EspressoIdlingResource.decrement();
-                        }
-                    }
-                });
-
-        return resultTVShow;
-    }
-
-    public LiveData<ApiResponse<DetailTVShowResponse>> getTVShowDetail(String tvshowId, String language) {
-        EspressoIdlingResource.increment();
-
-        MutableLiveData<ApiResponse<DetailTVShowResponse>> resultDetail = new MutableLiveData<>();
 
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_DETAIL_TVSHOW)
                 .addPathParameter("tv_id", tvshowId)
@@ -188,7 +107,7 @@ public class RemoteRepository {
                     @Override
                     public void onResponse(JSONObject response) {
                         DetailTVShowResponse resultsItem = new Gson().fromJson(response + "", DetailTVShowResponse.class);
-                        resultDetail.setValue(ApiResponse.success(resultsItem));
+                        callback.onResponse(resultsItem);
                         if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
                             EspressoIdlingResource.decrement();
                         }
@@ -196,20 +115,16 @@ public class RemoteRepository {
 
                     @Override
                     public void onError(ANError anError) {
-                        resultDetail.setValue(ApiResponse.error("onErrorTVShowDetail: " + anError.getErrorBody()));
+                        callback.onErrorResponse("onError: " + anError.getErrorBody());
                         if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
                             EspressoIdlingResource.decrement();
                         }
                     }
                 });
-
-        return resultDetail;
     }
 
-    public LiveData<ApiResponse<List<GenresItem>>> getGenreTVShow(String language) {
+    public void getGenreTVShow(String language, GetGenreTVShowCallback callback) {
         EspressoIdlingResource.increment();
-
-        MutableLiveData<ApiResponse<List<GenresItem>>> resultGenre = new MutableLiveData<>();
 
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_GENRE_TVSHOW)
                 .addQueryParameter("api_key", ApiKey)
@@ -220,7 +135,7 @@ public class RemoteRepository {
                     @Override
                     public void onResponse(JSONObject response) {
                         GenreResponse genreResponse = new Gson().fromJson(response + "", GenreResponse.class);
-                        resultGenre.setValue(ApiResponse.success(genreResponse.getGenres()));
+                        callback.onResponse(genreResponse.getGenres());
                         if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
                             EspressoIdlingResource.decrement();
                         }
@@ -228,14 +143,36 @@ public class RemoteRepository {
 
                     @Override
                     public void onError(ANError anError) {
-                        resultGenre.setValue(ApiResponse.error("onErrorTVShowGenre: " + anError.getErrorBody()));
+                        callback.onErrorResponse("onError: " + anError.getErrorBody());
                         if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
                             EspressoIdlingResource.decrement();
                         }
                     }
                 });
+    }
 
-        return resultGenre;
+    public interface GetMovieDetailCallback {
+        void onResponse(DetailMovieResponse detailMovieResponse);
+
+        void onErrorResponse(String message);
+    }
+
+    public interface GetGenreMovieCallback {
+        void onResponse(List<GenresItem> genresItemList);
+
+        void onErrorResponse(String message);
+    }
+
+    public interface GetTVShowDetailCallback {
+        void onResponse(DetailTVShowResponse detailTVShowResponse);
+
+        void onErrorResponse(String message);
+    }
+
+    public interface GetGenreTVShowCallback {
+        void onResponse(List<GenresItem> genresItemList);
+
+        void onErrorResponse(String message);
     }
 
 }

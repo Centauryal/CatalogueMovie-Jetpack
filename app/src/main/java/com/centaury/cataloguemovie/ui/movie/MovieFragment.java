@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,8 +35,8 @@ public class MovieFragment extends Fragment {
     RecyclerView mRvMovie;
     @BindView(R.id.shimmer_view_container)
     ShimmerFrameLayout mShimmerViewContainer;
-    @BindView(R.id.empty_state)
-    LinearLayout mEmptyState;
+    @BindView(R.id.txt_loadmore)
+    TextView mTxtLoadMore;
     private Unbinder unbinder;
 
     public MovieFragment() {
@@ -62,40 +61,31 @@ public class MovieFragment extends Fragment {
             String language = Locale.getDefault().toLanguageTag();
 
             MovieAdapter movieAdapter = new MovieAdapter(getActivity());
-            movieViewModel.getMovies(language).observe(this, movies -> {
-                if (movies != null) {
-                    switch (movies.status) {
-                        case LOADING:
-                            mShimmerViewContainer.startShimmer();
-                            break;
-                        case SUCCESS:
-                            mShimmerViewContainer.stopShimmer();
-                            mShimmerViewContainer.setVisibility(View.GONE);
-                            toggleEmptyMovies(movies.data.size());
-                            movieAdapter.setListMovies(movies.data);
-                            movieAdapter.notifyDataSetChanged();
-                            break;
-                        case ERROR:
-                            mShimmerViewContainer.stopShimmer();
-                            mShimmerViewContainer.setVisibility(View.GONE);
-                            Toast.makeText(getContext(), getString(R.string.txt_error), Toast.LENGTH_SHORT).show();
-                            break;
-                    }
+            movieViewModel.getMovies().observe(this, movieResultsItems -> {
+                movieAdapter.submitList(movieResultsItems);
+                movieAdapter.notifyDataSetChanged();
+            });
+
+            movieViewModel.getGenreMovie(language).observe(this, genresItemList -> {
+                movieAdapter.setListGenreMovie(genresItemList);
+                movieAdapter.notifyDataSetChanged();
+            });
+
+            movieViewModel.getLoadingState().observe(this, loadingState -> {
+                if (loadingState) {
+                    mShimmerViewContainer.startShimmer();
+                    mShimmerViewContainer.setVisibility(View.VISIBLE);
+                } else {
+                    mShimmerViewContainer.stopShimmer();
+                    mShimmerViewContainer.setVisibility(View.GONE);
                 }
             });
-            movieViewModel.getGenreMovie(language).observe(this, genresItemList -> {
-                if (genresItemList != null) {
-                    switch (genresItemList.status) {
-                        case LOADING:
-                            break;
-                        case SUCCESS:
-                            movieAdapter.setListGenreMovie(genresItemList.data);
-                            movieAdapter.notifyDataSetChanged();
-                            break;
-                        case ERROR:
-                            Toast.makeText(getContext(), getString(R.string.txt_error), Toast.LENGTH_SHORT).show();
-                            break;
-                    }
+
+            movieViewModel.getLoadMoreLoadingState().observe(this, loadMore -> {
+                if (loadMore) {
+                    mTxtLoadMore.setVisibility(View.VISIBLE);
+                } else {
+                    mTxtLoadMore.setVisibility(View.GONE);
                 }
             });
 
@@ -110,16 +100,6 @@ public class MovieFragment extends Fragment {
     private static MovieViewModel obtainViewModel(FragmentActivity activity) {
         ViewModelProviderFactory factory = ViewModelProviderFactory.getInstance(activity.getApplication());
         return ViewModelProviders.of(activity, factory).get(MovieViewModel.class);
-    }
-
-    private void toggleEmptyMovies(int size) {
-        if (size > 0) {
-            mEmptyState.setVisibility(View.GONE);
-            mRvMovie.setVisibility(View.VISIBLE);
-        } else {
-            mRvMovie.setVisibility(View.GONE);
-            mEmptyState.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override

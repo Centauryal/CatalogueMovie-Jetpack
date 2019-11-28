@@ -1,25 +1,18 @@
 package com.centaury.cataloguemovie.data.local.db;
 
 import androidx.annotation.WorkerThread;
-import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
-import androidx.room.Update;
 
-import com.centaury.cataloguemovie.data.local.entity.GenreMovieEntity;
-import com.centaury.cataloguemovie.data.local.entity.GenreTVShowEntity;
 import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 
-import java.util.List;
-
-import static com.centaury.cataloguemovie.data.local.entity.MovieEntity.COLUMN_MOVIE_FAVORITED;
 import static com.centaury.cataloguemovie.data.local.entity.MovieEntity.COLUMN_MOVIE_ID;
-import static com.centaury.cataloguemovie.data.local.entity.TVShowEntity.COLUMN_TVSHOW_FAVORITED;
 import static com.centaury.cataloguemovie.data.local.entity.TVShowEntity.COLUMN_TVSHOW_ID;
 
 /**
@@ -30,51 +23,29 @@ public interface CatalogueDao {
 
     @WorkerThread
     @Query("SELECT * FROM movieentities")
-    LiveData<List<MovieEntity>> getAllMovies();
-
-    @WorkerThread
-    @Query("SELECT * FROM movieentities WHERE " + COLUMN_MOVIE_FAVORITED + " = 1")
-    DataSource.Factory<Integer, MovieEntity> getFavoritedMovie();
+    DataSource.Factory<Integer, MovieEntity> getAllFavMovies();
 
     @Transaction
     @Query("SELECT * FROM movieentities WHERE " + COLUMN_MOVIE_ID + "= :id")
-    LiveData<MovieEntity> getMovieById(int id);
+    MovieEntity getFavMovieById(int id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long[] insertMovie(List<MovieEntity> movies);
+    long insertFavMovie(MovieEntity movies);
 
-    @Update
-    int updateMovie(MovieEntity movie);
+    @Delete
+    void deleteFavMovie(MovieEntity movie);
 
     @WorkerThread
     @Query("SELECT * FROM tvshowentities")
-    LiveData<List<TVShowEntity>> getAllTVShow();
-
-    @WorkerThread
-    @Query("SELECT * FROM tvshowentities WHERE " + COLUMN_TVSHOW_FAVORITED + " = 1")
-    DataSource.Factory<Integer, TVShowEntity> getFavoritedTVShow();
+    DataSource.Factory<Integer, TVShowEntity> getAllFavTVShow();
 
     @Transaction
     @Query("SELECT * FROM tvshowentities WHERE " + COLUMN_TVSHOW_ID + "= :id")
-    LiveData<TVShowEntity> getTVShowById(int id);
+    TVShowEntity getFavTVShowById(int id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long[] insertTVShow(List<TVShowEntity> tvshows);
+    long insertFavTVShow(TVShowEntity tvshows);
 
-    @Update
-    int updateTVShow(TVShowEntity tvshow);
-
-    @WorkerThread
-    @Query("SELECT * FROM genremovie")
-    LiveData<List<GenreMovieEntity>> getGenresMovie();
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long[] insertGenreMovie(List<GenreMovieEntity> genreMovie);
-
-    @WorkerThread
-    @Query("SELECT * FROM genretvshow")
-    LiveData<List<GenreTVShowEntity>> getGenresTVShow();
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long[] insertGenreTVShow(List<GenreTVShowEntity> genreTVShow);
+    @Delete
+    void deleteFavTVShow(TVShowEntity tvshow);
 }

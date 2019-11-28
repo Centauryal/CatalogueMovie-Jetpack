@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.centaury.cataloguemovie.data.CatalogueRepository;
 import com.centaury.cataloguemovie.di.Injection;
+import com.centaury.cataloguemovie.ui.detail.DetailFavoriteMovieViewModel;
 import com.centaury.cataloguemovie.ui.detail.DetailMovieViewModel;
 import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteMovieViewModel;
 import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteTVShowViewModel;
@@ -56,6 +57,9 @@ public class ViewModelProviderFactory extends ViewModelProvider.NewInstanceFacto
         } else if (modelClass.isAssignableFrom(FavoriteTVShowViewModel.class)) {
             //noinspection unchecked
             return (T) new FavoriteTVShowViewModel(catalogueRepository);
+        } else if (modelClass.isAssignableFrom(DetailFavoriteMovieViewModel.class)) {
+            //noinspection unchecked
+            return (T) new DetailFavoriteMovieViewModel(catalogueRepository);
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());

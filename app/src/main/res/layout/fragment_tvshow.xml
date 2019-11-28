@@ -22,12 +22,12 @@
         android:id="@+id/shimmer_view_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:shimmer_duration="800"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:shimmer_duration="800">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,6 +44,17 @@
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <include layout="@layout/item_emptystate_placeholder" />
+    <TextView
+        android:id="@+id/txt_loadmore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/txt_load_more"
+        android:textStyle="italic|bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

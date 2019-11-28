@@ -5,11 +5,9 @@ import androidx.lifecycle.ViewModel;
 import androidx.paging.PagedList;
 
 import com.centaury.cataloguemovie.data.CatalogueRepository;
-import com.centaury.cataloguemovie.data.local.entity.GenreTVShowEntity;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
-import com.centaury.cataloguemovie.vo.Resource;
 
-import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Centaury on 11/23/2019.
@@ -22,11 +20,15 @@ public class FavoriteTVShowViewModel extends ViewModel {
         this.catalogueRepository = catalogueRepository;
     }
 
-    public LiveData<Resource<PagedList<TVShowEntity>>> getFavoriteTVShow() {
-        return catalogueRepository.getFavoritedTVShows();
+    public LiveData<PagedList<TVShowEntity>> getFavoriteTVShow() {
+        return catalogueRepository.getFavoriteTVShows();
     }
 
-    public LiveData<Resource<List<GenreTVShowEntity>>> getGenreTVShow(String language) {
-        return catalogueRepository.getGenreTVShow(language);
+    public TVShowEntity getDetailFavTVShow(int id) throws ExecutionException, InterruptedException {
+        return catalogueRepository.getDetailFavTVShow(id);
+    }
+
+    public void deleteFavoriteTVShow(TVShowEntity tvShowEntity) {
+        catalogueRepository.deleteFavTVShow(tvShowEntity);
     }
 }

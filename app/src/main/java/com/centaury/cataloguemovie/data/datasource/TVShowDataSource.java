@@ -12,8 +12,8 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.data.remote.ApiEndPoint;
-import com.centaury.cataloguemovie.data.remote.movie.MovieResponse;
-import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
+import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResponse;
+import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResultsItem;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -21,9 +21,9 @@ import org.json.JSONObject;
 import java.util.Locale;
 
 /**
- * Created by Centaury on 11/27/2019.
+ * Created by Centaury on 11/28/2019.
  */
-public class MovieDataSource extends PageKeyedDataSource<Integer, MovieResultsItem> {
+public class TVShowDataSource extends PageKeyedDataSource<Integer, TVShowResultsItem> {
 
     private MutableLiveData loadingState = new MutableLiveData();
     private MutableLiveData loadMoreLoadingState = new MutableLiveData();
@@ -40,11 +40,10 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, MovieResultsIt
     }
 
     @Override
-    public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, MovieResultsItem> callback) {
-
+    public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, TVShowResultsItem> callback) {
         loadingState.postValue(true);
 
-        AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_MOVIE)
+        AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_TVSHOW)
                 .addQueryParameter("api_key", apiKey)
                 .addQueryParameter("language", language)
                 .addQueryParameter("page", "1")
@@ -53,8 +52,8 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, MovieResultsIt
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        MovieResponse movieResponse = new Gson().fromJson(response + "", MovieResponse.class);
-                        callback.onResult(movieResponse.getResults(), null, movieResponse.getPage() + 1);
+                        TVShowResponse tvShowResponse = new Gson().fromJson(response + "", TVShowResponse.class);
+                        callback.onResult(tvShowResponse.getResults(), null, tvShowResponse.getPage() + 1);
                         loadingState.postValue(false);
                     }
 
@@ -67,28 +66,28 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, MovieResultsIt
     }
 
     @Override
-    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, MovieResultsItem> callback) {
+    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TVShowResultsItem> callback) {
 
     }
 
     @Override
-    public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, MovieResultsItem> callback) {
+    public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TVShowResultsItem> callback) {
 
         if (params.key == -1) return;
 
         loadMoreLoadingState.postValue(true);
 
-        AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_MOVIE)
+        AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_TVSHOW)
                 .addQueryParameter("api_key", apiKey)
                 .addQueryParameter("language", language)
-                .addQueryParameter("page", String.valueOf(params.key))
+                .addQueryParameter("page", "1")
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        MovieResponse movieResponse = new Gson().fromJson(response + "", MovieResponse.class);
-                        callback.onResult(movieResponse.getResults(), movieResponse.getPage() + 1);
+                        TVShowResponse tvShowResponse = new Gson().fromJson(response + "", TVShowResponse.class);
+                        callback.onResult(tvShowResponse.getResults(), tvShowResponse.getPage() + 1);
                         loadMoreLoadingState.postValue(false);
                     }
 
@@ -98,6 +97,5 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, MovieResultsIt
                         loadMoreLoadingState.postValue(false);
                     }
                 });
-
     }
 }

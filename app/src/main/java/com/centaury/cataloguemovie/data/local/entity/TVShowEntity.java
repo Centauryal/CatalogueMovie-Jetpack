@@ -23,7 +23,6 @@ public class TVShowEntity {
     public static final String COLUMN_RELEASE_DATE = "releaseDate";
     public static final String COLUMN_OVERVIEW = "overview";
     public static final String COLUMN_VOTE_AVERAGE = "voteAverage";
-    public static final String COLUMN_TVSHOW_FAVORITED = "tvshowFavorite";
 
     @PrimaryKey
     @NonNull
@@ -54,10 +53,7 @@ public class TVShowEntity {
     @ColumnInfo(name = COLUMN_VOTE_AVERAGE)
     private double voteAverage;
 
-    @ColumnInfo(name = COLUMN_TVSHOW_FAVORITED)
-    private boolean tvshowFavorited = false;
-
-    public TVShowEntity(int tvshowId, String name, String originalName, String posterPath, String backdropPath, String genres, String releaseDate, String overview, double voteAverage, Boolean tvshowFavorited) {
+    public TVShowEntity(int tvshowId, String name, String originalName, String posterPath, String backdropPath, String genres, String releaseDate, String overview, double voteAverage) {
         this.tvshowId = tvshowId;
         this.name = name;
         this.originalName = originalName;
@@ -67,13 +63,6 @@ public class TVShowEntity {
         this.releaseDate = releaseDate;
         this.overview = overview;
         this.voteAverage = voteAverage;
-        if (tvshowFavorited != null) {
-            this.tvshowFavorited = tvshowFavorited;
-        }
-    }
-
-    public TVShowEntity() {
-
     }
 
     public int getTvshowId() {
@@ -146,13 +135,5 @@ public class TVShowEntity {
 
     public void setVoteAverage(double voteAverage) {
         this.voteAverage = voteAverage;
-    }
-
-    public boolean isTvshowFavorited() {
-        return tvshowFavorited;
-    }
-
-    public void setTvshowFavorited(boolean tvshowFavorited) {
-        this.tvshowFavorited = tvshowFavorited;
     }
 }

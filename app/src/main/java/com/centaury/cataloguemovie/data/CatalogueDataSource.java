@@ -3,36 +3,42 @@ package com.centaury.cataloguemovie.data;
 import androidx.lifecycle.LiveData;
 import androidx.paging.PagedList;
 
-import com.centaury.cataloguemovie.data.local.entity.GenreMovieEntity;
-import com.centaury.cataloguemovie.data.local.entity.GenreTVShowEntity;
 import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
-import com.centaury.cataloguemovie.vo.Resource;
+import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse;
+import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowResponse;
+import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Centaury on 10/25/2019.
  */
 public interface CatalogueDataSource {
 
-    LiveData<Resource<List<MovieEntity>>> getMovies(String language);
+    LiveData<DetailMovieResponse> getDetailMovie(String movieId, String language);
 
-    LiveData<Resource<PagedList<MovieEntity>>> getFavoritedMovies();
+    LiveData<List<GenresItem>> getGenreMovie(String language);
 
-    LiveData<Resource<MovieEntity>> getDetailMovie(String movieId, String language);
+    LiveData<DetailTVShowResponse> getDetailTVShow(String tvshowId, String language);
 
-    LiveData<Resource<List<GenreMovieEntity>>> getGenreMovie(String language);
+    LiveData<List<GenresItem>> getGenreTVShow(String language);
 
-    LiveData<Resource<List<TVShowEntity>>> getTVShows(String language);
+    LiveData<PagedList<MovieEntity>> getFavoriteMovies();
 
-    LiveData<Resource<PagedList<TVShowEntity>>> getFavoritedTVShows();
+    MovieEntity getDetailFavMovie(int movieId) throws ExecutionException, InterruptedException;
 
-    LiveData<Resource<TVShowEntity>> getDetailTVShow(String tvshowId, String language);
+    void insertFavMovie(MovieEntity movieEntity);
 
-    LiveData<Resource<List<GenreTVShowEntity>>> getGenreTVShow(String language);
+    void deleteFavMovie(MovieEntity movieEntity);
 
-    void setFavoriteMovie(MovieEntity movieEntity, boolean state);
+    LiveData<PagedList<TVShowEntity>> getFavoriteTVShows();
 
-    void setFavoriteTVShow(TVShowEntity tvShowEntity, boolean state);
+    TVShowEntity getDetailFavTVShow(int tvshowId) throws ExecutionException, InterruptedException;
+
+    void insertFavTVShow(TVShowEntity tvShowEntity);
+
+    void deleteFavTVShow(TVShowEntity tvShowEntity);
+
 }

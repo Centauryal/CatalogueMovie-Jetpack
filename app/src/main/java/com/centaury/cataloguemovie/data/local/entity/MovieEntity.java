@@ -23,7 +23,6 @@ public class MovieEntity {
     public static final String COLUMN_RELEASE_DATE = "releaseDate";
     public static final String COLUMN_OVERVIEW = "overview";
     public static final String COLUMN_VOTE_AVERAGE = "voteAverage";
-    public static final String COLUMN_MOVIE_FAVORITED = "movieFavorite";
 
     @PrimaryKey
     @NonNull
@@ -54,10 +53,7 @@ public class MovieEntity {
     @ColumnInfo(name = COLUMN_VOTE_AVERAGE)
     private double voteAverage;
 
-    @ColumnInfo(name = COLUMN_MOVIE_FAVORITED)
-    private boolean movieFavorited = false;
-
-    public MovieEntity(int movieId, String name, String originalName, String posterPath, String backdropPath, String genres, String releaseDate, String overview, double voteAverage, Boolean movieFavorited) {
+    public MovieEntity(int movieId, String name, String originalName, String posterPath, String backdropPath, String genres, String releaseDate, String overview, double voteAverage) {
         this.movieId = movieId;
         this.name = name;
         this.originalName = originalName;
@@ -67,13 +63,6 @@ public class MovieEntity {
         this.releaseDate = releaseDate;
         this.overview = overview;
         this.voteAverage = voteAverage;
-        if (movieFavorited != null) {
-            this.movieFavorited = movieFavorited;
-        }
-    }
-
-    public MovieEntity() {
-
     }
 
     public int getMovieId() {
@@ -146,13 +135,5 @@ public class MovieEntity {
 
     public void setVoteAverage(double voteAverage) {
         this.voteAverage = voteAverage;
-    }
-
-    public boolean isMovieFavorited() {
-        return movieFavorited;
-    }
-
-    public void setMovieFavorited(boolean movieFavorited) {
-        this.movieFavorited = movieFavorited;
     }
 }
