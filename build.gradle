@@ -59,5 +59,6 @@ ext {
     mockitoVersion = '2.23.4'
     espressoVersion = '3.2.0'
     runnerVersion = '1.2.0'
+    testCoreVersion = '1.2.0'
     idleResourceVersion = '3.2.0'
 }

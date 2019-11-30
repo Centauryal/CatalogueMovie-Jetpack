@@ -14,6 +14,7 @@ import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.data.remote.ApiEndPoint;
 import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResponse;
 import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResultsItem;
+import com.centaury.cataloguemovie.utils.EspressoIdlingResource;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -43,6 +44,8 @@ public class TVShowDataSource extends PageKeyedDataSource<Integer, TVShowResults
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, TVShowResultsItem> callback) {
         loadingState.postValue(true);
 
+        EspressoIdlingResource.increment();
+
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_TVSHOW)
                 .addQueryParameter("api_key", apiKey)
                 .addQueryParameter("language", language)
@@ -55,12 +58,18 @@ public class TVShowDataSource extends PageKeyedDataSource<Integer, TVShowResults
                         TVShowResponse tvShowResponse = new Gson().fromJson(response + "", TVShowResponse.class);
                         callback.onResult(tvShowResponse.getResults(), null, tvShowResponse.getPage() + 1);
                         loadingState.postValue(false);
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
 
                     @Override
                     public void onError(ANError anError) {
                         Log.e("onError: ", anError.getErrorBody());
                         loadingState.postValue(false);
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
                 });
     }
@@ -77,6 +86,8 @@ public class TVShowDataSource extends PageKeyedDataSource<Integer, TVShowResults
 
         loadMoreLoadingState.postValue(true);
 
+        EspressoIdlingResource.increment();
+
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_TVSHOW)
                 .addQueryParameter("api_key", apiKey)
                 .addQueryParameter("language", language)
@@ -89,12 +100,18 @@ public class TVShowDataSource extends PageKeyedDataSource<Integer, TVShowResults
                         TVShowResponse tvShowResponse = new Gson().fromJson(response + "", TVShowResponse.class);
                         callback.onResult(tvShowResponse.getResults(), tvShowResponse.getPage() + 1);
                         loadMoreLoadingState.postValue(false);
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
 
                     @Override
                     public void onError(ANError anError) {
                         Log.e("onError: ", anError.getErrorBody());
                         loadMoreLoadingState.postValue(false);
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
                 });
     }

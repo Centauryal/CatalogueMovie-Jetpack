@@ -5,10 +5,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.centaury.cataloguemovie.data.CatalogueRepository;
-import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
-import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
+import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse;
+import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowResponse;
 import com.centaury.cataloguemovie.utils.FakeDataDummy;
-import com.centaury.cataloguemovie.vo.Resource;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -30,10 +29,10 @@ public class DetailMovieViewModelTest {
 
     private DetailMovieViewModel detailMovieViewModel;
     private CatalogueRepository catalogueRepository = mock(CatalogueRepository.class);
-    private MovieEntity detailMovieResponse = FakeDataDummy.generateDummyDetailMovie(false);
-    private TVShowEntity detailTVShowResponse = FakeDataDummy.generateDummyDetailTVShow(false);
-    private String movieId = String.valueOf(detailMovieResponse.getMovieId());
-    private String tvshowId = String.valueOf(detailTVShowResponse.getTvshowId());
+    private DetailMovieResponse detailMovieResponse = FakeDataDummy.generateDummyResponseDetailMovies().get(0);
+    private DetailTVShowResponse detailTVShowResponse = FakeDataDummy.generateDummyResponseDetailTVShows().get(0);
+    private String movieId = String.valueOf(detailMovieResponse.getId());
+    private String tvshowId = String.valueOf(detailTVShowResponse.getId());
     private String language = Locale.getDefault().toLanguageTag();
 
     @Before
@@ -41,37 +40,29 @@ public class DetailMovieViewModelTest {
         detailMovieViewModel = new DetailMovieViewModel(catalogueRepository);
         detailMovieViewModel.setMovieId(movieId);
         detailMovieViewModel.setTvshowId(tvshowId);
-        detailMovieViewModel.setLanguage(language);
-        detailMovieViewModel.setFavoriteMovie(detailMovieResponse, false);
-        detailMovieViewModel.setFavoriteTVShow(detailTVShowResponse, false);
     }
 
     @Test
     public void getMovie() {
 
-        Resource<MovieEntity> resource = Resource.success(FakeDataDummy.generateDummyDetailMovie(true));
-        MutableLiveData<Resource<MovieEntity>> data = new MutableLiveData<>();
-        data.setValue(resource);
+        MutableLiveData<DetailMovieResponse> data = new MutableLiveData<>();
+        data.setValue(detailMovieResponse);
 
         when(catalogueRepository.getDetailMovie(movieId, language)).thenReturn(data);
-
-        Observer<Resource<MovieEntity>> observer = mock(Observer.class);
-        detailMovieViewModel.getDetailMovie().observeForever(observer);
-        verify(observer).onChanged(resource);
+        Observer<DetailMovieResponse> observer = mock(Observer.class);
+        detailMovieViewModel.getDetailMovie(language).observeForever(observer);
+        verify(observer).onChanged(detailMovieResponse);
     }
 
     @Test
     public void getTVShow() {
 
-        Resource<TVShowEntity> resource = Resource.success(FakeDataDummy.generateDummyDetailTVShow(true));
-        MutableLiveData<Resource<TVShowEntity>> data = new MutableLiveData<>();
-        data.setValue(resource);
+        MutableLiveData<DetailTVShowResponse> data = new MutableLiveData<>();
+        data.setValue(detailTVShowResponse);
 
         when(catalogueRepository.getDetailTVShow(tvshowId, language)).thenReturn(data);
-
-        Observer<Resource<TVShowEntity>> observer = mock(Observer.class);
-        detailMovieViewModel.getDetailTVShow().observeForever(observer);
-
-        verify(observer).onChanged(resource);
+        Observer<DetailTVShowResponse> observer = mock(Observer.class);
+        detailMovieViewModel.getDetailTVShow(language).observeForever(observer);
+        verify(observer).onChanged(detailTVShowResponse);
     }
 }

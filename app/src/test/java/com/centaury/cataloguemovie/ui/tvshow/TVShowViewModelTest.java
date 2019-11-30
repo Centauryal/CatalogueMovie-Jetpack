@@ -1,14 +1,15 @@
 package com.centaury.cataloguemovie.ui.tvshow;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.paging.PagedList;
 
 import com.centaury.cataloguemovie.data.CatalogueRepository;
-import com.centaury.cataloguemovie.data.local.entity.GenreTVShowEntity;
-import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
+import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
+import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResultsItem;
 import com.centaury.cataloguemovie.utils.FakeDataDummy;
-import com.centaury.cataloguemovie.vo.Resource;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,6 +18,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Locale;
 
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,30 +42,21 @@ public class TVShowViewModelTest {
 
     @Test
     public void getTVShows() {
-
-        Resource<List<TVShowEntity>> resource = Resource.success(FakeDataDummy.generateDummyTVShows());
-
-        MutableLiveData<Resource<List<TVShowEntity>>> dummyTVShow = new MutableLiveData<>();
-        dummyTVShow.setValue(resource);
-
-        when(catalogueRepository.getTVShows(language)).thenReturn(dummyTVShow);
-        Observer<Resource<List<TVShowEntity>>> observer = mock(Observer.class);
-
-        tvShowViewModel.getTVShows(language).observeForever(observer);
-        verify(observer).onChanged(resource);
+        LiveData<PagedList<TVShowResultsItem>> resultsItems = tvShowViewModel.getTVShows();
+        assertNotNull(resultsItems);
     }
 
     @Test
     public void getGenre() {
-        Resource<List<GenreTVShowEntity>> resource = Resource.success(FakeDataDummy.generateDummyGenreTVShow());
+        List<GenresItem> dummyGenre = FakeDataDummy.generateDummyResponseGenreTVShow();
 
-        MutableLiveData<Resource<List<GenreTVShowEntity>>> dummyGenre = new MutableLiveData<>();
-        dummyGenre.setValue(resource);
+        MutableLiveData<List<GenresItem>> genreList = new MutableLiveData<>();
+        genreList.setValue(dummyGenre);
 
-        when(catalogueRepository.getGenreTVShow(language)).thenReturn(dummyGenre);
-        Observer<Resource<List<GenreTVShowEntity>>> observer = mock(Observer.class);
+        when(catalogueRepository.getGenreTVShow(language)).thenReturn(genreList);
+        Observer<List<GenresItem>> observer = mock(Observer.class);
 
         tvShowViewModel.getGenreTVShow(language).observeForever(observer);
-        verify(observer).onChanged(resource);
+        verify(observer).onChanged(dummyGenre);
     }
 }

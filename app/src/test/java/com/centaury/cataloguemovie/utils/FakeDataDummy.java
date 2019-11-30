@@ -1,7 +1,5 @@
 package com.centaury.cataloguemovie.utils;
 
-import com.centaury.cataloguemovie.data.local.entity.GenreMovieEntity;
-import com.centaury.cataloguemovie.data.local.entity.GenreTVShowEntity;
 import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse;
@@ -29,8 +27,7 @@ public class FakeDataDummy {
                 "80, 53, 18",
                 "2019-10-04",
                 "During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure.",
-                8.8,
-                false));
+                8.8));
         movieEntities.add(new MovieEntity(429617,
                 "Spider-Man: Far from Home",
                 "Spider-Man: Far from Home",
@@ -39,8 +36,7 @@ public class FakeDataDummy {
                 "28, 12, 878",
                 "2019-07-02",
                 "Peter Parker and his friends go on a summer trip to Europe. However, they will hardly be able to rest - Peter will have to agree to help Nick Fury uncover the mystery of creatures that cause natural disasters and destruction throughout the continent.",
-                7.7,
-                false));
+                7.7));
 
         return movieEntities;
     }
@@ -77,8 +73,7 @@ public class FakeDataDummy {
                 "80, 18, 9648, 10759",
                 "2012-10-10",
                 "Spoiled billionaire playboy Oliver Queen is missing and presumed dead when his yacht is lost at sea. He returns five years later a changed man, determined to clean up the city as a hooded vigilante armed with a bow.",
-                5.8,
-                false));
+                5.8));
         tvShowEntities.add(new TVShowEntity(60735,
                 "The Flash",
                 "The Flash",
@@ -87,8 +82,7 @@ public class FakeDataDummy {
                 "18, 10765",
                 "2014-10-07",
                 "After a particle accelerator causes a freak storm, CSI Investigator Barry Allen is struck by lightning and falls into a coma. Months later he awakens with the power of super speed, granting him the ability to move through Central City like an unseen guardian angel. Though initially excited by his newfound powers, Barry is shocked to discover he is not the only \\\"meta-human\\\" who was created in the wake of the accelerator explosion -- and not everyone is using their new powers for good. Barry partners with S.T.A.R. Labs and dedicates his life to protect the innocent. For now, only a few close friends and associates know that Barry is literally the fastest man alive, but it won't be long before the world learns what Barry Allen has become...The Flash.",
-                6.7,
-                false));
+                6.7));
 
         return tvShowEntities;
     }
@@ -153,24 +147,6 @@ public class FakeDataDummy {
         return detailTVShowResponses;
     }
 
-    public static ArrayList<GenreMovieEntity> generateDummyGenreMovie() {
-        ArrayList<GenreMovieEntity> genresItems = new ArrayList<>();
-
-        genresItems.add(new GenreMovieEntity(28, "Action"));
-        genresItems.add(new GenreMovieEntity(12, "Adventure"));
-
-        return genresItems;
-    }
-
-    public static ArrayList<GenreTVShowEntity> generateDummyGenreTVShow() {
-        ArrayList<GenreTVShowEntity> genresItems = new ArrayList<>();
-
-        genresItems.add(new GenreTVShowEntity(16, "Animation"));
-        genresItems.add(new GenreTVShowEntity(35, "Comedy"));
-
-        return genresItems;
-    }
-
     public static ArrayList<GenresItem> generateDummyResponseGenreMovie() {
         ArrayList<GenresItem> genresItems = new ArrayList<>();
 
@@ -187,17 +163,5 @@ public class FakeDataDummy {
         genresItems.add(new GenresItem("Comedy", 35));
 
         return genresItems;
-    }
-
-    public static MovieEntity generateDummyDetailMovie(boolean favorited) {
-        MovieEntity movieEntity = new MovieEntity();
-        movieEntity.setMovieFavorited(favorited);
-        return movieEntity;
-    }
-
-    public static TVShowEntity generateDummyDetailTVShow(boolean favorited) {
-        TVShowEntity tvShowEntity = new TVShowEntity();
-        tvShowEntity.setTvshowFavorited(favorited);
-        return tvShowEntity;
     }
 }

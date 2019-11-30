@@ -14,6 +14,7 @@ import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.data.remote.ApiEndPoint;
 import com.centaury.cataloguemovie.data.remote.movie.MovieResponse;
 import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
+import com.centaury.cataloguemovie.utils.EspressoIdlingResource;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -44,6 +45,8 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, MovieResultsIt
 
         loadingState.postValue(true);
 
+        EspressoIdlingResource.increment();
+
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_MOVIE)
                 .addQueryParameter("api_key", apiKey)
                 .addQueryParameter("language", language)
@@ -56,12 +59,18 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, MovieResultsIt
                         MovieResponse movieResponse = new Gson().fromJson(response + "", MovieResponse.class);
                         callback.onResult(movieResponse.getResults(), null, movieResponse.getPage() + 1);
                         loadingState.postValue(false);
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
 
                     @Override
                     public void onError(ANError anError) {
                         Log.e("onError: ", anError.getErrorBody());
                         loadingState.postValue(false);
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
                 });
     }
@@ -78,6 +87,8 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, MovieResultsIt
 
         loadMoreLoadingState.postValue(true);
 
+        EspressoIdlingResource.increment();
+
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_MOVIE)
                 .addQueryParameter("api_key", apiKey)
                 .addQueryParameter("language", language)
@@ -90,12 +101,18 @@ public class MovieDataSource extends PageKeyedDataSource<Integer, MovieResultsIt
                         MovieResponse movieResponse = new Gson().fromJson(response + "", MovieResponse.class);
                         callback.onResult(movieResponse.getResults(), movieResponse.getPage() + 1);
                         loadMoreLoadingState.postValue(false);
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
 
                     @Override
                     public void onError(ANError anError) {
                         Log.e("onError: ", anError.getErrorBody());
                         loadMoreLoadingState.postValue(false);
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow()) {
+                            EspressoIdlingResource.decrement();
+                        }
                     }
                 });
 
