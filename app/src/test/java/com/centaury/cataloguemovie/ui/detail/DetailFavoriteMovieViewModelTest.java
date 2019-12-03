@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -25,8 +26,6 @@ public class DetailFavoriteMovieViewModelTest {
     private CatalogueRepository catalogueRepository = mock(CatalogueRepository.class);
     private MovieEntity movieEntity = FakeDataDummy.generateDummyMovies().get(0);
     private TVShowEntity tvShowEntity = FakeDataDummy.generateDummyTVShows().get(0);
-    private Integer movieId = movieEntity.getMovieId();
-    private Integer tvshowId = tvShowEntity.getTvshowId();
 
     @Before
     public void setUp() {
@@ -35,11 +34,14 @@ public class DetailFavoriteMovieViewModelTest {
 
     @Test
     public void getMovie() {
+        detailFavoriteMovieViewModel.insertFavoriteMovie(movieEntity);
+        assertNotNull(movieEntity);
 
     }
 
     @Test
     public void getTVShow() {
-
+        detailFavoriteMovieViewModel.insertFavoriteTVShow(tvShowEntity);
+        assertNotNull(tvShowEntity);
     }
 }

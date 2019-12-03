@@ -91,7 +91,7 @@ public class TVShowDataSource extends PageKeyedDataSource<Integer, TVShowResults
         AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_TVSHOW)
                 .addQueryParameter("api_key", apiKey)
                 .addQueryParameter("language", language)
-                .addQueryParameter("page", "1")
+                .addQueryParameter("page", String.valueOf(params.key))
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
