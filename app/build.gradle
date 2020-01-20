@@ -50,6 +50,11 @@ dependencies {
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
     implementation "androidx.paging:paging-runtime:$pagingVersion"
 
+    implementation "com.google.dagger:dagger-android:$dagger2Version"
+    implementation "com.google.dagger:dagger-android-support:$dagger2Version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger2Version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger2Version"
+
     implementation "com.jakewharton:butterknife:$butterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 

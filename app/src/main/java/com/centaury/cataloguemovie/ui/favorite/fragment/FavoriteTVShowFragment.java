@@ -14,13 +14,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.ViewModelProviderFactory;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
+import com.centaury.cataloguemovie.di.Injectable;
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteFragmentCallback;
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteTVShowAdapter;
 import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteTVShowViewModel;
@@ -28,6 +29,8 @@ import com.centaury.cataloguemovie.utils.Helper;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.concurrent.ExecutionException;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +40,7 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FavoriteTVShowFragment extends Fragment implements FavoriteFragmentCallback {
+public class FavoriteTVShowFragment extends Fragment implements FavoriteFragmentCallback, Injectable {
 
     @BindView(R.id.rv_favtvshow)
     RecyclerView mRvFavTvshow;
@@ -46,6 +49,9 @@ public class FavoriteTVShowFragment extends Fragment implements FavoriteFragment
     @BindView(R.id.empty_state)
     LinearLayout mEmptyState;
     private Unbinder unbinder;
+
+    @Inject
+    ViewModelProvider.Factory factory;
 
     private FavoriteTVShowViewModel favoriteTVShowViewModel;
 
@@ -120,8 +126,7 @@ public class FavoriteTVShowFragment extends Fragment implements FavoriteFragment
     }
 
     @NonNull
-    private static FavoriteTVShowViewModel obtainViewModel(FragmentActivity activity) {
-        ViewModelProviderFactory factory = ViewModelProviderFactory.getInstance(activity.getApplication());
+    private FavoriteTVShowViewModel obtainViewModel(FragmentActivity activity) {
         return ViewModelProviders.of(activity, factory).get(FavoriteTVShowViewModel.class);
     }
 

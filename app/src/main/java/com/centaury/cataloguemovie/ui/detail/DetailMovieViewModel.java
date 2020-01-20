@@ -11,6 +11,8 @@ import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowRespons
 
 import java.util.concurrent.ExecutionException;
 
+import javax.inject.Inject;
+
 /**
  * Created by Centaury on 10/7/2019.
  */
@@ -20,6 +22,7 @@ public class DetailMovieViewModel extends ViewModel {
     private String movieId;
     private String tvshowId;
 
+    @Inject
     public DetailMovieViewModel(CatalogueRepository catalogueRepository) {
         this.catalogueRepository = catalogueRepository;
     }

@@ -19,30 +19,20 @@ import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javax.inject.Inject;
+
 /**
  * Created by Centaury on 10/25/2019.
  */
 public class CatalogueRepository implements CatalogueDataSource {
 
-    private volatile static CatalogueRepository INSTANCE = null;
-
     private final LocalRepository localRepository;
     private final RemoteRepository remoteRepository;
 
+    @Inject
     public CatalogueRepository(@NonNull LocalRepository localRepository, @NonNull RemoteRepository remoteRepository) {
         this.localRepository = localRepository;
         this.remoteRepository = remoteRepository;
-    }
-
-    public static CatalogueRepository getInstance(LocalRepository localRepository, RemoteRepository remoteData) {
-        if (INSTANCE == null) {
-            synchronized (RemoteRepository.class) {
-                if (INSTANCE == null)
-                    INSTANCE = new CatalogueRepository(localRepository, remoteData);
-            }
-        }
-
-        return INSTANCE;
     }
 
     @Override

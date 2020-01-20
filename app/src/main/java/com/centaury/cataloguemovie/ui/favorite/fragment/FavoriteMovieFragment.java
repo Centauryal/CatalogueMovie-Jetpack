@@ -14,13 +14,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.ViewModelProviderFactory;
 import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
+import com.centaury.cataloguemovie.di.Injectable;
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteFragmentCallback;
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteMovieAdapter;
 import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteMovieViewModel;
@@ -29,6 +30,8 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.concurrent.ExecutionException;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -36,7 +39,7 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FavoriteMovieFragment extends Fragment implements FavoriteFragmentCallback {
+public class FavoriteMovieFragment extends Fragment implements FavoriteFragmentCallback, Injectable {
 
     @BindView(R.id.rv_favmovie)
     RecyclerView mRvFavMovie;
@@ -45,6 +48,9 @@ public class FavoriteMovieFragment extends Fragment implements FavoriteFragmentC
     @BindView(R.id.empty_state)
     LinearLayout mEmptyState;
     private Unbinder unbinder;
+
+    @Inject
+    ViewModelProvider.Factory factory;
 
     private FavoriteMovieViewModel favoriteMovieViewModel;
 
@@ -119,8 +125,7 @@ public class FavoriteMovieFragment extends Fragment implements FavoriteFragmentC
     }
 
     @NonNull
-    private static FavoriteMovieViewModel obtainViewModel(FragmentActivity activity) {
-        ViewModelProviderFactory factory = ViewModelProviderFactory.getInstance(activity.getApplication());
+    private FavoriteMovieViewModel obtainViewModel(FragmentActivity activity) {
         return ViewModelProviders.of(activity, factory).get(FavoriteMovieViewModel.class);
     }
 

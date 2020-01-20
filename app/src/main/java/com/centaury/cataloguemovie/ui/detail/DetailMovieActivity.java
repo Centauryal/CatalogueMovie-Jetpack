@@ -15,13 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.request.RequestOptions;
 import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.ViewModelProviderFactory;
 import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse;
@@ -40,11 +41,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-public class DetailMovieActivity extends AppCompatActivity {
+public class DetailMovieActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -70,6 +76,12 @@ public class DetailMovieActivity extends AppCompatActivity {
     ConstraintLayout mClData;
     @BindView(R.id.btn_favorite)
     LottieAnimationView mBtnFavorite;
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
+    @Inject
+    ViewModelProvider.Factory factory;
 
     private DateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private DateFormat outputDate = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
@@ -140,8 +152,7 @@ public class DetailMovieActivity extends AppCompatActivity {
 
 
     @NonNull
-    private static DetailMovieViewModel obtainViewModel(AppCompatActivity activity) {
-        ViewModelProviderFactory factory = ViewModelProviderFactory.getInstance(activity.getApplication());
+    private DetailMovieViewModel obtainViewModel(AppCompatActivity activity) {
         return ViewModelProviders.of(activity, factory).get(DetailMovieViewModel.class);
     }
 
@@ -365,4 +376,8 @@ public class DetailMovieActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
+    }
 }

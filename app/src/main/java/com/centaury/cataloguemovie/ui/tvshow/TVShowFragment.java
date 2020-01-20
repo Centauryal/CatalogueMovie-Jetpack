@@ -11,16 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.ViewModelProviderFactory;
+import com.centaury.cataloguemovie.di.Injectable;
 import com.centaury.cataloguemovie.utils.Helper;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +32,7 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TVShowFragment extends Fragment {
+public class TVShowFragment extends Fragment implements Injectable {
 
     @BindView(R.id.rv_tvshow)
     RecyclerView mRvTvshow;
@@ -38,6 +41,9 @@ public class TVShowFragment extends Fragment {
     @BindView(R.id.txt_loadmore)
     TextView mTxtLoadMore;
     private Unbinder unbinder;
+
+    @Inject
+    ViewModelProvider.Factory factory;
 
     public TVShowFragment() {
         // Required empty public constructor
@@ -96,8 +102,7 @@ public class TVShowFragment extends Fragment {
     }
 
     @NonNull
-    private static TVShowViewModel obtainViewModel(FragmentActivity activity) {
-        ViewModelProviderFactory factory = ViewModelProviderFactory.getInstance(activity.getApplication());
+    private TVShowViewModel obtainViewModel(FragmentActivity activity) {
         return ViewModelProviders.of(activity, factory).get(TVShowViewModel.class);
     }
 

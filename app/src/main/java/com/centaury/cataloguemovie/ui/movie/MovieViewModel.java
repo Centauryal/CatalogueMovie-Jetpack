@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import javax.inject.Inject;
+
 /**
  * Created by Centaury on 10/7/2019.
  */
@@ -25,6 +27,7 @@ public class MovieViewModel extends ViewModel {
     private LiveData<Boolean> loadingState;
     private LiveData<Boolean> loadMoreLoadingState;
 
+    @Inject
     public MovieViewModel(CatalogueRepository catalogueRepository) {
         this.catalogueRepository = catalogueRepository;
         init();

@@ -15,13 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.request.RequestOptions;
 import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.ViewModelProviderFactory;
 import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 import com.centaury.cataloguemovie.utils.AppConstants;
@@ -35,11 +36,16 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-public class DetailFavoriteMovieActivity extends AppCompatActivity {
+public class DetailFavoriteMovieActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -65,6 +71,12 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity {
     ConstraintLayout mClFavData;
     @BindView(R.id.btn_favorite)
     LottieAnimationView mBtnFavorite;
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
+    @Inject
+    ViewModelProvider.Factory factory;
 
     private DateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private DateFormat outputDate = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
@@ -225,8 +237,7 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private static DetailFavoriteMovieViewModel obtainViewModel(AppCompatActivity activity) {
-        ViewModelProviderFactory factory = ViewModelProviderFactory.getInstance(activity.getApplication());
+    private DetailFavoriteMovieViewModel obtainViewModel(AppCompatActivity activity) {
         return ViewModelProviders.of(activity, factory).get(DetailFavoriteMovieViewModel.class);
     }
 
@@ -344,5 +355,10 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity {
             setFavorite();
             mBtnFavorite.playAnimation();
         }
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
     }
 }

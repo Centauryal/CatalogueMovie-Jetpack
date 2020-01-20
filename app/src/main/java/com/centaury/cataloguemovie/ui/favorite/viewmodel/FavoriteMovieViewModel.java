@@ -9,6 +9,8 @@ import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 
 import java.util.concurrent.ExecutionException;
 
+import javax.inject.Inject;
+
 /**
  * Created by Centaury on 11/23/2019.
  */
@@ -16,6 +18,7 @@ public class FavoriteMovieViewModel extends ViewModel {
 
     private CatalogueRepository catalogueRepository;
 
+    @Inject
     public FavoriteMovieViewModel(CatalogueRepository catalogueRepository) {
         this.catalogueRepository = catalogueRepository;
     }
