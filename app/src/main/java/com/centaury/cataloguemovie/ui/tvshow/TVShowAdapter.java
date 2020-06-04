@@ -40,6 +40,19 @@ import butterknife.ButterKnife;
  */
 public class TVShowAdapter extends PagedListAdapter<TVShowResultsItem, TVShowAdapter.TVShowViewHolder> {
 
+    private static DiffUtil.ItemCallback<TVShowResultsItem> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<TVShowResultsItem>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull TVShowResultsItem oldItem, @NonNull TVShowResultsItem newItem) {
+                    return oldItem.getId() == newItem.getId();
+                }
+
+                @SuppressLint("DiffUtilEquals")
+                @Override
+                public boolean areContentsTheSame(@NonNull TVShowResultsItem oldItem, @NonNull TVShowResultsItem newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
     private final Activity activity;
     private List<GenresItem> genresItemList = new ArrayList<>();
 
@@ -74,20 +87,6 @@ public class TVShowAdapter extends PagedListAdapter<TVShowResultsItem, TVShowAda
             activity.startActivity(intent);
         });
     }
-
-    private static DiffUtil.ItemCallback<TVShowResultsItem> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<TVShowResultsItem>() {
-                @Override
-                public boolean areItemsTheSame(@NonNull TVShowResultsItem oldItem, @NonNull TVShowResultsItem newItem) {
-                    return oldItem.getId() == newItem.getId();
-                }
-
-                @SuppressLint("DiffUtilEquals")
-                @Override
-                public boolean areContentsTheSame(@NonNull TVShowResultsItem oldItem, @NonNull TVShowResultsItem newItem) {
-                    return oldItem.equals(newItem);
-                }
-            };
 
     class TVShowViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.txt_titlebackground)

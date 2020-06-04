@@ -47,11 +47,9 @@ public class FavoriteMovieFragment extends Fragment implements FavoriteFragmentC
     ShimmerFrameLayout mShimmerViewContainer;
     @BindView(R.id.empty_state)
     LinearLayout mEmptyState;
-    private Unbinder unbinder;
-
     @Inject
     ViewModelProvider.Factory factory;
-
+    private Unbinder unbinder;
     private FavoriteMovieViewModel favoriteMovieViewModel;
 
     public FavoriteMovieFragment() {

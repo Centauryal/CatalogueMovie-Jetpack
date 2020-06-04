@@ -36,6 +36,19 @@ import butterknife.ButterKnife;
  */
 public class FavoriteTVShowAdapter extends PagedListAdapter<TVShowEntity, FavoriteTVShowAdapter.FavoriteTVShowViewHolder> {
 
+    private static DiffUtil.ItemCallback<TVShowEntity> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<TVShowEntity>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull TVShowEntity oldItem, @NonNull TVShowEntity newItem) {
+                    return oldItem.getTvshowId() == newItem.getTvshowId();
+                }
+
+                @SuppressLint("DiffUtilEquals")
+                @Override
+                public boolean areContentsTheSame(@NonNull TVShowEntity oldItem, @NonNull TVShowEntity newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
     private final Activity activity;
     private final FavoriteFragmentCallback callback;
 
@@ -69,20 +82,6 @@ public class FavoriteTVShowAdapter extends PagedListAdapter<TVShowEntity, Favori
             callback.onDeleteItemClick(tvshow.getTvshowId());
         });
     }
-
-    private static DiffUtil.ItemCallback<TVShowEntity> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<TVShowEntity>() {
-                @Override
-                public boolean areItemsTheSame(@NonNull TVShowEntity oldItem, @NonNull TVShowEntity newItem) {
-                    return oldItem.getTvshowId() == newItem.getTvshowId();
-                }
-
-                @SuppressLint("DiffUtilEquals")
-                @Override
-                public boolean areContentsTheSame(@NonNull TVShowEntity oldItem, @NonNull TVShowEntity newItem) {
-                    return oldItem.equals(newItem);
-                }
-            };
 
     class FavoriteTVShowViewHolder extends RecyclerView.ViewHolder {
 

@@ -28,60 +28,60 @@ public class SeasonsItem {
     @SerializedName("poster_path")
     private String posterPath;
 
-    public void setAirDate(String airDate) {
-        this.airDate = airDate;
-    }
-
     public String getAirDate() {
         return airDate;
     }
 
-    public void setOverview(String overview) {
-        this.overview = overview;
+    public void setAirDate(String airDate) {
+        this.airDate = airDate;
     }
 
     public String getOverview() {
         return overview;
     }
 
-    public void setEpisodeCount(int episodeCount) {
-        this.episodeCount = episodeCount;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public int getEpisodeCount() {
         return episodeCount;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEpisodeCount(int episodeCount) {
+        this.episodeCount = episodeCount;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setSeasonNumber(int seasonNumber) {
-        this.seasonNumber = seasonNumber;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getSeasonNumber() {
         return seasonNumber;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSeasonNumber(int seasonNumber) {
+        this.seasonNumber = seasonNumber;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getPosterPath() {
         return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
     @Override

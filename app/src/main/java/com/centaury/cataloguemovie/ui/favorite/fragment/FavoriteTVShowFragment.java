@@ -48,11 +48,9 @@ public class FavoriteTVShowFragment extends Fragment implements FavoriteFragment
     ShimmerFrameLayout mShimmerViewContainer;
     @BindView(R.id.empty_state)
     LinearLayout mEmptyState;
-    private Unbinder unbinder;
-
     @Inject
     ViewModelProvider.Factory factory;
-
+    private Unbinder unbinder;
     private FavoriteTVShowViewModel favoriteTVShowViewModel;
 
     public FavoriteTVShowFragment() {

@@ -40,10 +40,9 @@ public class TVShowFragment extends Fragment implements Injectable {
     ShimmerFrameLayout mShimmerViewContainer;
     @BindView(R.id.txt_loadmore)
     TextView mTxtLoadMore;
-    private Unbinder unbinder;
-
     @Inject
     ViewModelProvider.Factory factory;
+    private Unbinder unbinder;
 
     public TVShowFragment() {
         // Required empty public constructor

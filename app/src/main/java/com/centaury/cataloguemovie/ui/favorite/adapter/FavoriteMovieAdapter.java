@@ -36,6 +36,19 @@ import butterknife.ButterKnife;
  */
 public class FavoriteMovieAdapter extends PagedListAdapter<MovieEntity, FavoriteMovieAdapter.FavoriteMovieViewHolder> {
 
+    private static DiffUtil.ItemCallback<MovieEntity> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<MovieEntity>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull MovieEntity oldItem, @NonNull MovieEntity newItem) {
+                    return oldItem.getMovieId() == newItem.getMovieId();
+                }
+
+                @SuppressLint("DiffUtilEquals")
+                @Override
+                public boolean areContentsTheSame(@NonNull MovieEntity oldItem, @NonNull MovieEntity newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
     private final Activity activity;
     private final FavoriteFragmentCallback callback;
 
@@ -69,20 +82,6 @@ public class FavoriteMovieAdapter extends PagedListAdapter<MovieEntity, Favorite
             callback.onDeleteItemClick(movie.getMovieId());
         });
     }
-
-    private static DiffUtil.ItemCallback<MovieEntity> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<MovieEntity>() {
-                @Override
-                public boolean areItemsTheSame(@NonNull MovieEntity oldItem, @NonNull MovieEntity newItem) {
-                    return oldItem.getMovieId() == newItem.getMovieId();
-                }
-
-                @SuppressLint("DiffUtilEquals")
-                @Override
-                public boolean areContentsTheSame(@NonNull MovieEntity oldItem, @NonNull MovieEntity newItem) {
-                    return oldItem.equals(newItem);
-                }
-            };
 
     class FavoriteMovieViewHolder extends RecyclerView.ViewHolder {
 

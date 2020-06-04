@@ -103,228 +103,228 @@ public class DetailTVShowResponse {
         this.voteAverage = voteAverage;
     }
 
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
-    }
-
     public String getOriginalLanguage() {
         return originalLanguage;
     }
 
-    public void setNumberOfEpisodes(int numberOfEpisodes) {
-        this.numberOfEpisodes = numberOfEpisodes;
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
     }
 
     public int getNumberOfEpisodes() {
         return numberOfEpisodes;
     }
 
-    public void setNetworks(List<NetworksItem> networks) {
-        this.networks = networks;
+    public void setNumberOfEpisodes(int numberOfEpisodes) {
+        this.numberOfEpisodes = numberOfEpisodes;
     }
 
     public List<NetworksItem> getNetworks() {
         return networks;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setNetworks(List<NetworksItem> networks) {
+        this.networks = networks;
     }
 
     public String getType() {
         return type;
     }
 
-    public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getBackdropPath() {
         return backdropPath;
     }
 
-    public void setGenres(List<GenresItem> genres) {
-        this.genres = genres;
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
     }
 
     public List<GenresItem> getGenres() {
         return genres;
     }
 
-    public void setPopularity(double popularity) {
-        this.popularity = popularity;
+    public void setGenres(List<GenresItem> genres) {
+        this.genres = genres;
     }
 
     public double getPopularity() {
         return popularity;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setNumberOfSeasons(int numberOfSeasons) {
-        this.numberOfSeasons = numberOfSeasons;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getNumberOfSeasons() {
         return numberOfSeasons;
     }
 
-    public void setVoteCount(int voteCount) {
-        this.voteCount = voteCount;
+    public void setNumberOfSeasons(int numberOfSeasons) {
+        this.numberOfSeasons = numberOfSeasons;
     }
 
     public int getVoteCount() {
         return voteCount;
     }
 
-    public void setFirstAirDate(String firstAirDate) {
-        this.firstAirDate = firstAirDate;
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
     }
 
     public String getFirstAirDate() {
         return firstAirDate;
     }
 
-    public void setOverview(String overview) {
-        this.overview = overview;
+    public void setFirstAirDate(String firstAirDate) {
+        this.firstAirDate = firstAirDate;
     }
 
     public String getOverview() {
         return overview;
     }
 
-    public void setSeasons(List<SeasonsItem> seasons) {
-        this.seasons = seasons;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public List<SeasonsItem> getSeasons() {
         return seasons;
     }
 
-    public void setLanguages(List<String> languages) {
-        this.languages = languages;
+    public void setSeasons(List<SeasonsItem> seasons) {
+        this.seasons = seasons;
     }
 
     public List<String> getLanguages() {
         return languages;
     }
 
-    public void setCreatedBy(List<CreatedByItem> createdBy) {
-        this.createdBy = createdBy;
+    public void setLanguages(List<String> languages) {
+        this.languages = languages;
     }
 
     public List<CreatedByItem> getCreatedBy() {
         return createdBy;
     }
 
-    public void setLastEpisodeToAir(LastEpisodeToAir lastEpisodeToAir) {
-        this.lastEpisodeToAir = lastEpisodeToAir;
+    public void setCreatedBy(List<CreatedByItem> createdBy) {
+        this.createdBy = createdBy;
     }
 
     public LastEpisodeToAir getLastEpisodeToAir() {
         return lastEpisodeToAir;
     }
 
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
+    public void setLastEpisodeToAir(LastEpisodeToAir lastEpisodeToAir) {
+        this.lastEpisodeToAir = lastEpisodeToAir;
     }
 
     public String getPosterPath() {
         return posterPath;
     }
 
-    public void setOriginCountry(List<String> originCountry) {
-        this.originCountry = originCountry;
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
     public List<String> getOriginCountry() {
         return originCountry;
     }
 
-    public void setProductionCompanies(List<ProductionCompaniesItem> productionCompanies) {
-        this.productionCompanies = productionCompanies;
+    public void setOriginCountry(List<String> originCountry) {
+        this.originCountry = originCountry;
     }
 
     public List<ProductionCompaniesItem> getProductionCompanies() {
         return productionCompanies;
     }
 
-    public void setOriginalName(String originalName) {
-        this.originalName = originalName;
+    public void setProductionCompanies(List<ProductionCompaniesItem> productionCompanies) {
+        this.productionCompanies = productionCompanies;
     }
 
     public String getOriginalName() {
         return originalName;
     }
 
-    public void setVoteAverage(double voteAverage) {
-        this.voteAverage = voteAverage;
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName;
     }
 
     public double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setEpisodeRunTime(List<Integer> episodeRunTime) {
-        this.episodeRunTime = episodeRunTime;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Integer> getEpisodeRunTime() {
         return episodeRunTime;
     }
 
-    public void setNextEpisodeToAir(NextEpisodeToAir nextEpisodeToAir) {
-        this.nextEpisodeToAir = nextEpisodeToAir;
+    public void setEpisodeRunTime(List<Integer> episodeRunTime) {
+        this.episodeRunTime = episodeRunTime;
     }
 
     public NextEpisodeToAir getNextEpisodeToAir() {
         return nextEpisodeToAir;
     }
 
-    public void setInProduction(boolean inProduction) {
-        this.inProduction = inProduction;
+    public void setNextEpisodeToAir(NextEpisodeToAir nextEpisodeToAir) {
+        this.nextEpisodeToAir = nextEpisodeToAir;
     }
 
     public boolean isInProduction() {
         return inProduction;
     }
 
-    public void setLastAirDate(String lastAirDate) {
-        this.lastAirDate = lastAirDate;
+    public void setInProduction(boolean inProduction) {
+        this.inProduction = inProduction;
     }
 
     public String getLastAirDate() {
         return lastAirDate;
     }
 
-    public void setHomepage(String homepage) {
-        this.homepage = homepage;
+    public void setLastAirDate(String lastAirDate) {
+        this.lastAirDate = lastAirDate;
     }
 
     public String getHomepage() {
         return homepage;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
     }
 
     public String getStatus() {
         return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

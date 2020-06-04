@@ -95,204 +95,204 @@ public class DetailMovieResponse {
 
     }
 
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
-    }
-
     public String getOriginalLanguage() {
         return originalLanguage;
     }
 
-    public void setImdbId(String imdbId) {
-        this.imdbId = imdbId;
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
     }
 
     public String getImdbId() {
         return imdbId;
     }
 
-    public void setVideo(boolean video) {
-        this.video = video;
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
     }
 
     public boolean isVideo() {
         return video;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setVideo(boolean video) {
+        this.video = video;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getBackdropPath() {
         return backdropPath;
     }
 
-    public void setRevenue(int revenue) {
-        this.revenue = revenue;
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
     }
 
     public int getRevenue() {
         return revenue;
     }
 
-    public void setGenres(List<GenresItem> genres) {
-        this.genres = genres;
+    public void setRevenue(int revenue) {
+        this.revenue = revenue;
     }
 
     public List<GenresItem> getGenres() {
         return genres;
     }
 
-    public void setPopularity(double popularity) {
-        this.popularity = popularity;
+    public void setGenres(List<GenresItem> genres) {
+        this.genres = genres;
     }
 
     public double getPopularity() {
         return popularity;
     }
 
-    public void setProductionCountries(List<ProductionCountriesItem> productionCountries) {
-        this.productionCountries = productionCountries;
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
     }
 
     public List<ProductionCountriesItem> getProductionCountries() {
         return productionCountries;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setProductionCountries(List<ProductionCountriesItem> productionCountries) {
+        this.productionCountries = productionCountries;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setVoteCount(int voteCount) {
-        this.voteCount = voteCount;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getVoteCount() {
         return voteCount;
     }
 
-    public void setBudget(int budget) {
-        this.budget = budget;
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
     }
 
     public int getBudget() {
         return budget;
     }
 
-    public void setOverview(String overview) {
-        this.overview = overview;
+    public void setBudget(int budget) {
+        this.budget = budget;
     }
 
     public String getOverview() {
         return overview;
     }
 
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public String getOriginalTitle() {
         return originalTitle;
     }
 
-    public void setRuntime(int runtime) {
-        this.runtime = runtime;
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
     }
 
     public int getRuntime() {
         return runtime;
     }
 
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
     }
 
     public String getPosterPath() {
         return posterPath;
     }
 
-    public void setSpokenLanguages(List<SpokenLanguagesItem> spokenLanguages) {
-        this.spokenLanguages = spokenLanguages;
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
     public List<SpokenLanguagesItem> getSpokenLanguages() {
         return spokenLanguages;
     }
 
-    public void setProductionCompanies(List<ProductionCompaniesItem> productionCompanies) {
-        this.productionCompanies = productionCompanies;
+    public void setSpokenLanguages(List<SpokenLanguagesItem> spokenLanguages) {
+        this.spokenLanguages = spokenLanguages;
     }
 
     public List<ProductionCompaniesItem> getProductionCompanies() {
         return productionCompanies;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setProductionCompanies(List<ProductionCompaniesItem> productionCompanies) {
+        this.productionCompanies = productionCompanies;
     }
 
     public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setVoteAverage(double voteAverage) {
-        this.voteAverage = voteAverage;
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setBelongsToCollection(Object belongsToCollection) {
-        this.belongsToCollection = belongsToCollection;
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
     public Object getBelongsToCollection() {
         return belongsToCollection;
     }
 
-    public void setTagline(String tagline) {
-        this.tagline = tagline;
+    public void setBelongsToCollection(Object belongsToCollection) {
+        this.belongsToCollection = belongsToCollection;
     }
 
     public String getTagline() {
         return tagline;
     }
 
-    public void setAdult(boolean adult) {
-        this.adult = adult;
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
     }
 
     public boolean isAdult() {
         return adult;
     }
 
-    public void setHomepage(String homepage) {
-        this.homepage = homepage;
+    public void setAdult(boolean adult) {
+        this.adult = adult;
     }
 
     public String getHomepage() {
         return homepage;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
     }
 
     public String getStatus() {
         return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

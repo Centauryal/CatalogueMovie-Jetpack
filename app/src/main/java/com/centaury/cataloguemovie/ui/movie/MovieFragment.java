@@ -40,10 +40,9 @@ public class MovieFragment extends Fragment implements Injectable {
     ShimmerFrameLayout mShimmerViewContainer;
     @BindView(R.id.txt_loadmore)
     TextView mTxtLoadMore;
-    private Unbinder unbinder;
-
     @Inject
     ViewModelProvider.Factory factory;
+    private Unbinder unbinder;
 
     public MovieFragment() {
         // Required empty public constructor

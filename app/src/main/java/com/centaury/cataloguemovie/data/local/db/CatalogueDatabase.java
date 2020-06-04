@@ -15,11 +15,8 @@ import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 @Database(entities = {MovieEntity.class, TVShowEntity.class}, version = 1, exportSchema = false)
 public abstract class CatalogueDatabase extends RoomDatabase {
 
-    private static CatalogueDatabase INSTANCE;
-
-    public abstract CatalogueDao catalogueDao();
-
     private static final Object sLock = new Object();
+    private static CatalogueDatabase INSTANCE;
 
     public static CatalogueDatabase getInstance(Context context) {
         synchronized (sLock) {
@@ -31,4 +28,6 @@ public abstract class CatalogueDatabase extends RoomDatabase {
             return INSTANCE;
         }
     }
+
+    public abstract CatalogueDao catalogueDao();
 }

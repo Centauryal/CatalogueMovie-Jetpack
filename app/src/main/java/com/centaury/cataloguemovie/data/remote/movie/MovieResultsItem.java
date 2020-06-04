@@ -60,116 +60,116 @@ public class MovieResultsItem {
         this.voteAverage = voteAverage;
     }
 
-    public void setOverview(String overview) {
-        this.overview = overview;
-    }
-
     public String getOverview() {
         return overview;
     }
 
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public String getOriginalLanguage() {
         return originalLanguage;
     }
 
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
     }
 
     public String getOriginalTitle() {
         return originalTitle;
     }
 
-    public void setVideo(boolean video) {
-        this.video = video;
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
     }
 
     public boolean isVideo() {
         return video;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setVideo(boolean video) {
+        this.video = video;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setGenreIds(List<Integer> genreIds) {
-        this.genreIds = genreIds;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public List<Integer> getGenreIds() {
         return genreIds;
     }
 
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
+    public void setGenreIds(List<Integer> genreIds) {
+        this.genreIds = genreIds;
     }
 
     public String getPosterPath() {
         return posterPath;
     }
 
-    public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
     public String getBackdropPath() {
         return backdropPath;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
     }
 
     public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setPopularity(double popularity) {
-        this.popularity = popularity;
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public double getPopularity() {
         return popularity;
     }
 
-    public void setVoteAverage(double voteAverage) {
-        this.voteAverage = voteAverage;
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
     }
 
     public double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setAdult(boolean adult) {
-        this.adult = adult;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isAdult() {
         return adult;
     }
 
-    public void setVoteCount(int voteCount) {
-        this.voteCount = voteCount;
+    public void setAdult(boolean adult) {
+        this.adult = adult;
     }
 
     public int getVoteCount() {
         return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
     }
 
     @Override

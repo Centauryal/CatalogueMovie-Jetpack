@@ -22,44 +22,44 @@ public class CreatedByItem {
     @SerializedName("id")
     private int id;
 
-    public void setGender(int gender) {
-        this.gender = gender;
-    }
-
     public int getGender() {
         return gender;
     }
 
-    public void setCreditId(String creditId) {
-        this.creditId = creditId;
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 
     public String getCreditId() {
         return creditId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCreditId(String creditId) {
+        this.creditId = creditId;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setProfilePath(String profilePath) {
-        this.profilePath = profilePath;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getProfilePath() {
         return profilePath;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setProfilePath(String profilePath) {
+        this.profilePath = profilePath;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

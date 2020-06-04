@@ -40,92 +40,92 @@ public class LastEpisodeToAir {
     @SerializedName("vote_count")
     private int voteCount;
 
-    public void setProductionCode(String productionCode) {
-        this.productionCode = productionCode;
-    }
-
     public String getProductionCode() {
         return productionCode;
     }
 
-    public void setAirDate(String airDate) {
-        this.airDate = airDate;
+    public void setProductionCode(String productionCode) {
+        this.productionCode = productionCode;
     }
 
     public String getAirDate() {
         return airDate;
     }
 
-    public void setOverview(String overview) {
-        this.overview = overview;
+    public void setAirDate(String airDate) {
+        this.airDate = airDate;
     }
 
     public String getOverview() {
         return overview;
     }
 
-    public void setEpisodeNumber(int episodeNumber) {
-        this.episodeNumber = episodeNumber;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public int getEpisodeNumber() {
         return episodeNumber;
     }
 
-    public void setShowId(int showId) {
-        this.showId = showId;
+    public void setEpisodeNumber(int episodeNumber) {
+        this.episodeNumber = episodeNumber;
     }
 
     public int getShowId() {
         return showId;
     }
 
-    public void setVoteAverage(double voteAverage) {
-        this.voteAverage = voteAverage;
+    public void setShowId(int showId) {
+        this.showId = showId;
     }
 
     public double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setSeasonNumber(int seasonNumber) {
-        this.seasonNumber = seasonNumber;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getSeasonNumber() {
         return seasonNumber;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSeasonNumber(int seasonNumber) {
+        this.seasonNumber = seasonNumber;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setStillPath(String stillPath) {
-        this.stillPath = stillPath;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getStillPath() {
         return stillPath;
     }
 
-    public void setVoteCount(int voteCount) {
-        this.voteCount = voteCount;
+    public void setStillPath(String stillPath) {
+        this.stillPath = stillPath;
     }
 
     public int getVoteCount() {
         return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
     }
 
     @Override
