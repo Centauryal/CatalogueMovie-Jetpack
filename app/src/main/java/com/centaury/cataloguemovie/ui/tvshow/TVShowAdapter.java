@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.request.RequestOptions;
 import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
-import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResultsItem;
 import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity;
 import com.centaury.cataloguemovie.utils.AppConstants;
 import com.centaury.cataloguemovie.utils.GlideApp;
@@ -70,7 +68,7 @@ public class TVShowAdapter extends PagedListAdapter<TVShowResultsItem, TVShowAda
     @NonNull
     @Override
     public TVShowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movielist, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_list, parent, false);
         return new TVShowViewHolder(view);
     }
 
@@ -83,23 +81,23 @@ public class TVShowAdapter extends PagedListAdapter<TVShowResultsItem, TVShowAda
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(activity, DetailMovieActivity.class);
-            intent.putExtra(AppConstants.DETAIL_EXTRA_TVSHOW, tvshow.getId());
+            intent.putExtra(AppConstants.DETAIL_EXTRA_TV_SHOW, tvshow.getId());
             activity.startActivity(intent);
         });
     }
 
     class TVShowViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.txt_titlebackground)
+        @BindView(R.id.txt_title_background)
         TextView mTxtTitlebackground;
-        @BindView(R.id.iv_movielist)
+        @BindView(R.id.iv_movie_list)
         ImageView mIvMovielist;
-        @BindView(R.id.txt_genremovielist)
+        @BindView(R.id.txt_genre_movie_list)
         TextView mTxtGenremovielist;
-        @BindView(R.id.txt_titlemovielist)
+        @BindView(R.id.txt_title_movie_list)
         TextView mTxtTitlemovielist;
-        @BindView(R.id.txt_descmovielist)
+        @BindView(R.id.txt_desc_movie_list)
         TextView mTxtDescmovielist;
-        @BindView(R.id.txt_datemovielist)
+        @BindView(R.id.txt_date_movie_list)
         TextView mTxtDatemovielist;
 
         TVShowViewHolder(View itemView) {
@@ -112,7 +110,7 @@ public class TVShowAdapter extends PagedListAdapter<TVShowResultsItem, TVShowAda
             mTxtTitlebackground.setText(tvshow.getOriginalName());
 
             if (tvshow.getOverview() == null || tvshow.getOverview().equals("")) {
-                mTxtDescmovielist.setText(activity.getString(R.string.txt_nodesc));
+                mTxtDescmovielist.setText(activity.getString(R.string.txt_no_desc));
             } else {
                 mTxtDescmovielist.setText(tvshow.getOverview());
             }

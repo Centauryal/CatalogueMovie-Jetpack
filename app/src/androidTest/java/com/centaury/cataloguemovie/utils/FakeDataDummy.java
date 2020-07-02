@@ -1,11 +1,5 @@
 package com.centaury.cataloguemovie.utils;
 
-import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse;
-import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowResponse;
-import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
-import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
-import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResultsItem;
-
 import java.util.ArrayList;
 
 /**

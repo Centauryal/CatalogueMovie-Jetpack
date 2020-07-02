@@ -12,8 +12,6 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.data.remote.ApiEndPoint;
-import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResponse;
-import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResultsItem;
 import com.centaury.cataloguemovie.utils.EspressoIdlingResource;
 import com.google.gson.Gson;
 
@@ -46,7 +44,7 @@ public class TVShowDataSource extends PageKeyedDataSource<Integer, TVShowResults
 
         EspressoIdlingResource.increment();
 
-        AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_TVSHOW)
+        AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_TV_SHOW)
                 .addQueryParameter("api_key", apiKey)
                 .addQueryParameter("language", language)
                 .addQueryParameter("page", "1")
@@ -88,7 +86,7 @@ public class TVShowDataSource extends PageKeyedDataSource<Integer, TVShowResults
 
         EspressoIdlingResource.increment();
 
-        AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_TVSHOW)
+        AndroidNetworking.get(ApiEndPoint.ENDPOINT_DISCOVER_TV_SHOW)
                 .addQueryParameter("api_key", apiKey)
                 .addQueryParameter("language", language)
                 .addQueryParameter("page", String.valueOf(params.key))

@@ -74,7 +74,7 @@ public class FavoriteTVShowAdapter extends PagedListAdapter<TVShowEntity, Favori
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(activity, DetailFavoriteMovieActivity.class);
-            intent.putExtra(AppConstants.DETAIL_EXTRA_FAVTVSHOW, tvshow.getTvshowId());
+            intent.putExtra(AppConstants.DETAIL_EXTRA_FAV_TV_SHOW, tvshow.getTvshowId());
             activity.startActivity(intent);
         });
 
@@ -85,17 +85,17 @@ public class FavoriteTVShowAdapter extends PagedListAdapter<TVShowEntity, Favori
 
     class FavoriteTVShowViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.txt_titlefavbackground)
+        @BindView(R.id.txt_title_fav_background)
         TextView mTxtTitlebackground;
-        @BindView(R.id.iv_moviefavlist)
+        @BindView(R.id.iv_movie_fav_list)
         ImageView mIvMovielist;
-        @BindView(R.id.txt_genremoviefavlist)
+        @BindView(R.id.txt_genre_movie_fav_list)
         TextView mTxtGenremovielist;
-        @BindView(R.id.txt_titlemoviefavlist)
+        @BindView(R.id.txt_title_movie_fav_list)
         TextView mTxtTitlemovielist;
-        @BindView(R.id.txt_descmoviefavlist)
+        @BindView(R.id.txt_desc_movie_fav_list)
         TextView mTxtDescmovielist;
-        @BindView(R.id.txt_datemoviefavlist)
+        @BindView(R.id.txt_date_movie_fav_list)
         TextView mTxtDatemovielist;
         @BindView(R.id.btn_delete)
         ImageView mBtnDelete;
@@ -120,7 +120,7 @@ public class FavoriteTVShowAdapter extends PagedListAdapter<TVShowEntity, Favori
                     .into(mIvMovielist);
 
             if (tvshow.getOverview() == null || tvshow.getOverview().equals("")) {
-                mTxtDescmovielist.setText(activity.getString(R.string.txt_nodesc));
+                mTxtDescmovielist.setText(activity.getString(R.string.txt_no_desc));
             } else {
                 mTxtDescmovielist.setText(tvshow.getOverview());
             }

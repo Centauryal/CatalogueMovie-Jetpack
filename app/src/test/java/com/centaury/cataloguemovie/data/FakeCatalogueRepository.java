@@ -12,9 +12,6 @@ import com.centaury.cataloguemovie.data.local.LocalRepository;
 import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 import com.centaury.cataloguemovie.data.remote.RemoteRepository;
-import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse;
-import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowResponse;
-import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

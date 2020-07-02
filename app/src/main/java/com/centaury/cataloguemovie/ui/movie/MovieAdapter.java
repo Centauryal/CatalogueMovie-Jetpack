@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.request.RequestOptions;
 import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.R;
-import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
-import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
 import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity;
 import com.centaury.cataloguemovie.utils.AppConstants;
 import com.centaury.cataloguemovie.utils.GlideApp;
@@ -70,7 +68,7 @@ public class MovieAdapter extends PagedListAdapter<MovieResultsItem, MovieAdapte
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movielist, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_list, parent, false);
         return new MovieViewHolder(view);
     }
 
@@ -89,17 +87,17 @@ public class MovieAdapter extends PagedListAdapter<MovieResultsItem, MovieAdapte
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.txt_titlebackground)
+        @BindView(R.id.txt_title_background)
         TextView mTxtTitlebackground;
-        @BindView(R.id.iv_movielist)
+        @BindView(R.id.iv_movie_list)
         ImageView mIvMovielist;
-        @BindView(R.id.txt_genremovielist)
+        @BindView(R.id.txt_genre_movie_list)
         TextView mTxtGenremovielist;
-        @BindView(R.id.txt_titlemovielist)
+        @BindView(R.id.txt_title_movie_list)
         TextView mTxtTitlemovielist;
-        @BindView(R.id.txt_descmovielist)
+        @BindView(R.id.txt_desc_movie_list)
         TextView mTxtDescmovielist;
-        @BindView(R.id.txt_datemovielist)
+        @BindView(R.id.txt_date_movie_list)
         TextView mTxtDatemovielist;
 
         MovieViewHolder(View itemView) {
@@ -112,7 +110,7 @@ public class MovieAdapter extends PagedListAdapter<MovieResultsItem, MovieAdapte
             mTxtTitlebackground.setText(movie.getOriginalTitle());
 
             if (movie.getOverview() == null || movie.getOverview().equals("")) {
-                mTxtDescmovielist.setText(activity.getString(R.string.txt_nodesc));
+                mTxtDescmovielist.setText(activity.getString(R.string.txt_no_desc));
             } else {
                 mTxtDescmovielist.setText(movie.getOverview());
             }

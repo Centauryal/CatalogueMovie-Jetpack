@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.centaury.cataloguemovie.R;
 import com.centaury.cataloguemovie.di.Injectable;
-import com.centaury.cataloguemovie.utils.Helper;
+import com.centaury.cataloguemovie.utils.CommonUtils;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.Locale;
@@ -34,11 +34,11 @@ import butterknife.Unbinder;
  */
 public class TVShowFragment extends Fragment implements Injectable {
 
-    @BindView(R.id.rv_tvshow)
+    @BindView(R.id.rv_tv_show)
     RecyclerView mRvTvshow;
     @BindView(R.id.shimmer_view_container)
     ShimmerFrameLayout mShimmerViewContainer;
-    @BindView(R.id.txt_loadmore)
+    @BindView(R.id.txt_load_more)
     TextView mTxtLoadMore;
     @Inject
     ViewModelProvider.Factory factory;
@@ -96,7 +96,7 @@ public class TVShowFragment extends Fragment implements Injectable {
             mRvTvshow.setLayoutManager(new LinearLayoutManager(getContext()));
             mRvTvshow.setHasFixedSize(true);
             mRvTvshow.setAdapter(tvShowAdapter);
-            mRvTvshow.addItemDecoration(new Helper.TopItemDecoration(55));
+            mRvTvshow.addItemDecoration(new CommonUtils.TopItemDecoration(55));
         }
     }
 

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     android:fitsSystemWindows="true"
     tools:context=".ui.detail.DetailMovieActivity">
 
@@ -23,10 +22,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/iv_coverdetail"
+                android:id="@+id/iv_cover_detail"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_235sdp"
-                android:contentDescription="@string/contentdesc_coverimage_detail"
+                android:contentDescription="@string/content_desc_cover_image_detail"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +40,7 @@
                 android:background="@drawable/shadow_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/iv_coverdetail"
+                app:layout_constraintTop_toTopOf="@+id/iv_cover_detail"
                 tools:ignore="ContentDescription" />
 
             <androidx.appcompat.widget.Toolbar
@@ -75,7 +74,7 @@
                 android:id="@+id/imageView3"
                 android:layout_width="@dimen/_55sdp"
                 android:layout_height="@dimen/_55sdp"
-                android:contentDescription="@string/contentdesc_btn_favorite"
+                android:contentDescription="@string/content_desc_btn_favorite"
                 android:src="@drawable/favorite_background"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintEnd_toEndOf="@id/imageView2"
@@ -113,10 +112,10 @@
                 app:layout_constraintTop_toTopOf="@+id/toolbar">
 
                 <ImageView
-                    android:id="@+id/iv_imgdetail"
+                    android:id="@+id/iv_img_detail"
                     android:layout_width="@dimen/_130sdp"
                     android:layout_height="@dimen/_170sdp"
-                    android:contentDescription="@string/contentdesc_image_detail"
+                    android:contentDescription="@string/content_desc_image_detail"
                     android:scaleType="centerCrop"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
@@ -130,21 +129,21 @@
                 app:layout_constraintGuide_begin="190dp" />
 
             <TextView
-                android:id="@+id/txt_titledetail"
+                android:id="@+id/txt_title_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_16ssp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/txt_genredetail"
+                app:layout_constraintBottom_toTopOf="@+id/txt_genre_detail"
                 app:layout_constraintEnd_toEndOf="@+id/imageView"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar"
-                tools:text="@string/contoh_judul" />
+                tools:text="@string/example_title" />
 
             <TextView
-                android:id="@+id/txt_genredetail"
+                android:id="@+id/txt_genre_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_16sdp"
@@ -158,15 +157,15 @@
                 android:textSize="@dimen/_10ssp"
                 android:textStyle="bold"
                 app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toTopOf="@+id/rb_ratingdetail"
+                app:layout_constraintBottom_toTopOf="@+id/rb_rating_detail"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/txt_titledetail"
-                tools:text="@string/contoh_genre" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_title_detail"
+                tools:text="@string/example_genre" />
 
             <RatingBar
-                android:id="@+id/rb_ratingdetail"
+                android:id="@+id/rb_rating_detail"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -175,26 +174,26 @@
                 android:numStars="5"
                 android:progressTint="@color/stars"
                 android:secondaryProgressTint="@android:color/transparent"
-                app:layout_constraintBottom_toTopOf="@+id/txt_datedetail"
+                app:layout_constraintBottom_toTopOf="@+id/txt_date_detail"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/txt_genredetail"
+                app:layout_constraintTop_toBottomOf="@+id/txt_genre_detail"
                 tools:rating="3.5" />
 
             <TextView
-                android:id="@+id/txt_ratemovie"
+                android:id="@+id/txt_rate_movie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:textColor="@color/stars"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/txt_datedetail"
-                app:layout_constraintStart_toEndOf="@+id/rb_ratingdetail"
-                app:layout_constraintTop_toBottomOf="@id/txt_genredetail"
-                tools:text="@string/contoh_rate" />
+                app:layout_constraintBottom_toTopOf="@+id/txt_date_detail"
+                app:layout_constraintStart_toEndOf="@+id/rb_rating_detail"
+                app:layout_constraintTop_toBottomOf="@id/txt_genre_detail"
+                tools:text="@string/example_rate" />
 
             <TextView
-                android:id="@+id/txt_datedetail"
+                android:id="@+id/txt_date_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_3sdp"
@@ -206,8 +205,8 @@
                 app:layout_constraintEnd_toEndOf="@+id/imageView"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/rb_ratingdetail"
-                tools:text="@string/contoh_tanggal" />
+                app:layout_constraintTop_toBottomOf="@+id/rb_rating_detail"
+                tools:text="@string/example_date" />
 
             <TextView
                 android:id="@+id/textView"
@@ -224,7 +223,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cv_image" />
 
             <TextView
-                android:id="@+id/txt_descdetail"
+                android:id="@+id/txt_desc_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
@@ -239,7 +238,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
                 app:layout_constraintVertical_bias="0.0"
-                tools:text="@string/contoh_desc" />
+                tools:text="@string/example_desc" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

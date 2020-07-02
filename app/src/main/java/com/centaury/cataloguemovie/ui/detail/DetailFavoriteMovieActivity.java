@@ -49,25 +49,25 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity implements Ha
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.iv_coverfavdetail)
+    @BindView(R.id.iv_cover_fav_detail)
     ImageView mIvCoverFavdetail;
-    @BindView(R.id.iv_imgfavdetail)
+    @BindView(R.id.iv_img_fav_detail)
     ImageView mIvImgFavdetail;
-    @BindView(R.id.txt_titlefavdetail)
+    @BindView(R.id.txt_title_fav_detail)
     TextView mTxtTitleFavdetail;
-    @BindView(R.id.txt_genrefavdetail)
+    @BindView(R.id.txt_genre_fav_detail)
     TextView mTxtGenreFavdetail;
-    @BindView(R.id.rb_ratingfavdetail)
+    @BindView(R.id.rb_rating_fav_detail)
     RatingBar mRbRatingFavdetail;
-    @BindView(R.id.txt_ratefavmovie)
+    @BindView(R.id.txt_rate_fav_movie)
     TextView mTxtRateFavmovie;
-    @BindView(R.id.txt_datefavdetail)
+    @BindView(R.id.txt_date_fav_detail)
     TextView mTxtDateFavdetail;
-    @BindView(R.id.txt_descfavdetail)
+    @BindView(R.id.txt_desc_fav_detail)
     TextView mTxtDescFavdetail;
     @BindView(R.id.shimmer_view_container)
     ShimmerFrameLayout mShimmerViewContainer;
-    @BindView(R.id.cl_favdata)
+    @BindView(R.id.cl_fav_data)
     ConstraintLayout mClFavData;
     @BindView(R.id.btn_favorite)
     LottieAnimationView mBtnFavorite;
@@ -109,7 +109,7 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity implements Ha
         }
 
         detailFavoriteMovieViewModel = obtainViewModel(this);
-        movieId = getIntent().getIntExtra(AppConstants.DETAIL_EXTRA_FAVMOVIE, 0);
+        movieId = getIntent().getIntExtra(AppConstants.DETAIL_EXTRA_FAV_MOVIE, 0);
 
         mClFavData.setVisibility(View.GONE);
         mShimmerViewContainer.setVisibility(View.VISIBLE);
@@ -127,7 +127,7 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity implements Ha
                 e.printStackTrace();
             }
         } else {
-            tvshowId = getIntent().getIntExtra(AppConstants.DETAIL_EXTRA_FAVTVSHOW, 0);
+            tvshowId = getIntent().getIntExtra(AppConstants.DETAIL_EXTRA_FAV_TV_SHOW, 0);
             mShimmerViewContainer.stopShimmer();
             mShimmerViewContainer.setVisibility(View.GONE);
             mClFavData.setVisibility(View.VISIBLE);
@@ -157,7 +157,7 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity implements Ha
         }
 
         if (movie.getOverview() == null || movie.getOverview().equals("")) {
-            mTxtDescFavdetail.setText(getResources().getString(R.string.txt_nodesc));
+            mTxtDescFavdetail.setText(getResources().getString(R.string.txt_no_desc));
         } else {
             mTxtDescFavdetail.setText(movie.getOverview());
         }
@@ -203,7 +203,7 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity implements Ha
         }
 
         if (tvshow.getOverview() == null || tvshow.getOverview().equals("")) {
-            mTxtDescFavdetail.setText(getResources().getString(R.string.txt_nodesc));
+            mTxtDescFavdetail.setText(getResources().getString(R.string.txt_no_desc));
         } else {
             mTxtDescFavdetail.setText(tvshow.getOverview());
         }
@@ -274,7 +274,7 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity implements Ha
             detailFavoriteMovieViewModel.insertFavoriteTVShow(entity);
         }
 
-        Toast.makeText(this, getString(R.string.txt_add_movie), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.txt_movie_add), Toast.LENGTH_SHORT).show();
     }
 
     private void removeFavorite(int id) {
@@ -298,7 +298,7 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity implements Ha
             }
         }
 
-        Toast.makeText(this, getString(R.string.txt_remove_movie), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.txt_movie_remove), Toast.LENGTH_SHORT).show();
     }
 
     private void stateFavoriteMovie(int id) {

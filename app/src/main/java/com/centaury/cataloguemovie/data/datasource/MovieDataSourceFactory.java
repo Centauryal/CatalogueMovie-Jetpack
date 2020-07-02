@@ -3,8 +3,6 @@ package com.centaury.cataloguemovie.data.datasource;
 import androidx.annotation.NonNull;
 import androidx.paging.DataSource;
 
-import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
-
 /**
  * Created by Centaury on 11/27/2019.
  */

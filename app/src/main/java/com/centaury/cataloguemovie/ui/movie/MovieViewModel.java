@@ -8,8 +8,6 @@ import androidx.paging.PagedList;
 import com.centaury.cataloguemovie.data.CatalogueRepository;
 import com.centaury.cataloguemovie.data.datasource.MovieDataSource;
 import com.centaury.cataloguemovie.data.datasource.MovieDataSourceFactory;
-import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
-import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
 
 import java.util.List;
 import java.util.concurrent.Executor;

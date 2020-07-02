@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.centaury.cataloguemovie.R;
 import com.centaury.cataloguemovie.di.Injectable;
-import com.centaury.cataloguemovie.utils.Helper;
+import com.centaury.cataloguemovie.utils.CommonUtils;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.Locale;
@@ -38,7 +38,7 @@ public class MovieFragment extends Fragment implements Injectable {
     RecyclerView mRvMovie;
     @BindView(R.id.shimmer_view_container)
     ShimmerFrameLayout mShimmerViewContainer;
-    @BindView(R.id.txt_loadmore)
+    @BindView(R.id.txt_load_more)
     TextView mTxtLoadMore;
     @Inject
     ViewModelProvider.Factory factory;
@@ -97,7 +97,7 @@ public class MovieFragment extends Fragment implements Injectable {
             mRvMovie.setLayoutManager(new LinearLayoutManager(getContext()));
             mRvMovie.setHasFixedSize(true);
             mRvMovie.setAdapter(movieAdapter);
-            mRvMovie.addItemDecoration(new Helper.TopItemDecoration(55));
+            mRvMovie.addItemDecoration(new CommonUtils.TopItemDecoration(55));
         }
     }
 

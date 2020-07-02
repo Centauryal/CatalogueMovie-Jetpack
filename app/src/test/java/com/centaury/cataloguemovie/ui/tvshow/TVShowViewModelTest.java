@@ -7,8 +7,6 @@ import androidx.lifecycle.Observer;
 import androidx.paging.PagedList;
 
 import com.centaury.cataloguemovie.data.CatalogueRepository;
-import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
-import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResultsItem;
 import com.centaury.cataloguemovie.utils.FakeDataDummy;
 
 import org.junit.Before;

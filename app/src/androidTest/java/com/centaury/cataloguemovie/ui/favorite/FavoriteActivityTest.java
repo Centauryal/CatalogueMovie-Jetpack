@@ -27,12 +27,12 @@ public class FavoriteActivityTest {
     @Test
     public void loadtabMovieFavorite() {
         onView(allOf(withText(R.string.title_movie), isDescendantOfA(withId(R.id.fav_tabs)))).perform(click());
-        onView(withId(R.id.rv_favmovie)).check(matches(isDisplayed()));
+        onView(withId(R.id.rv_fav_movie)).check(matches(isDisplayed()));
     }
 
     @Test
     public void loadtabTVShowFavorite() {
         onView(allOf(withText(R.string.title_tv_show), isDescendantOfA(withId(R.id.fav_tabs)))).perform(click());
-        onView(withId(R.id.rv_favtvshow)).check(matches(isDisplayed()));
+        onView(withId(R.id.rv_fav_tv_show)).check(matches(isDisplayed()));
     }
 }

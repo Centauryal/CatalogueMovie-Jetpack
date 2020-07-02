@@ -12,8 +12,6 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.data.remote.ApiEndPoint;
-import com.centaury.cataloguemovie.data.remote.movie.MovieResponse;
-import com.centaury.cataloguemovie.data.remote.movie.MovieResultsItem;
 import com.centaury.cataloguemovie.utils.EspressoIdlingResource;
 import com.google.gson.Gson;
 

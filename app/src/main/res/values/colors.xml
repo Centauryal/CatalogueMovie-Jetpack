@@ -23,7 +23,7 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="line_edittext">#C2C2C2</color>
+    <color name="line_edit_text">#C2C2C2</color>
     <color name="button_background">#4F80FF</color>
     <color name="image_background">#dedede</color>
     <color name="placeholder_bg">#dddddd</color>

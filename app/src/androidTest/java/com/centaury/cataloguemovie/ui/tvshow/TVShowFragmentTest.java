@@ -39,7 +39,7 @@ public class TVShowFragmentTest {
 
     @Test
     public void loadTVShows() {
-        onView(withId(R.id.rv_tvshow)).check(matches(isDisplayed()));
+        onView(withId(R.id.rv_tv_show)).check(matches(isDisplayed()));
     }
 
 }

@@ -30,15 +30,15 @@ public class MovieCatalogueTest {
         onView(allOf(withText(R.string.title_movie), isDescendantOfA(withId(R.id.tabs)))).perform(click());
         onView(withId(R.id.rv_movie)).check(matches(isDisplayed()));
         onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.txt_titledetail)).check(matches(isDisplayed()));
+        onView(withId(R.id.txt_title_detail)).check(matches(isDisplayed()));
     }
 
     @Test
     public void tvshowToDetailActivityTest() {
         onView(allOf(withText(R.string.title_tv_show), isDescendantOfA(withId(R.id.tabs)))).perform(click());
-        onView(withId(R.id.rv_tvshow)).check(matches(isDisplayed()));
-        onView(withId(R.id.rv_tvshow)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.txt_titledetail)).check(matches(isDisplayed()));
+        onView(withId(R.id.rv_tv_show)).check(matches(isDisplayed()));
+        onView(withId(R.id.rv_tv_show)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.txt_title_detail)).check(matches(isDisplayed()));
     }
 
     @Test

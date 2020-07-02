@@ -1,0 +1,177 @@
+ext {
+    // Android Core
+    androidCompileSdkVersion = 29
+    androidBuildToolsVersion = '29.0.3'
+    androidMinSdkVersion = 23
+    androidTargetSdkVersion = 29
+    androidVersionCode = 3
+    androidVersionName = '2.0'
+
+    // Android Libraries
+    coreKTXVersion = '1.3.0'
+    androidAnnotationsVersion = '1.1.0'
+    androidLegacyVersion = '1.0.0'
+    appCompatVersion = '1.1.0'
+    constraintLayoutVersion = '1.1.3'
+    materialVersion = '1.1.0'
+    cardViewVersion = '1.0.0'
+    recyclerViewVersion = '1.1.0'
+    roomVersion = '2.2.5'
+    lifecycleVersion = '2.2.0'
+    pagingVersion = '2.1.2'
+
+    // Network Libraries
+    retrofitVersion = '2.9.0'
+    moshiVersion = '1.9.2'
+    okhttpVersion = '4.7.2'
+
+    // DI Libraries
+    dagger2Version = '2.28'
+    javaxVersion = '1'
+
+    // ReactiveX Libraries
+    rxJavaVersion = '2.2.10'
+    rxAndroidVersion = '2.1.1'
+
+    // Other Libraries
+    coilVersion = '0.11.0'
+    timberVersion = '4.7.1'
+    shimmerVersion = '0.5.0'
+    lottieVersion = '3.4.0'
+    intuitVersion = '1.0.6'
+
+    //Testing Libraries
+    androidXTestVersion = '1.2.0'
+    androidXJunitVersion = '1.1.1'
+    archLifecycleTestVersion = '2.1.0'
+    junitVersion = '4.13'
+    mockitoVersion = '3.3.3'
+    mockitoKotlinVersion = '2.2.0'
+    espressoVersion = '3.2.0'
+
+    def androidLibs = [
+            androidCore:        [group: 'androidx.core', name: 'core-ktx', version: coreKTXVersion],
+            appCompact:         [group: 'androidx.appcompat', name: 'appcompat', version: appCompatVersion],
+            androidMaterial:    [group: 'com.google.android.material', name: 'material', version: materialVersion],
+            constraintLayout:   [group: 'androidx.constraintlayout', name: 'constraintlayout', version: constraintLayoutVersion],
+            cardView:           [group: 'androidx.cardview', name: 'cardview', version: cardViewVersion],
+            recyclerView:       [group: 'androidx.recyclerview', name: 'recyclerview', version: recyclerViewVersion],
+            annotation:         [group: 'androidx.annotation', name: 'annotation', version: androidAnnotationsVersion],
+            legacySupport:      [group: 'androidx.legacy', name: 'legacy-support-v4', version: androidLegacyVersion],
+            roomRuntime:        [group: 'androidx.room', name: 'room-runtime', version: roomVersion],
+            roomCompiler:       [group: 'androidx.room', name: 'room-compiler', version: roomVersion],
+            lifecycleViewModel: [group: 'androidx.lifecycle', name: 'lifecycle-viewmodel-ktx', version: lifecycleVersion],
+            pagingRuntime:      [group: 'androidx.paging', name: 'paging-runtime', version: pagingVersion]
+    ]
+
+    def networkLibs = [
+            retrofit:           [group: 'com.squareup.retrofit2', name: 'retrofit', version: retrofitVersion],
+            retrofitAdapter:    [group: 'com.squareup.retrofit2', name: 'adapter-rxjava2', version: retrofitVersion],
+            retrofitConverter:  [group: 'com.squareup.retrofit2', name: 'converter-moshi', version: retrofitVersion],
+            moshi:              [group: 'com.squareup.moshi', name: 'moshi-kotlin', version: moshiVersion],
+            moshiCodegen:       [group: 'com.squareup.moshi', name: 'moshi-kotlin-codegen', version: moshiVersion],
+            okhttp:             [group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: okhttpVersion]
+    ]
+
+    def dependencyInjectionLibs = [
+            daggerCore:         [group: 'com.google.dagger', name: 'dagger', version: dagger2Version],
+            daggerAndroid:      [group: 'com.google.dagger', name: 'dagger-android', version: dagger2Version],
+            daggerCompiler:     [group: 'com.google.dagger', name: 'dagger-compiler', version: dagger2Version],
+            daggerProcessor:    [group: 'com.google.dagger', name: 'dagger-android-processor', version: dagger2Version],
+            daggerSupport:      [group: 'com.google.dagger', name: 'dagger-android-support', version: dagger2Version],
+            javax:              [group: 'javax.inject', name: 'javax.inject', version: javaxVersion]
+    ]
+
+    def reactiveXLibs = [
+            rxJava:             [group: 'io.reactivex.rxjava2', name: 'rxjava', version: rxJavaVersion],
+            rxAndroid:          [group: 'io.reactivex.rxjava2', name: 'rxandroid', version: rxAndroidVersion]
+    ]
+
+    def imageLibs = [
+            coil:               [group: 'io.coil-kt', name: 'coil', version: coilVersion]
+    ]
+
+    def loggingLibs = [
+            timber:             [group: 'com.jakewharton.timber', name: 'timber', version: timberVersion]
+    ]
+
+    def otherLibs = [
+            facebookShimmer:    [group: 'com.facebook.shimmer', name: 'shimmer', version: shimmerVersion],
+            lottie:             [group: 'com.airbnb.android', name: 'lottie', version: lottieVersion],
+            sdpAndroid:         [group: 'com.intuit.sdp', name: 'sdp-android', version: intuitVersion],
+            sspAndroid:         [group: 'com.intuit.ssp', name: 'ssp-android', version: intuitVersion]
+    ]
+
+    def testLibs = [
+            junit:              [group: 'junit', name: 'junit', version: junitVersion],
+            mockitoCore:        [group: 'org.mockito', name: 'mockito-core', version: mockitoVersion],
+            mockitoInline:      [group: 'org.mockito', name: 'mockito-inline', version: mockitoVersion],
+            mockitoKotlin2:     [group: 'com.nhaarman.mockitokotlin2', name: 'mockito-kotlin', version: mockitoKotlinVersion],
+            coreTesting:        [group: 'androidx.arch.core', name: 'core-testing', version: archLifecycleTestVersion],
+            extJunit:           [group: 'androidx.test.ext', name: 'junit', version: androidXJunitVersion],
+            rules:              [group: 'androidx.test', name: 'rules', version: androidXTestVersion],
+            espressoCore:       [group: 'androidx.test.espresso', name: 'espresso-core', version: espressoVersion],
+            espressoContrib:    [group: 'androidx.test.espresso', name: 'espresso-contrib', version: espressoVersion]
+    ]
+
+    appDependencies = [
+            [configuration: "implementation", dependency: androidLibs.androidCore],
+            [configuration: "implementation", dependency: androidLibs.appCompact],
+            [configuration: "implementation", dependency: androidLibs.androidMaterial],
+            [configuration: "implementation", dependency: androidLibs.constraintLayout],
+            [configuration: "implementation", dependency: androidLibs.cardView],
+            [configuration: "implementation", dependency: androidLibs.recyclerView],
+            [configuration: "implementation", dependency: androidLibs.annotation],
+            [configuration: "implementation", dependency: androidLibs.legacySupport],
+            [configuration: "implementation", dependency: dependencyInjectionLibs.daggerCore],
+            [configuration: "implementation", dependency: dependencyInjectionLibs.daggerAndroid],
+            [configuration: "implementation", dependency: dependencyInjectionLibs.daggerSupport],
+            [configuration: "implementation", dependency: dependencyInjectionLibs.javax],
+            [configuration: "kapt", dependency: dependencyInjectionLibs.daggerCompiler],
+            [configuration: "kapt", dependency: dependencyInjectionLibs.daggerProcessor],
+            [configuration: "implementation", dependency: reactiveXLibs.rxJava],
+            [configuration: "implementation", dependency: reactiveXLibs.rxAndroid],
+            [configuration: "implementation", dependency: imageLibs.coil],
+            [configuration: "implementation", dependency: otherLibs.facebookShimmer],
+            [configuration: "implementation", dependency: otherLibs.lottie],
+            [configuration: "implementation", dependency: otherLibs.sdpAndroid],
+            [configuration: "implementation", dependency: otherLibs.sspAndroid],
+            [configuration: "implementation", dependency: loggingLibs.timber],
+            [configuration: "androidTestImplementation", dependency: testLibs.junit],
+            [configuration: "androidTestImplementation", dependency: testLibs.extJunit],
+            [configuration: "androidTestImplementation", dependency: testLibs.rules],
+            [configuration: "androidTestImplementation", dependency: testLibs.espressoCore],
+            [configuration: "androidTestImplementation", dependency: testLibs.espressoContrib]
+    ]
+
+    dataDependencies = [
+            [configuration: "implementation", dependency: dependencyInjectionLibs.daggerCore],
+            [configuration: "implementation", dependency: dependencyInjectionLibs.daggerAndroid],
+            [configuration: "implementation", dependency: dependencyInjectionLibs.daggerSupport],
+            [configuration: "implementation", dependency: dependencyInjectionLibs.javax],
+            [configuration: "kapt", dependency: dependencyInjectionLibs.daggerCompiler],
+            [configuration: "kapt", dependency: dependencyInjectionLibs.daggerProcessor],
+            [configuration: "api", dependency: networkLibs.retrofit],
+            [configuration: "api", dependency: networkLibs.retrofitAdapter],
+            [configuration: "api", dependency: networkLibs.retrofitConverter],
+            [configuration: "api", dependency: networkLibs.okhttp],
+            [configuration: "implementation", dependency: reactiveXLibs.rxJava],
+            [configuration: "testImplementation", dependency: testLibs.junit],
+            [configuration: "testImplementation", dependency: testLibs.mockitoCore],
+            [configuration: "testImplementation", dependency: testLibs.mockitoInline],
+            [configuration: "testImplementation", dependency: testLibs.mockitoKotlin2],
+            [configuration: "testImplementation", dependency: testLibs.coreTesting]
+    ]
+
+    domainDependencies = [
+            [configuration: "implementation", dependency: dependencyInjectionLibs.daggerCore],
+            [configuration: "implementation", dependency: dependencyInjectionLibs.javax],
+            [configuration: "implementation", dependency: reactiveXLibs.rxJava],
+            [configuration: "implementation", dependency: reactiveXLibs.rxAndroid],
+            [configuration: "testImplementation", dependency: testLibs.junit],
+            [configuration: "testImplementation", dependency: testLibs.mockitoCore],
+            [configuration: "testImplementation", dependency: testLibs.mockitoInline],
+            [configuration: "testImplementation", dependency: testLibs.mockitoKotlin2],
+            [configuration: "testImplementation", dependency: testLibs.coreTesting]
+    ]
+}

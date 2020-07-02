@@ -1,14 +1,21 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    def globalConfig = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfig.androidCompileSdkVersion
+    buildToolsVersion globalConfig.androidBuildToolsVersion
+
     defaultConfig {
         applicationId "com.centaury.cataloguemovie"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.0"
+        minSdkVersion globalConfig.androidMinSdkVersion
+        targetSdkVersion globalConfig.androidTargetSdkVersion
+        versionCode globalConfig.androidVersionCode
+        versionName globalConfig.androidVersionName
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -16,77 +23,23 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API_KEY", API_KEY
-            buildConfigField "String", "BASE_URL", BASE_URL
-            buildConfigField "String", "IMAGE_URL", IMAGE_URL
-        }
-        debug {
-            applicationIdSuffix ".debug"
-            debuggable true
-            buildConfigField "String", "API_KEY", API_KEY
-            buildConfigField "String", "BASE_URL", BASE_URL
-            buildConfigField "String", "IMAGE_URL", IMAGE_URL
         }
 
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
-    implementation "androidx.cardview:cardview:$cardVersion"
-    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
-    implementation "androidx.annotation:annotation:$androidXAnnotations"
-    implementation "androidx.legacy:legacy-support-v4:$androidXLegacySupport"
-
-    implementation "androidx.room:room-runtime:$roomVersion"
-    annotationProcessor "androidx.room:room-compiler:$roomVersion"
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
-    implementation "androidx.paging:paging-runtime:$pagingVersion"
-
-    implementation "com.google.dagger:dagger-android:$dagger2Version"
-    implementation "com.google.dagger:dagger-android-support:$dagger2Version"
-    annotationProcessor "com.google.dagger:dagger-compiler:$dagger2Version"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger2Version"
-
-    implementation "com.jakewharton:butterknife:$butterKnifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
-
-    implementation "com.github.bumptech.glide:glide:$glideVersion"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
-
-    implementation "com.amitshekhar.android:android-networking:$fastAndroidVersion"
-    implementation "org.glassfish:javax.annotation:$glassfishJavaxVersion"
-    implementation "com.google.code.gson:gson:$gsonVersion"
-
-    implementation "com.facebook.shimmer:shimmer:$shimmerVersion"
-    implementation "com.airbnb.android:lottie:$lottieVersion"
-
-    implementation "com.intuit.sdp:sdp-android:$intuitVersion"
-    implementation "com.intuit.ssp:ssp-android:$intuitVersion"
-
-    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
-
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "androidx.test:core:$testCoreVersion"
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    testImplementation "androidx.arch.core:core-testing:$archLifecycleTestVersion"
-
-    androidTestImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
-    androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
-
-    androidTestImplementation "androidx.test:runner:$runnerVersion"
-    androidTestImplementation "androidx.test.ext:junit:$androidXJunitVersion"
-    androidTestImplementation "androidx.test:core:$androidXTestVersion"
-    androidTestImplementation "androidx.test:rules:$androidXTestVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    implementation project(':data')
+    implementation project(':domain')
+    rootProject.appDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
 }

@@ -25,9 +25,6 @@ import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.R;
 import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
-import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse;
-import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowResponse;
-import com.centaury.cataloguemovie.data.remote.genre.GenresItem;
 import com.centaury.cataloguemovie.utils.AppConstants;
 import com.centaury.cataloguemovie.utils.GlideApp;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -54,21 +51,21 @@ public class DetailMovieActivity extends AppCompatActivity implements HasSupport
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.iv_coverdetail)
+    @BindView(R.id.iv_cover_detail)
     ImageView mIvCoverdetail;
-    @BindView(R.id.iv_imgdetail)
+    @BindView(R.id.iv_img_detail)
     ImageView mIvImgdetail;
-    @BindView(R.id.txt_titledetail)
+    @BindView(R.id.txt_title_detail)
     TextView mTxtTitledetail;
-    @BindView(R.id.txt_genredetail)
+    @BindView(R.id.txt_genre_detail)
     TextView mTxtGenredetail;
-    @BindView(R.id.rb_ratingdetail)
+    @BindView(R.id.rb_rating_detail)
     RatingBar mRbRatingdetail;
-    @BindView(R.id.txt_ratemovie)
+    @BindView(R.id.txt_rate_movie)
     TextView mTxtRatemovie;
-    @BindView(R.id.txt_datedetail)
+    @BindView(R.id.txt_date_detail)
     TextView mTxtDatedetail;
-    @BindView(R.id.txt_descdetail)
+    @BindView(R.id.txt_desc_detail)
     TextView mTxtDescdetail;
     @BindView(R.id.shimmer_view_container)
     ShimmerFrameLayout mShimmerViewContainer;
@@ -133,7 +130,7 @@ public class DetailMovieActivity extends AppCompatActivity implements HasSupport
             });
 
         } else {
-            tvshowId = getIntent().getIntExtra(AppConstants.DETAIL_EXTRA_TVSHOW, 0);
+            tvshowId = getIntent().getIntExtra(AppConstants.DETAIL_EXTRA_TV_SHOW, 0);
 
             detailMovieViewModel.setTvshowId(String.valueOf(tvshowId));
             detailMovieViewModel.getDetailTVShow(language).observe(this, detailTVShowResponse -> {
@@ -169,7 +166,7 @@ public class DetailMovieActivity extends AppCompatActivity implements HasSupport
         }
 
         if (movie.getOverview() == null || movie.getOverview().equals("")) {
-            mTxtDescdetail.setText(getResources().getString(R.string.txt_nodesc));
+            mTxtDescdetail.setText(getResources().getString(R.string.txt_no_desc));
         } else {
             mTxtDescdetail.setText(movie.getOverview());
         }
@@ -215,7 +212,7 @@ public class DetailMovieActivity extends AppCompatActivity implements HasSupport
         }
 
         if (tvshow.getOverview() == null || tvshow.getOverview().equals("")) {
-            mTxtDescdetail.setText(getResources().getString(R.string.txt_nodesc));
+            mTxtDescdetail.setText(getResources().getString(R.string.txt_no_desc));
         } else {
             mTxtDescdetail.setText(tvshow.getOverview());
         }
@@ -293,7 +290,7 @@ public class DetailMovieActivity extends AppCompatActivity implements HasSupport
             detailMovieViewModel.insertFavoriteTVShow(tvShowEntity);
         }
 
-        Toast.makeText(this, getString(R.string.txt_add_movie), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.txt_movie_add), Toast.LENGTH_SHORT).show();
     }
 
     private void removeFavorite(int id) {
@@ -317,7 +314,7 @@ public class DetailMovieActivity extends AppCompatActivity implements HasSupport
             }
         }
 
-        Toast.makeText(this, getString(R.string.txt_remove_movie), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.txt_movie_remove), Toast.LENGTH_SHORT).show();
     }
 
     private void stateFavoriteMovie(int id) {

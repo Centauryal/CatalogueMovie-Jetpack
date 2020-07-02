@@ -25,7 +25,7 @@ import com.centaury.cataloguemovie.di.Injectable;
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteFragmentCallback;
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteMovieAdapter;
 import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteMovieViewModel;
-import com.centaury.cataloguemovie.utils.Helper;
+import com.centaury.cataloguemovie.utils.CommonUtils;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.concurrent.ExecutionException;
@@ -41,7 +41,7 @@ import butterknife.Unbinder;
  */
 public class FavoriteMovieFragment extends Fragment implements FavoriteFragmentCallback, Injectable {
 
-    @BindView(R.id.rv_favmovie)
+    @BindView(R.id.rv_fav_movie)
     RecyclerView mRvFavMovie;
     @BindView(R.id.shimmer_view_container)
     ShimmerFrameLayout mShimmerViewContainer;
@@ -87,7 +87,7 @@ public class FavoriteMovieFragment extends Fragment implements FavoriteFragmentC
             mRvFavMovie.setLayoutManager(new LinearLayoutManager(getContext()));
             mRvFavMovie.setHasFixedSize(true);
             mRvFavMovie.setAdapter(favoriteMovieAdapter);
-            mRvFavMovie.addItemDecoration(new Helper.TopItemDecoration(55));
+            mRvFavMovie.addItemDecoration(new CommonUtils.TopItemDecoration(55));
         }
     }
 
@@ -102,14 +102,14 @@ public class FavoriteMovieFragment extends Fragment implements FavoriteFragmentC
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setView(view);
 
-            TextView title = view.findViewById(R.id.alerttitle);
+            TextView title = view.findViewById(R.id.alert_title);
             title.setText(getString(R.string.txt_title_delete_dialog));
 
             builder.setCancelable(false)
                     .setPositiveButton(getString(R.string.btn_delete), (dialog, which) -> {
                         favoriteMovieViewModel.deleteFavoriteMovie(movieEntity);
                         dialog.dismiss();
-                        Toast.makeText(getContext(), getString(R.string.txt_remove_movie), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.txt_movie_remove), Toast.LENGTH_SHORT).show();
                     })
                     .setNegativeButton(getString(R.string.btn_cancel), (dialog, which) -> {
                         dialog.dismiss();
