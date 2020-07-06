@@ -6,28 +6,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.bumptech.glide.request.RequestOptions;
 import com.centaury.cataloguemovie.BuildConfig;
 import com.centaury.cataloguemovie.R;
 import com.centaury.cataloguemovie.data.local.entity.MovieEntity;
 import com.centaury.cataloguemovie.data.local.entity.TVShowEntity;
 import com.centaury.cataloguemovie.utils.AppConstants;
 import com.centaury.cataloguemovie.utils.GlideApp;
-import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -38,42 +28,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
-
-public class DetailFavoriteMovieActivity extends AppCompatActivity implements HasSupportFragmentInjector {
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.iv_cover_fav_detail)
-    ImageView mIvCoverFavdetail;
-    @BindView(R.id.iv_img_fav_detail)
-    ImageView mIvImgFavdetail;
-    @BindView(R.id.txt_title_fav_detail)
-    TextView mTxtTitleFavdetail;
-    @BindView(R.id.txt_genre_fav_detail)
-    TextView mTxtGenreFavdetail;
-    @BindView(R.id.rb_rating_fav_detail)
-    RatingBar mRbRatingFavdetail;
-    @BindView(R.id.txt_rate_fav_movie)
-    TextView mTxtRateFavmovie;
-    @BindView(R.id.txt_date_fav_detail)
-    TextView mTxtDateFavdetail;
-    @BindView(R.id.txt_desc_fav_detail)
-    TextView mTxtDescFavdetail;
-    @BindView(R.id.shimmer_view_container)
-    ShimmerFrameLayout mShimmerViewContainer;
-    @BindView(R.id.cl_fav_data)
-    ConstraintLayout mClFavData;
-    @BindView(R.id.btn_favorite)
-    LottieAnimationView mBtnFavorite;
-
-    @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+public class DetailFavoriteMovieActivity extends AppCompatActivity {
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -94,7 +49,6 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity implements Ha
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_favorite_movie);
-        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
@@ -236,11 +190,6 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity implements Ha
         }
     }
 
-    @NonNull
-    private DetailFavoriteMovieViewModel obtainViewModel(AppCompatActivity activity) {
-        return ViewModelProviders.of(activity, factory).get(DetailFavoriteMovieViewModel.class);
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -355,10 +304,5 @@ public class DetailFavoriteMovieActivity extends AppCompatActivity implements Ha
             setFavorite();
             mBtnFavorite.playAnimation();
         }
-    }
-
-    @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return dispatchingAndroidInjector;
     }
 }

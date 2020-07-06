@@ -1,10 +1,10 @@
 package com.centaury.cataloguemovie.data.remote
 
-import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse
 import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowResponse
 import com.centaury.cataloguemovie.data.remote.genre.GenreResponse
-import com.centaury.cataloguemovie.data.remote.movie.MovieResponse
 import com.centaury.cataloguemovie.data.remote.tvshow.TVShowResponse
+import com.centaury.data.movies.repository.source.network.result.detail.DetailMovieResponse
+import com.centaury.data.movies.repository.source.network.result.movie.MovieResponse
 import retrofit2.Call
 import retrofit2.http.GET
 

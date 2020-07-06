@@ -1,8 +1,8 @@
 package com.centaury.cataloguemovie.data.remote
 
-import com.centaury.cataloguemovie.data.remote.detail.movie.DetailMovieResponse
 import com.centaury.cataloguemovie.data.remote.detail.tvshow.DetailTVShowResponse
 import com.centaury.cataloguemovie.data.remote.genre.GenresItem
+import com.centaury.data.movies.repository.source.network.result.detail.DetailMovieResponse
 
 /**
  * Created by Centaury on 6/30/2020.
