@@ -1,17 +1,9 @@
 package com.centaury.cataloguemovie.ui.tvshow
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import com.centaury.cataloguemovie.data.CatalogueRepository
-import com.centaury.cataloguemovie.data.datasource.TVShowDataSource
-import com.centaury.cataloguemovie.data.datasource.TVShowDataSourceFactory
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
-import javax.inject.Inject
-
 /**
  * Created by Centaury on 10/7/2019.
  */
+/*
 class TVShowViewModel @Inject constructor(private val catalogueRepository: CatalogueRepository) :
     ViewModel() {
     private var tvshows: LiveData<PagedList<TVShowResultsItem>>? = null
@@ -48,4 +40,4 @@ class TVShowViewModel @Inject constructor(private val catalogueRepository: Catal
     init {
         init()
     }
-}
+}*/

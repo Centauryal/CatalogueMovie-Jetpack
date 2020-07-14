@@ -5,14 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.R
-import com.centaury.cataloguemovie.utils.CommonUtils.TopItemDecoration
+import com.centaury.cataloguemovie.di.component.DaggerDiscoverMovieComponent
+import com.centaury.cataloguemovie.utils.*
+import com.centaury.domain.movies.model.Genre
 import com.centaury.domain.movies.model.Movie
 import kotlinx.android.synthetic.main.fragment_movie.*
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -25,6 +27,10 @@ class MovieFragment : Fragment() {
     private lateinit var movieViewModel: MovieViewModel
 
     private var movieData = arrayListOf<Movie>()
+    private var genreData = arrayListOf<Genre>()
+    private val movieAdapter: MovieAdapter by lazy {
+        MovieAdapter(movieData, genreData)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,45 +40,63 @@ class MovieFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_movie, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (activity != null) {
-            val movieViewModel = obtainViewModel(activity)
-            val language = Locale.getDefault().toLanguageTag()
-            val movieAdapter = MovieAdapter(activity)
-            movieViewModel.getMovies().observe(this, { movieResultsItems ->
-                movieAdapter.submitList(movieResultsItems)
-                movieAdapter.notifyDataSetChanged()
-            })
-            movieViewModel.getGenreMovie(language).observe(this, { genresItemList ->
-                movieAdapter.setListGenreMovie(genresItemList)
-                movieAdapter.notifyDataSetChanged()
-            })
-            movieViewModel.getLoadingState().observe(this, { loadingState ->
-                if (loadingState) {
-                    mShimmerViewContainer.startShimmer()
-                    mShimmerViewContainer.setVisibility(View.VISIBLE)
-                } else {
-                    mShimmerViewContainer.stopShimmer()
-                    mShimmerViewContainer.setVisibility(View.GONE)
-                }
-            })
-            movieViewModel.getLoadMoreLoadingState().observe(this, { loadMore ->
-                if (loadMore) {
-                    mTxtLoadMore.setVisibility(View.VISIBLE)
-                } else {
-                    mTxtLoadMore.setVisibility(View.GONE)
-                }
-            })
-            mRvMovie.setLayoutManager(LinearLayoutManager(context))
-            mRvMovie.setHasFixedSize(true)
-            mRvMovie.setAdapter(movieAdapter)
-            mRvMovie.addItemDecoration(TopItemDecoration(55))
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initInjector()
+        initView()
     }
 
-    private fun obtainViewModel(activity: FragmentActivity?): MovieViewModel {
-        return ViewModelProviders.of(activity, factory).get(MovieViewModel::class.java)
+    private fun initView() {
+        movieViewModel = ViewModelProvider(this, viewModelFactory)[MovieViewModel::class.java]
+
+        with(rv_movie) {
+            hasFixedSize()
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(CommonUtils.TopItemDecoration(55))
+            adapter = movieAdapter
+        }
+
+        initObserver()
+    }
+
+    private fun initObserver() {
+        movieViewModel.state.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is LoaderState.ShowLoading -> {
+                    shimmer_view_container.startShimmer()
+                    shimmer_view_container.visible()
+                }
+                is LoaderState.HideLoading -> {
+                    shimmer_view_container.stopShimmer()
+                    shimmer_view_container.gone()
+                }
+            }
+        })
+
+        movieViewModel.result.observe(viewLifecycleOwner, Observer { result ->
+            movieData.addAll(result)
+            movieAdapter.notifyDataSetChanged()
+        })
+
+        movieViewModel.error.observe(viewLifecycleOwner, Observer { error ->
+            context?.showToast(error)
+        })
+
+        movieViewModel.resultGenre.observe(viewLifecycleOwner, Observer { resultGenre ->
+            genreData.addAll(resultGenre)
+            movieAdapter.notifyDataSetChanged()
+        })
+
+        movieViewModel.errorGenre.observe(viewLifecycleOwner, Observer { errorGenre ->
+            context?.showToast(errorGenre)
+        })
+    }
+
+    private fun initInjector() {
+        DaggerDiscoverMovieComponent.builder()
+            .appComponent((activity?.application as MovieCatalogueApp).appComponent)
+            .build()
+            .inject(this)
     }
 
     override fun onResume() {

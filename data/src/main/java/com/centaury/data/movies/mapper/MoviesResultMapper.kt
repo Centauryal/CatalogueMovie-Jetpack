@@ -1,7 +1,7 @@
 package com.centaury.data.movies.mapper
 
-import com.centaury.cataloguemovie.data.remote.genre.GenreResponse
-import com.centaury.cataloguemovie.data.remote.genre.GenresItem
+import com.centaury.data.movies.repository.source.network.result.genre.GenreResponse
+import com.centaury.data.movies.repository.source.network.result.genre.GenresItem
 import com.centaury.data.movies.repository.source.network.result.movie.MovieResponse
 import com.centaury.data.movies.repository.source.network.result.movie.ResultsItem
 import com.centaury.domain.movies.model.Genre
@@ -17,9 +17,6 @@ class MoviesResultMapper @Inject constructor() {
     fun transformMovie(movieResponse: MovieResponse): List<Movie> =
         movieResponse.results.map { it.toMovies() }
 
-    fun transformGenreMovie(genreResponse: GenreResponse): List<Genre> =
-        genreResponse.genres.map { it.toGenreMovie() }
-
     private fun ResultsItem.toMovies() = Movie(
         id = this.id,
         title = this.title,
@@ -30,8 +27,12 @@ class MoviesResultMapper @Inject constructor() {
         date = this.releaseDate
     )
 
-    private fun GenresItem.toGenreMovie() = Genre(
-        id = this.id,
-        name = this.name
-    )
+    fun transformGenreMovie(genreResponse: GenreResponse): List<Genre> =
+        genreResponse.genres.map { it.toGenreMovie() }
+
+    private fun GenresItem.toGenreMovie() =
+        Genre(
+            id = this.id,
+            name = this.name
+        )
 }

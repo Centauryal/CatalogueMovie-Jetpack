@@ -1,14 +1,12 @@
-package com.centaury.cataloguemovie.data.remote.genre
+package com.centaury.data.movies.repository.source.network.result.genre
 
 import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 
-@JsonClass(generateAdapter = true)
 data class GenresItem(
 
-    @Json(name = "name")
+    @field:Json(name = "name")
     val name: String,
 
-    @Json(name = "id")
+    @field:Json(name = "id")
     val id: Int
 )

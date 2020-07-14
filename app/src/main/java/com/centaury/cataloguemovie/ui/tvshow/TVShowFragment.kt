@@ -5,22 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.R
-import com.centaury.cataloguemovie.utils.CommonUtils.TopItemDecoration
 import kotlinx.android.synthetic.main.fragment_tvshow.*
-import java.util.*
-import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
 class TVShowFragment : Fragment() {
-    @JvmField
-    @Inject
-    var factory: ViewModelProvider.Factory? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,7 +21,7 @@ class TVShowFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_tvshow, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
+    /*override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
             val tvShowViewModel = obtainViewModel(activity)
@@ -76,7 +68,7 @@ class TVShowFragment : Fragment() {
             rv_tv_show.setAdapter(tvShowAdapter)
             rv_tv_show.addItemDecoration(TopItemDecoration(55))
         }
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()

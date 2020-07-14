@@ -24,5 +24,4 @@ class ViewModelProviderFactory @Inject constructor(
             throw RuntimeException(e)
         }
     }
-
 }

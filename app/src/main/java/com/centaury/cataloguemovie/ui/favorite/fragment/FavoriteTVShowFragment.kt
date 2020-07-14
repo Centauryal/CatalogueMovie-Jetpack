@@ -1,30 +1,19 @@
 package com.centaury.cataloguemovie.ui.favorite.fragment
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.R
-import com.centaury.cataloguemovie.data.local.entity.TVShowEntity
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteFragmentCallback
-import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteTVShowAdapter
-import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteTVShowViewModel
-import com.centaury.cataloguemovie.utils.CommonUtils.TopItemDecoration
-import java.util.concurrent.ExecutionException
+import kotlinx.android.synthetic.main.fragment_favorite_tvshow.*
 
 /**
  * A simple [Fragment] subclass.
  */
 class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
 
-    private var favoriteTVShowViewModel: FavoriteTVShowViewModel? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +22,7 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
         return inflater.inflate(R.layout.fragment_favorite_tvshow, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
+    /*override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
             favoriteTVShowViewModel = obtainViewModel(activity)
@@ -56,9 +45,9 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
             mRvFavTvshow.setAdapter(favoriteTVShowAdapter)
             mRvFavTvshow.addItemDecoration(TopItemDecoration(55))
         }
-    }
+    }*/
 
-    private fun showDialogDeleteFavorite(movieId: Int) {
+    /*private fun showDialogDeleteFavorite(movieId: Int) {
         val tvShowEntity: TVShowEntity
         try {
             tvShowEntity = favoriteTVShowViewModel!!.getDetailFavTVShow(movieId)
@@ -91,9 +80,9 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
-    }
+    }*/
 
-    private fun toggleEmptyMovies(size: Int) {
+    /*private fun toggleEmptyMovies(size: Int) {
         if (size > 0) {
             mEmptyState.setVisibility(View.GONE)
             mRvFavTvshow.setVisibility(View.VISIBLE)
@@ -101,21 +90,21 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
             mRvFavTvshow.setVisibility(View.GONE)
             mEmptyState.setVisibility(View.VISIBLE)
         }
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()
-        mShimmerViewContainer.startShimmer()
+        shimmer_view_container.startShimmer()
     }
 
     override fun onPause() {
-        mShimmerViewContainer.stopShimmer()
+        shimmer_view_container.stopShimmer()
         super.onPause()
     }
 
     override fun onDeleteItemClick(movieId: Int) {
-        if (activity != null) {
+        /*if (activity != null) {
             showDialogDeleteFavorite(movieId)
-        }
+        }*/
     }
 }

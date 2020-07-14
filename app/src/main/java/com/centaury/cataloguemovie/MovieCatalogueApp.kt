@@ -14,7 +14,7 @@ class MovieCatalogueApp : Application() {
 
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.builder()
-            .ApplicationModule(ApplicationModule(this))
+            .applicationModule(ApplicationModule(this))
             .apiModule(ApiModule())
             .networkModule(NetworkModule())
             .build()

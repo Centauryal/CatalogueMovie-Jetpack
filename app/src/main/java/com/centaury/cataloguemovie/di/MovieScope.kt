@@ -7,6 +7,4 @@ import javax.inject.Scope
  * Created by Centaury on 7/6/2020.
  */
 @Scope
-@Retention(AnnotationRetention.RUNTIME)
-annotation class PerActivity {
-}
+annotation class MovieScope

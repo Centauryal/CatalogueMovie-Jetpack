@@ -1,6 +1,7 @@
 package com.centaury.data.di
 
 import android.content.Context
+import com.centaury.data.BuildConfig
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -16,6 +17,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)
  * Created by Centaury on 7/3/2020.
@@ -25,8 +27,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMoshi(): Moshi =
-        Moshi.Builder().build()
+    fun provideMoshi(): Moshi = Moshi.Builder().build()
 
     @Provides
     @Singleton
@@ -64,9 +65,9 @@ class NetworkModule {
 
     private fun addQueryParam(it: Interceptor.Chain): Response {
         var request = it.request()
-        val url = request.url()
+        val url = request.url
             .newBuilder()
-            .addQueryParameter("API_KEY", BuildConfig.API_KEY)
+            .addQueryParameter("api_key", BuildConfig.API_KEY)
             .build()
         request = request
             .newBuilder()
@@ -86,7 +87,7 @@ class NetworkModule {
     }
 
     companion object {
-        private const val DEFAULT_CACHE_FILE_NAME = "okhttp-cache"
+        private const val DEFAULT_CACHE_FILE_NAME = "okHttp-cache"
         private const val DEFAULT_CACHE_SIZE: Long = 1024 * 1024
         private const val DEFAULT_CONNECT_TIME_OUT: Long = 30 * 1000
         private const val DEFAULT_READ_TIME_OUT: Long = 30 * 1000

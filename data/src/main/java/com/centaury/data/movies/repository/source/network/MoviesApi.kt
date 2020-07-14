@@ -1,7 +1,7 @@
 package com.centaury.data.movies.repository.source.network
 
-import com.centaury.cataloguemovie.data.remote.genre.GenreResponse
 import com.centaury.data.movies.repository.source.network.result.detail.DetailMovieResponse
+import com.centaury.data.movies.repository.source.network.result.genre.GenreResponse
 import com.centaury.data.movies.repository.source.network.result.movie.MovieResponse
 import io.reactivex.Observable
 import retrofit2.http.GET

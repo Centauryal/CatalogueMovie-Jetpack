@@ -16,6 +16,4 @@ class GetGenreMovie @Inject constructor(
 
     override fun buildUseCase(params: None): Observable<List<Genre>> =
         moviesRepository.getGenreMovies()
-
-
 }

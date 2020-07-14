@@ -27,8 +27,11 @@ class MoviesEntityRepository @Inject constructor(
     }
 
     override fun getGenreMovies(): Observable<List<Genre>> =
-        createMovieData().genreMovies().map { moviesResultMapper.transformGenreMovie(it) }
+        createGenreData().genreMovies().map { moviesResultMapper.transformGenreMovie(it) }
 
     private fun createMovieData(): MoviesEntityData =
+        moviesDataFactory.createData(Source.NETWORK)
+
+    private fun createGenreData(): MoviesEntityData =
         moviesDataFactory.createData(Source.NETWORK)
 }

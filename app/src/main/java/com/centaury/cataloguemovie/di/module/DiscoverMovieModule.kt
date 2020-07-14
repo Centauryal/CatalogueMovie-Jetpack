@@ -10,11 +10,8 @@ import dagger.Provides
  * Created by Centaury on 7/6/2020.
  */
 @Module
-class DiscoverMovieModule(private val discoverMovie: MovieContract.View) {
+class DiscoverMovieModule {
 
     @Provides
     fun provideMovieViewModel(movieViewModel: MovieViewModel): MovieContract = movieViewModel
-
-    @Provides
-    fun provideDiscoverMovie(): MovieContract.View = discoverMovie
 }

@@ -1,30 +1,9 @@
 package com.centaury.cataloguemovie.ui.tvshow
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
-import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import com.centaury.cataloguemovie.BuildConfig
-import com.centaury.cataloguemovie.R
-import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
-import com.centaury.cataloguemovie.ui.tvshow.TVShowAdapter.TVShowViewHolder
-import com.centaury.cataloguemovie.utils.AppConstants
-import com.centaury.cataloguemovie.utils.GlideApp
-import java.text.DateFormat
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
-
 /**
  * Created by Centaury on 10/7/2019.
  */
+/*
 class TVShowAdapter(private val activity: Activity) :
     PagedListAdapter<TVShowResultsItem?, TVShowViewHolder?>(DIFF_CALLBACK) {
     private val genresItemList: MutableList<GenresItem> =
@@ -169,4 +148,4 @@ class TVShowAdapter(private val activity: Activity) :
             }
     }
 
-}
+}*/

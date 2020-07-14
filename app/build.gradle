@@ -27,6 +27,9 @@ android {
         debug {
             debuggable true
         }
+        buildTypes.each {
+            it.buildConfigField("String", "IMAGE_URL", IMAGE_URL)
+        }
     }
     compileOptions {
         sourceCompatibility = 1.8

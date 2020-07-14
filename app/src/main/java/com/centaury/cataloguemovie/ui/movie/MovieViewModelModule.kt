@@ -2,6 +2,7 @@ package com.centaury.cataloguemovie.ui.movie
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.centaury.cataloguemovie.di.MovieScope
 import com.centaury.cataloguemovie.viewmodel.ViewModelKey
 import com.centaury.cataloguemovie.viewmodel.ViewModelProviderFactory
 import dagger.Binds
@@ -15,6 +16,7 @@ import dagger.multibindings.IntoMap
 @Module
 abstract class MovieViewModelModule {
 
+    @MovieScope
     @Binds
     internal abstract fun bindViewModelFactory(viewModelProviderFactory: ViewModelProviderFactory): ViewModelProvider.Factory
 
