@@ -5,7 +5,6 @@ import com.centaury.data.movies.mapper.MoviesResultMapper
 import com.centaury.data.movies.repository.source.MoviesDataFactory
 import com.centaury.domain.movies.MoviesRepository
 import com.centaury.domain.movies.model.Detail
-import com.centaury.domain.movies.model.Genre
 import com.centaury.domain.movies.model.Movie
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -26,12 +25,8 @@ class MoviesEntityRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getGenreMovies(): Observable<List<Genre>> =
-        createGenreData().genreMovies().map { moviesResultMapper.transformGenreMovie(it) }
-
     private fun createMovieData(): MoviesEntityData =
         moviesDataFactory.createData(Source.NETWORK)
 
-    private fun createGenreData(): MoviesEntityData =
-        moviesDataFactory.createData(Source.NETWORK)
+
 }

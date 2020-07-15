@@ -1,151 +1,95 @@
 package com.centaury.cataloguemovie.ui.tvshow
 
+import android.content.Intent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
+import com.centaury.cataloguemovie.utils.CommonUtils
+import com.centaury.cataloguemovie.utils.loadFromUrl
+import com.centaury.domain.genre.model.Genre
+import com.centaury.domain.tvshow.model.TVShow
+import kotlinx.android.synthetic.main.item_movie_list.view.*
+import java.text.ParseException
+
 /**
  * Created by Centaury on 10/7/2019.
  */
-/*
-class TVShowAdapter(private val activity: Activity) :
-    PagedListAdapter<TVShowResultsItem?, TVShowViewHolder?>(DIFF_CALLBACK) {
-    private val genresItemList: MutableList<GenresItem> =
-        ArrayList<GenresItem>()
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+class TVShowAdapter(
+    private val tvShows: List<TVShow>,
+    private val genres: List<Genre>
+) : RecyclerView.Adapter<TVShowAdapter.TVShowViewHolder>() {
 
-    fun setListGenreTVShow(genreTVShow: List<GenresItem?>?) {
-        if (genreTVShow == null) return
-        genresItemList.clear()
-        genresItemList.addAll(genreTVShow)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVShowViewHolder {
+        return TVShowViewHolder.inflate(parent)
     }
 
-    fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVShowViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_movie_list, parent, false)
-        return TVShowViewHolder(view)
+    override fun getItemCount(): Int = tvShows.size
+
+    override fun onBindViewHolder(holder: TVShowViewHolder, position: Int) {
+        holder.bind(tvShows[position], genres)
     }
 
-    fun onBindViewHolder(holder: TVShowViewHolder, position: Int) {
-        val tvshow: TVShowResultsItem = getItem(position)
-        if (tvshow != null) {
-            holder.bind(tvshow)
-        }
-        holder.itemView.setOnClickListener { v: View? ->
-            val intent = Intent(activity, DetailMovieActivity::class.java)
-            intent.putExtra(AppConstants.DETAIL_EXTRA_TV_SHOW, tvshow.getId())
-            activity.startActivity(intent)
-        }
-    }
+    class TVShowViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+        private val title = view.txt_title_movie_list
+        private val titleBackground = view.txt_title_background
+        private val poster = view.iv_movie_list
+        private val genreView = view.txt_genre_movie_list
+        private val overview = view.txt_desc_movie_list
+        private val dateView = view.txt_date_movie_list
 
-    inner class TVShowViewHolder(itemView: View?) :
-        RecyclerView.ViewHolder(itemView!!) {
-        @JvmField
-        @BindView(R.id.txt_title_background)
-        var mTxtTitlebackground: TextView? = null
+        companion object {
+            private const val DETAIL_EXTRA_TV_SHOW = "extra_tv_show"
 
-        @JvmField
-        @BindView(R.id.iv_movie_list)
-        var mIvMovielist: ImageView? = null
-
-        @JvmField
-        @BindView(R.id.txt_genre_movie_list)
-        var mTxtGenremovielist: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_title_movie_list)
-        var mTxtTitlemovielist: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_desc_movie_list)
-        var mTxtDescmovielist: TextView? = null
-
-        @JvmField
-        @BindView(R.id.txt_date_movie_list)
-        var mTxtDatemovielist: TextView? = null
-        fun bind(tvshow: TVShowResultsItem) {
-            mTxtTitlemovielist.setText(tvshow.getName())
-            mTxtTitlebackground.setText(tvshow.getOriginalName())
-            if (tvshow.getOverview() == null || tvshow.getOverview().equals("")) {
-                mTxtDescmovielist!!.text = activity.getString(R.string.txt_no_desc)
-            } else {
-                mTxtDescmovielist.setText(tvshow.getOverview())
+            fun inflate(parent: ViewGroup): TVShowViewHolder {
+                return TVShowViewHolder(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_movie_list, parent, false)
+                )
             }
-            if (tvshow.getGenreIds().size() === 0) {
-                mTxtGenremovielist!!.text = activity.getString(R.string.txt_no_genre)
+        }
+
+        fun bind(tvShow: TVShow, genres: List<Genre>) {
+            val context = view.context
+            title.text = tvShow.title
+            titleBackground.text = tvShow.titleBackground
+            if (tvShow.overview.isEmpty() || tvShow.overview == "") {
+                overview.text = context.getString(R.string.txt_no_desc)
             } else {
-                mTxtGenremovielist!!.text = getGenres(tvshow.getGenreIds())
+                overview.text = tvShow.overview
             }
-            val inputDate: DateFormat =
-                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val outputDate: DateFormat =
-                SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+            if (tvShow.genre.isEmpty()) {
+                genreView.text = context.getString(R.string.txt_no_genre)
+            } else {
+                genreView.text = CommonUtils.getGenresString(genres, tvShow.genre)
+            }
+
             try {
-                val date = inputDate.parse(tvshow.getFirstAirDate())
-                var releaseDate: String? = null
-                if (date != null) {
-                    releaseDate = outputDate.format(date)
+                val date = CommonUtils.inputDate().parse(tvShow.date)
+                var releaseDate: String
+                date.let {
+                    releaseDate = CommonUtils.outputDate().format(it)
                 }
-                mTxtDatemovielist!!.text = releaseDate
+                dateView.text = releaseDate
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
-            GlideApp.with(itemView.context)
-                .load(BuildConfig.IMAGE_URL + AppConstants.SIZE_IMAGE + tvshow.getPosterPath())
-                .apply(
-                    RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error)
-                )
-                .into(mIvMovielist)
-        }
 
-        private fun getGenres(genreList: List<Int>): String {
-            val genreMovies: MutableList<String?> =
-                ArrayList()
-            try {
-                if (genreList.size == 1) {
-                    for (genreId in genreList) {
-                        for (genresItem in genresItemList) {
-                            if (genresItem.getId() === genreId) {
-                                genreMovies.add(genresItem.getName())
-                            }
-                        }
-                    }
-                } else {
-                    val integers = genreList.subList(0, 2)
-                    for (genreId in integers) {
-                        for (genresItem in genresItemList) {
-                            if (genresItem.getId() === genreId) {
-                                genreMovies.add(genresItem.getName())
-                            }
-                        }
-                    }
+            poster.loadFromUrl(
+                poster,
+                tvShow.image,
+                R.drawable.ic_loading,
+                R.drawable.ic_error
+            )
+            itemView.setOnClickListener {
+                val intent = Intent(context, DetailMovieActivity::class.java).apply {
+                    putExtra(DETAIL_EXTRA_TV_SHOW, tvShow.id)
                 }
-            } catch (e: IndexOutOfBoundsException) {
-                println("Exception thrown : $e")
-            } catch (e: IllegalArgumentException) {
-                println("Exception thrown : $e")
+                context.startActivity(intent)
             }
-            return TextUtils.join(", ", genreMovies)
-        }
-
-        init {
-            ButterKnife.bind(this, itemView)
         }
     }
-
-    companion object {
-        private val DIFF_CALLBACK: DiffUtil.ItemCallback<TVShowResultsItem> =
-            object : DiffUtil.ItemCallback<TVShowResultsItem>() {
-                override fun areItemsTheSame(
-                    oldItem: TVShowResultsItem,
-                    newItem: TVShowResultsItem
-                ): Boolean {
-                    return oldItem.getId() === newItem.getId()
-                }
-
-                @SuppressLint("DiffUtilEquals")
-                override fun areContentsTheSame(
-                    oldItem: TVShowResultsItem,
-                    newItem: TVShowResultsItem
-                ): Boolean {
-                    return oldItem.equals(newItem)
-                }
-            }
-    }
-
-}*/
+}

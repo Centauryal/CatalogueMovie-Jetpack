@@ -2,7 +2,6 @@ package com.centaury.data.movies.repository.source.local
 
 import com.centaury.data.movies.repository.MoviesEntityData
 import com.centaury.data.movies.repository.source.network.result.detail.DetailMovieResponse
-import com.centaury.data.movies.repository.source.network.result.genre.GenreResponse
 import com.centaury.data.movies.repository.source.network.result.movie.MovieResponse
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -18,10 +17,6 @@ class LocalMoviesEntityData @Inject constructor(
     }
 
     override fun detailMovie(movieId: String): Observable<DetailMovieResponse> {
-        TODO("Not yet implemented")
-    }
-
-    override fun genreMovies(): Observable<GenreResponse> {
         TODO("Not yet implemented")
     }
 

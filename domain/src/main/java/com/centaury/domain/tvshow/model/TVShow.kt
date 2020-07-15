@@ -1,4 +1,4 @@
-package com.centaury.domain.movies.model
+package com.centaury.domain.tvshow.model
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)
@@ -9,7 +9,7 @@ data class TVShow(
     val title: String,
     val titleBackground: String,
     val image: String,
-    val genre: String,
+    val genre: List<Int>,
     val overview: String,
     val date: String
 )

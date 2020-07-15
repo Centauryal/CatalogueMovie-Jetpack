@@ -1,7 +1,6 @@
 package com.centaury.data.movies.repository.source.network
 
 import com.centaury.data.movies.repository.source.network.result.detail.DetailMovieResponse
-import com.centaury.data.movies.repository.source.network.result.genre.GenreResponse
 import com.centaury.data.movies.repository.source.network.result.movie.MovieResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -18,7 +17,4 @@ interface MoviesApi {
 
     @GET("movie/{movie_id}")
     fun detailMovie(@Path("movie_id") movieId: String): Observable<DetailMovieResponse>
-
-    @GET("genre/movie/list")
-    fun genreMovies(): Observable<GenreResponse>
 }

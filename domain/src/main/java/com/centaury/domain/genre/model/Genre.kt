@@ -1,4 +1,4 @@
-package com.centaury.domain.movies.model
+package com.centaury.domain.genre.model
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)

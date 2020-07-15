@@ -5,13 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.di.component.DaggerDiscoverTVShowComponent
+import com.centaury.cataloguemovie.utils.*
+import com.centaury.domain.genre.model.Genre
+import com.centaury.domain.tvshow.model.TVShow
 import kotlinx.android.synthetic.main.fragment_tvshow.*
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
 class TVShowFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var tvShowViewModel: TVShowViewModel
+
+    private var tvShowData = arrayListOf<TVShow>()
+    private var genreData = arrayListOf<Genre>()
+    private val tvShowAdapter: TVShowAdapter by lazy {
+        TVShowAdapter(tvShowData, genreData)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,54 +40,65 @@ class TVShowFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_tvshow, container, false)
     }
 
-    /*override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (activity != null) {
-            val tvShowViewModel = obtainViewModel(activity)
-            val language = Locale.getDefault().toLanguageTag()
-            val tvShowAdapter = TVShowAdapter(activity)
-            tvShowViewModel.tVShows!!.observe(
-                this,
-                Observer { tvShowResultsItems: Any? ->
-                    tvShowAdapter.submitList(tvShowResultsItems)
-                    tvShowAdapter.notifyDataSetChanged()
-                }
-            )
-            tvShowViewModel.getGenreTVShow(language).observe(
-                this,
-                Observer<List<error.NonExistentClass?>> { genresItemList: List<error.NonExistentClass?>? ->
-                    tvShowAdapter.setListGenreTVShow(genresItemList)
-                    tvShowAdapter.notifyDataSetChanged()
-                }
-            )
-            tvShowViewModel.loadingState!!.observe(
-                this,
-                Observer { loadingState: Boolean ->
-                    if (loadingState) {
-                        shimmer_view_container.startShimmer()
-                        shimmer_view_container.setVisibility(View.VISIBLE)
-                    } else {
-                        shimmer_view_container.stopShimmer()
-                        shimmer_view_container.setVisibility(View.GONE)
-                    }
-                }
-            )
-            tvShowViewModel.loadMoreLoadingState!!.observe(
-                this,
-                Observer { loadMore: Boolean ->
-                    if (loadMore) {
-                        mTxtLoadMore.setVisibility(View.VISIBLE)
-                    } else {
-                        mTxtLoadMore.setVisibility(View.GONE)
-                    }
-                }
-            )
-            rv_tv_show.setLayoutManager(LinearLayoutManager(context))
-            rv_tv_show.setHasFixedSize(true)
-            rv_tv_show.setAdapter(tvShowAdapter)
-            rv_tv_show.addItemDecoration(TopItemDecoration(55))
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initInjector()
+        initView()
+    }
+
+    private fun initView() {
+        tvShowViewModel = ViewModelProvider(this, viewModelFactory)[TVShowViewModel::class.java]
+
+        with(rv_tv_show) {
+            hasFixedSize()
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(CommonUtils.TopItemDecoration(55))
+            adapter = tvShowAdapter
         }
-    }*/
+
+        initObserver()
+    }
+
+    private fun initObserver() {
+        tvShowViewModel.state.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is LoaderState.ShowLoading -> {
+                    shimmer_view_container.startShimmer()
+                    shimmer_view_container.visible()
+                }
+                is LoaderState.HideLoading -> {
+                    shimmer_view_container.stopShimmer()
+                    shimmer_view_container.gone()
+                }
+            }
+        })
+
+        tvShowViewModel.result.observe(viewLifecycleOwner, Observer { result ->
+            tvShowData.addAll(result)
+            tvShowAdapter.notifyDataSetChanged()
+        })
+
+        tvShowViewModel.error.observe(viewLifecycleOwner, Observer { error ->
+            context?.showToast(error)
+        })
+
+        tvShowViewModel.resultGenre.observe(viewLifecycleOwner, Observer { resultGenre ->
+            genreData.addAll(resultGenre)
+            tvShowAdapter.notifyDataSetChanged()
+        })
+
+        tvShowViewModel.errorGenre.observe(viewLifecycleOwner, Observer { errorGenre ->
+            context?.showToast(errorGenre)
+        })
+
+    }
+
+    private fun initInjector() {
+        DaggerDiscoverTVShowComponent.builder()
+            .appComponent((activity?.application as MovieCatalogueApp).appComponent)
+            .build()
+            .inject(this)
+    }
 
     override fun onResume() {
         super.onResume()

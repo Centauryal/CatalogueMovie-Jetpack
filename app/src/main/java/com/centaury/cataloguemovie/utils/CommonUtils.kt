@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import com.centaury.domain.movies.model.Genre
+import com.centaury.domain.genre.model.Genre
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*

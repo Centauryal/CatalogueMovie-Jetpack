@@ -1,4 +1,4 @@
-package com.centaury.data.movies.repository.source.network.result.genre
+package com.centaury.data.genre.repository.source.network.result
 
 import com.squareup.moshi.Json
 

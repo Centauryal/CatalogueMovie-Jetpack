@@ -12,7 +12,7 @@ import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.di.component.DaggerDiscoverMovieComponent
 import com.centaury.cataloguemovie.utils.*
-import com.centaury.domain.movies.model.Genre
+import com.centaury.domain.genre.model.Genre
 import com.centaury.domain.movies.model.Movie
 import kotlinx.android.synthetic.main.fragment_movie.*
 import javax.inject.Inject

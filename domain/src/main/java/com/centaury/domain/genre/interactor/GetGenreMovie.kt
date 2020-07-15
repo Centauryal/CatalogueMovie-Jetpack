@@ -1,8 +1,8 @@
-package com.centaury.domain.movies.interactor
+package com.centaury.domain.genre.interactor
 
 import com.centaury.domain.UseCase
-import com.centaury.domain.movies.MoviesRepository
-import com.centaury.domain.movies.model.Genre
+import com.centaury.domain.genre.GenreRepository
+import com.centaury.domain.genre.model.Genre
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -11,9 +11,9 @@ import javax.inject.Inject
  * Created by Centaury on 7/3/2020.
  */
 class GetGenreMovie @Inject constructor(
-    private val moviesRepository: MoviesRepository
+    private val genreRepository: GenreRepository
 ) : UseCase<List<Genre>, UseCase.None>() {
 
     override fun buildUseCase(params: None): Observable<List<Genre>> =
-        moviesRepository.getGenreMovies()
+        genreRepository.getGenreMovies()
 }

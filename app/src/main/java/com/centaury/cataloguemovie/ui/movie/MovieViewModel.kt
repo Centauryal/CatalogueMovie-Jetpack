@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.centaury.cataloguemovie.utils.LoaderState
 import com.centaury.domain.UseCase
+import com.centaury.domain.genre.interactor.GetGenreMovie
+import com.centaury.domain.genre.model.Genre
 import com.centaury.domain.movies.interactor.GetDiscoveryMovie
-import com.centaury.domain.movies.interactor.GetGenreMovie
-import com.centaury.domain.movies.model.Genre
 import com.centaury.domain.movies.model.Movie
 import javax.inject.Inject
 
@@ -41,6 +41,7 @@ class MovieViewModel @Inject constructor(
 
     init {
         getDiscoverMovieContract()
+        getGenreMovieContract()
     }
 
     override fun getDiscoverMovieContract() {

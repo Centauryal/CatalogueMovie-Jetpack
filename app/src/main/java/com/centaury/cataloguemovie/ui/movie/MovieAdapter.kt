@@ -9,7 +9,7 @@ import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
-import com.centaury.domain.movies.model.Genre
+import com.centaury.domain.genre.model.Genre
 import com.centaury.domain.movies.model.Movie
 import kotlinx.android.synthetic.main.item_movie_list.view.*
 import java.text.ParseException
