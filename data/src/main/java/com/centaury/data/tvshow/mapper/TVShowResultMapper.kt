@@ -1,7 +1,7 @@
 package com.centaury.data.tvshow.mapper
 
-import com.centaury.data.tvshow.repository.source.network.result.tvshow.ResultsItem
-import com.centaury.data.tvshow.repository.source.network.result.tvshow.TVShowResponse
+import com.centaury.data.tvshow.repository.source.network.result.ResultsItem
+import com.centaury.data.tvshow.repository.source.network.result.TVShowResponse
 import com.centaury.domain.tvshow.model.TVShow
 import javax.inject.Inject
 

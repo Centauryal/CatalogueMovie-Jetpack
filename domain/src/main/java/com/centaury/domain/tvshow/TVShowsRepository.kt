@@ -1,6 +1,5 @@
 package com.centaury.domain.tvshow
 
-import com.centaury.domain.movies.model.Detail
 import com.centaury.domain.tvshow.model.TVShow
 import io.reactivex.Observable
 
@@ -11,6 +10,4 @@ import io.reactivex.Observable
 interface TVShowsRepository {
 
     fun getDiscoveryTVShows(): Observable<List<TVShow>>
-
-    fun getDetailTVShow(tvShowId: String): Observable<Detail>
 }

@@ -1,7 +1,7 @@
 package com.centaury.data.movies.mapper
 
-import com.centaury.data.movies.repository.source.network.result.movie.MovieResponse
-import com.centaury.data.movies.repository.source.network.result.movie.ResultsItem
+import com.centaury.data.movies.repository.source.network.result.MovieResponse
+import com.centaury.data.movies.repository.source.network.result.ResultsItem
 import com.centaury.domain.movies.model.Movie
 import javax.inject.Inject
 

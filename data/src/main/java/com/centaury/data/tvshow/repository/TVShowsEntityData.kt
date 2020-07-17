@@ -1,7 +1,6 @@
 package com.centaury.data.tvshow.repository
 
-import com.centaury.data.tvshow.repository.source.network.result.detail.DetailTVShowResponse
-import com.centaury.data.tvshow.repository.source.network.result.tvshow.TVShowResponse
+import com.centaury.data.tvshow.repository.source.network.result.TVShowResponse
 import io.reactivex.Observable
 
 /**
@@ -11,6 +10,4 @@ import io.reactivex.Observable
 interface TVShowsEntityData {
 
     fun discoveryTVShows(): Observable<TVShowResponse>
-
-    fun detailTVShow(tvShowId: String): Observable<DetailTVShowResponse>
 }

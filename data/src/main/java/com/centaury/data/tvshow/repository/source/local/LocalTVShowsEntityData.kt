@@ -1,8 +1,7 @@
 package com.centaury.data.tvshow.repository.source.local
 
 import com.centaury.data.tvshow.repository.TVShowsEntityData
-import com.centaury.data.tvshow.repository.source.network.result.detail.DetailTVShowResponse
-import com.centaury.data.tvshow.repository.source.network.result.tvshow.TVShowResponse
+import com.centaury.data.tvshow.repository.source.network.result.TVShowResponse
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -13,10 +12,6 @@ import javax.inject.Inject
 class LocalTVShowsEntityData @Inject constructor(
 ) : TVShowsEntityData {
     override fun discoveryTVShows(): Observable<TVShowResponse> {
-        TODO("Not yet implemented")
-    }
-
-    override fun detailTVShow(tvShowId: String): Observable<DetailTVShowResponse> {
         TODO("Not yet implemented")
     }
 

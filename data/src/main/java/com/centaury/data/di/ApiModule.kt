@@ -1,5 +1,6 @@
 package com.centaury.data.di
 
+import com.centaury.data.detail.repository.source.network.DetailApi
 import com.centaury.data.genre.repository.source.network.GenreApi
 import com.centaury.data.movies.repository.source.network.MoviesApi
 import com.centaury.data.tvshow.repository.source.network.TVShowApi
@@ -35,4 +36,11 @@ class ApiModule {
         builder
             .build()
             .create(GenreApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideDetailApi(builder: Retrofit.Builder): DetailApi =
+        builder
+            .build()
+            .create(DetailApi::class.java)
 }

@@ -1,7 +1,6 @@
 package com.centaury.cataloguemovie.utils
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,11 +35,7 @@ fun ViewGroup.inflate(layoutRes: Int): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, false)
 }
 
-fun ImageView.loadFromUrl(imageView: ImageView, url: String) {
-    imageView.load(BuildConfig.IMAGE_URL + url)
-}
-
-fun ImageView.loadFromUrl(
+fun loadFromUrl(
     imageView: ImageView,
     url: String,
     @DrawableRes drawableResId: Int,
@@ -49,17 +44,5 @@ fun ImageView.loadFromUrl(
     imageView.load(BuildConfig.IMAGE_URL + url) {
         placeholder(drawableResId)
         error(drawableErrorResId)
-    }
-}
-
-fun ImageView.loadFromUrl(
-    imageView: ImageView,
-    url: String,
-    drawable: Drawable,
-    drawableError: Drawable
-) {
-    imageView.load(BuildConfig.IMAGE_URL + url) {
-        placeholder(drawable)
-        error(drawableError)
     }
 }

@@ -3,23 +3,27 @@ package com.centaury.cataloguemovie.ui.detail
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.di.component.DaggerDetailComponent
+import com.centaury.cataloguemovie.utils.*
+import com.centaury.domain.detail.model.Detail
 import kotlinx.android.synthetic.main.activity_detail_movie.*
+import java.text.ParseException
+import javax.inject.Inject
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class DetailMovieActivity : AppCompatActivity() {
-    /*private DateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private DateFormat outputDate = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 
-    private DetailMovieResponse detailMovieResponse;
-    private DetailTVShowResponse detailTVShowResponse;
-    private DetailMovieViewModel detailMovieViewModel;
-    private String imageBaseUrl = BuildConfig.IMAGE_URL;
-    private String sizeImage = AppConstants.SIZE_IMAGE;
-    private int movieId;
-    private int tvshowId;
-    private Boolean isFavorite = false;*/
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var detailMovieViewModel: DetailMovieViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,16 +32,22 @@ class DetailMovieActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.navigationBarDividerColor = ContextCompat.getColor(this, R.color.colorPrimary)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val view = window.decorView
             view.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         }
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        initInjector()
+        initView()
 
         /*detailMovieViewModel = obtainViewModel(this)
         val language = Locale.getDefault().toLanguageTag()
@@ -71,97 +81,118 @@ class DetailMovieActivity : AppCompatActivity() {
         mBtnFavorite.setScale(2.481f)*/
     }
 
-    /*private fun itemMovie(movie: DetailMovieResponse) {
-        mTxtTitledetail.setText(movie.getTitle())
-        mTxtRatemovie.setText(java.lang.String.valueOf(movie.getVoteAverage()))
-        val movieRating = (movie.getVoteAverage() / 2) as Float
-        mRbRatingdetail.setRating(movieRating)
-        if (movie.getGenres().size() === 0) {
-            mTxtGenredetail.setText(resources.getString(R.string.txt_no_genre))
-        } else {
-            getGenresString(movie.getGenres())
-        }
-        if (movie.getOverview() == null || movie.getOverview().equals("")) {
-            mTxtDescdetail.setText(resources.getString(R.string.txt_no_desc))
-        } else {
-            mTxtDescdetail.setText(movie.getOverview())
-        }
-        GlideApp.with(this)
-            .load(imageBaseUrl + sizeImage + movie.getPosterPath())
-            .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
-            .into(mIvImgdetail)
-        if (movie.getBackdropPath() != null) {
-            GlideApp.with(this)
-                .load(imageBaseUrl + sizeImage + movie.getBackdropPath())
-                .apply(
-                    RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error)
-                )
-                .into(mIvCoverdetail)
-        } else {
-            GlideApp.with(this)
-                .load(imageBaseUrl + sizeImage + movie.getPosterPath())
-                .apply(
-                    RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error)
-                )
-                .into(mIvCoverdetail)
-        }
-        try {
-            val date: Date = inputDate.parse(movie.getReleaseDate())
-            var releaseDate: String? = null
-            if (date != null) {
-                releaseDate = outputDate.format(date)
-            }
-            mTxtDatedetail.setText(releaseDate)
-        } catch (e: ParseException) {
-            e.printStackTrace()
-        }
-    }*/
+    private fun initView() {
+        detailMovieViewModel =
+            ViewModelProvider(this, viewModelFactory)[DetailMovieViewModel::class.java]
 
-    /*private fun itemTVShow(tvshow: DetailTVShowResponse) {
-        mTxtTitledetail.setText(tvshow.getName())
-        mTxtRatemovie.setText(java.lang.String.valueOf(tvshow.getVoteAverage()))
-        val movieRating = (tvshow.getVoteAverage() / 2) as Float
-        mRbRatingdetail.setRating(movieRating)
-        if (tvshow.getGenres().size() === 0) {
-            mTxtGenredetail.setText(resources.getString(R.string.txt_no_genre))
+        initParam()
+        initObserver()
+
+        cl_data.gone()
+        btn_favorite.scale = 2.481f
+    }
+
+    private fun initParam() {
+        val movieId = intent.getIntExtra(DETAIL_EXTRA_MOVIE, 0)
+        if (movieId != 0) {
+            detailMovieViewModel.getDetailMovieContract(movieId)
         } else {
-            getGenresString(tvshow.getGenres())
+            val tvShowId = intent.getIntExtra(DETAIL_EXTRA_TV_SHOW, 0)
+            detailMovieViewModel.getDetailTVShowContract(tvShowId)
         }
-        if (tvshow.getOverview() == null || tvshow.getOverview().equals("")) {
-            mTxtDescdetail.setText(resources.getString(R.string.txt_no_desc))
-        } else {
-            mTxtDescdetail.setText(tvshow.getOverview())
-        }
-        GlideApp.with(this)
-            .load(imageBaseUrl + sizeImage + tvshow.getPosterPath())
-            .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
-            .into(mIvImgdetail)
-        if (tvshow.getBackdropPath() != null) {
-            GlideApp.with(this)
-                .load(imageBaseUrl + sizeImage + tvshow.getBackdropPath())
-                .apply(
-                    RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error)
-                )
-                .into(mIvCoverdetail)
-        } else {
-            GlideApp.with(this)
-                .load(imageBaseUrl + sizeImage + tvshow.getPosterPath())
-                .apply(
-                    RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error)
-                )
-                .into(mIvCoverdetail)
-        }
-        try {
-            val date: Date = inputDate.parse(tvshow.getFirstAirDate())
-            var releaseDate: String? = null
-            if (date != null) {
-                releaseDate = outputDate.format(date)
+    }
+
+    private fun initObserver() {
+        detailMovieViewModel.state.observe(this, Observer { state ->
+            when (state) {
+                is LoaderState.ShowLoading -> {
+                    shimmer_view_container.startShimmer()
+                    shimmer_view_container.visible()
+                }
+                is LoaderState.HideLoading -> {
+                    cl_data.visible()
+                    shimmer_view_container.stopShimmer()
+                    shimmer_view_container.gone()
+                }
             }
-            mTxtDatedetail.setText(releaseDate)
+        })
+
+        detailMovieViewModel.resultMovie.observe(this, Observer { resultMovie ->
+            showDetail(resultMovie)
+        })
+
+        detailMovieViewModel.errorMovie.observe(this, Observer { errorMovie ->
+            showToast(errorMovie)
+        })
+
+        detailMovieViewModel.resultTVShow.observe(this, Observer { resultTVShow ->
+            showDetail(resultTVShow)
+        })
+
+        detailMovieViewModel.errorTVShow.observe(this, Observer { errorTVShow ->
+            showToast(errorTVShow)
+        })
+    }
+
+    private fun showDetail(detail: Detail) {
+        txt_title_detail.text = detail.title
+        txt_rate_movie.text = detail.rating.toString()
+        val rating = (detail.rating / 2).toFloat()
+        rb_rating_detail.rating = rating
+
+        if (detail.genre.isEmpty()) {
+            txt_genre_detail.text = getString(R.string.txt_no_genre)
+        } else {
+            CommonUtils.getGenresString(detail.genre, txt_genre_detail)
+        }
+
+        if (detail.overview.isEmpty() || detail.overview == "") {
+            txt_desc_detail.text = getString(R.string.txt_no_desc)
+        } else {
+            txt_desc_detail.text = detail.overview
+        }
+
+        loadFromUrl(
+            iv_img_detail,
+            detail.image,
+            R.drawable.ic_loading,
+            R.drawable.ic_error
+        )
+
+        if (detail.imageBackground != "null") {
+            loadFromUrl(
+                iv_cover_detail,
+                detail.imageBackground,
+                R.drawable.ic_loading,
+                R.drawable.ic_error
+            )
+        } else {
+            loadFromUrl(
+                iv_cover_detail,
+                detail.image,
+                R.drawable.ic_loading,
+                R.drawable.ic_error
+            )
+        }
+
+        try {
+            val date = CommonUtils.inputDate().parse(detail.date)
+            var releaseDate: String
+            date.let {
+                releaseDate = CommonUtils.outputDate().format(it)
+            }
+            txt_date_detail.text = releaseDate
         } catch (e: ParseException) {
             e.printStackTrace()
         }
-    }*/
+    }
+
+    private fun initInjector() {
+        DaggerDetailComponent.builder()
+            .appComponent((application as MovieCatalogueApp).appComponent)
+            .build()
+            .inject(this)
+    }
 
     public override fun onResume() {
         super.onResume()
@@ -171,6 +202,12 @@ class DetailMovieActivity : AppCompatActivity() {
     public override fun onPause() {
         shimmer_view_container.stopShimmer()
         super.onPause()
+    }
+
+    companion object {
+        const val DETAIL_EXTRA_MOVIE = "extra_movie"
+        const val DETAIL_EXTRA_TV_SHOW = "extra_tv_show"
+
     }
 
     /*private fun addFavorite() {

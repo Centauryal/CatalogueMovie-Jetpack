@@ -14,6 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -68,12 +69,17 @@ class NetworkModule {
         val url = request.url
             .newBuilder()
             .addQueryParameter("api_key", BuildConfig.API_KEY)
+            .addQueryParameter("language", languageTag())
             .build()
         request = request
             .newBuilder()
             .url(url)
             .build()
         return it.proceed(request)
+    }
+
+    private fun languageTag(): String {
+        return Locale.getDefault().toLanguageTag()
     }
 
     @Provides

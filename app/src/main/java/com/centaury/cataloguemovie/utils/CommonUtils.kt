@@ -24,34 +24,12 @@ object CommonUtils {
         return SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
     }
 
-    fun getGenresString(itemList: List<Genre>, genreData: List<Int>, txtGenre: TextView) {
-        val genreMovies: MutableList<String> = ArrayList()
-
-        try {
-            if (genreData.size == 1) {
-                for (genreId in genreData) {
-                    for (genresItem in itemList) {
-                        if (genresItem.id == genreId) {
-                            genreMovies.add(genresItem.name)
-                        }
-                    }
-                    txtGenre.text = TextUtils.join(", ", genreMovies)
-                }
-            } else {
-                val integers = genreData.subList(0, 2)
-                for (genreId in integers) {
-                    for (genresItem in itemList) {
-                        if (genresItem.id == genreId) {
-                            genreMovies.add(genresItem.name)
-                        }
-                    }
-                    txtGenre.text = TextUtils.join(", ", genreMovies)
-                }
-            }
-        } catch (e: IndexOutOfBoundsException) {
-            e.printStackTrace()
-        } catch (e: IllegalArgumentException) {
-            e.printStackTrace()
+    fun getGenresString(genreData: List<String>, txtGenre: TextView) {
+        if (genreData.size == 1) {
+            txtGenre.text = TextUtils.join(", ", genreData)
+        } else {
+            val strings = genreData.subList(0, 2)
+            txtGenre.text = TextUtils.join(", ", strings)
         }
     }
 

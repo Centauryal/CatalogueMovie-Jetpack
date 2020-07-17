@@ -1,6 +1,5 @@
 package com.centaury.domain.movies
 
-import com.centaury.domain.movies.model.Detail
 import com.centaury.domain.movies.model.Movie
 import io.reactivex.Observable
 
@@ -11,6 +10,4 @@ import io.reactivex.Observable
 interface MoviesRepository {
 
     fun getDiscoveryMovies(): Observable<List<Movie>>
-
-    fun getDetailMovie(movieId: String): Observable<Detail>
 }

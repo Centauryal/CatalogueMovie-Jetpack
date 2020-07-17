@@ -1,8 +1,7 @@
 package com.centaury.data.movies.repository.source.network
 
 import com.centaury.data.movies.repository.MoviesEntityData
-import com.centaury.data.movies.repository.source.network.result.detail.DetailMovieResponse
-import com.centaury.data.movies.repository.source.network.result.movie.MovieResponse
+import com.centaury.data.movies.repository.source.network.result.MovieResponse
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -14,7 +13,4 @@ class NetworkMoviesEntityData @Inject constructor(
     private val moviesApi: MoviesApi
 ) : MoviesEntityData {
     override fun discoveryMovies(): Observable<MovieResponse> = moviesApi.discoveryMovies()
-
-    override fun detailMovie(movieId: String): Observable<DetailMovieResponse> =
-        moviesApi.detailMovie(movieId)
 }

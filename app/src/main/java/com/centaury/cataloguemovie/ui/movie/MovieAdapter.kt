@@ -42,8 +42,6 @@ class MovieAdapter(
         private val dateView = view.txt_date_movie_list
 
         companion object {
-            private const val DETAIL_EXTRA_MOVIE = "extra_movie"
-
             fun inflate(parent: ViewGroup): MovieViewHolder {
                 return MovieViewHolder(
                     LayoutInflater.from(parent.context)
@@ -78,7 +76,7 @@ class MovieAdapter(
                 e.printStackTrace()
             }
 
-            poster.loadFromUrl(
+            loadFromUrl(
                 poster,
                 movie.image,
                 R.drawable.ic_loading,
@@ -86,7 +84,7 @@ class MovieAdapter(
             )
             itemView.setOnClickListener {
                 val intent = Intent(context, DetailMovieActivity::class.java).apply {
-                    putExtra(DETAIL_EXTRA_MOVIE, movie.id)
+                    putExtra(DetailMovieActivity.DETAIL_EXTRA_MOVIE, movie.id)
                 }
                 context.startActivity(intent)
             }

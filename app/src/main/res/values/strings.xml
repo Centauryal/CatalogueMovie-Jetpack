@@ -2,7 +2,7 @@
     <string name="app_name">Movie Catalogue</string>
 
     <string name="example_desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
-    <string name="example_title">COBA AJAA</string>
+    <string name="example_title">Testing</string>
     <string name="example_genre">Comedy</string>
     <string name="example_date">friday, Jun 29, 2017</string>
     <string name="example_rate">7.5</string>
@@ -14,7 +14,6 @@
 
     <string name="txt_movie_add">Favorite movie added</string>
     <string name="txt_movie_remove">Favorite movie deleted</string>
-    <string name="txt_error">There is an error</string>
     <string name="txt_error_state">No movies were found</string>
     <string name="txt_no_desc">No description</string>
     <string name="txt_no_genre">No Genre</string>
@@ -34,8 +33,6 @@
     <string name="content_desc_btn_back">back button</string>
     <string name="content_desc_btn_favorite">favorite button</string>
     <string name="content_desc_btn_delete">delete button</string>
-    <string name="content_desc_btn_settings">settings button</string>
-    <string name="content_desc_btn_search">search button</string>
 
     <string name="btn_delete">Delete</string>
     <string name="btn_cancel">Cancel</string>

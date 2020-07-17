@@ -1,7 +1,6 @@
 package com.centaury.data.movies.repository
 
-import com.centaury.data.movies.repository.source.network.result.detail.DetailMovieResponse
-import com.centaury.data.movies.repository.source.network.result.movie.MovieResponse
+import com.centaury.data.movies.repository.source.network.result.MovieResponse
 import io.reactivex.Observable
 
 /**
@@ -11,6 +10,4 @@ import io.reactivex.Observable
 interface MoviesEntityData {
 
     fun discoveryMovies(): Observable<MovieResponse>
-
-    fun detailMovie(movieId: String): Observable<DetailMovieResponse>
 }

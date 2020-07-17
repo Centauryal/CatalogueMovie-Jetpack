@@ -1,53 +1,62 @@
 package com.centaury.cataloguemovie.ui.detail
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.centaury.cataloguemovie.utils.LoaderState
+import com.centaury.domain.detail.interactor.GetDetailMovie
+import com.centaury.domain.detail.interactor.GetDetailTVShow
+import com.centaury.domain.detail.model.Detail
+import javax.inject.Inject
+
 /**
  * Created by Centaury on 10/7/2019.
  */
-/*
-class DetailMovieViewModel @Inject constructor(private val catalogueRepository: CatalogueRepository) :
-    ViewModel() {
-    private var movieId: String? = null
-    private var tvshowId: String? = null
-    fun getDetailMovie(language: String?): LiveData<DetailMovieResponse> {
-        return catalogueRepository.getDetailMovie(movieId, language)
+class DetailMovieViewModel @Inject constructor(
+    private val getDetailMovie: GetDetailMovie,
+    private val getDetailTVShow: GetDetailTVShow
+) : ViewModel(), DetailContract {
+
+    private val _state = MutableLiveData<LoaderState>()
+    val state: LiveData<LoaderState>
+        get() = _state
+
+    private val _resultMovie = MutableLiveData<Detail>()
+    val resultMovie: LiveData<Detail>
+        get() = _resultMovie
+
+    private val _errorMovie = MutableLiveData<String>()
+    val errorMovie: LiveData<String>
+        get() = _errorMovie
+
+    private val _resultTVShow = MutableLiveData<Detail>()
+    val resultTVShow: LiveData<Detail>
+        get() = _resultTVShow
+
+    private val _errorTVShow = MutableLiveData<String>()
+    val errorTVShow: LiveData<String>
+        get() = _errorTVShow
+
+    override fun getDetailMovieContract(movieId: Int) {
+        _state.value = LoaderState.ShowLoading
+        getDetailMovie.execute(GetDetailMovie.Params(movieId), onSuccess = {
+            _state.value = LoaderState.HideLoading
+            _resultMovie.postValue(it)
+        }, onError = {
+            _state.value = LoaderState.HideLoading
+            _errorMovie.postValue(it.message)
+        })
     }
 
-    fun getDetailTVShow(language: String?): LiveData<DetailTVShowResponse> {
-        return catalogueRepository.getDetailTVShow(tvshowId, language)
+    override fun getDetailTVShowContract(tvShowId: Int) {
+        _state.value = LoaderState.ShowLoading
+        getDetailTVShow.execute(GetDetailTVShow.Params(tvShowId), onSuccess = {
+            _state.value = LoaderState.HideLoading
+            _resultTVShow.postValue(it)
+        }, onError = {
+            _state.value = LoaderState.HideLoading
+            _errorTVShow.postValue(it.message)
+        })
     }
 
-    @Throws(ExecutionException::class, InterruptedException::class)
-    fun getDetailFavMovie(id: Int): MovieEntity {
-        return catalogueRepository.getDetailFavMovie(id)
-    }
-
-    @Throws(ExecutionException::class, InterruptedException::class)
-    fun getDetailFavTVShow(id: Int): TVShowEntity {
-        return catalogueRepository.getDetailFavTVShow(id)
-    }
-
-    fun setMovieId(movieId: String?) {
-        this.movieId = movieId
-    }
-
-    fun setTvshowId(tvshowId: String?) {
-        this.tvshowId = tvshowId
-    }
-
-    fun insertFavoriteMovie(movieEntity: MovieEntity?) {
-        catalogueRepository.insertFavMovie(movieEntity)
-    }
-
-    fun deleteFavoriteMovie(movieEntity: MovieEntity?) {
-        catalogueRepository.deleteFavMovie(movieEntity)
-    }
-
-    fun insertFavoriteTVShow(tvShowEntity: TVShowEntity?) {
-        catalogueRepository.insertFavTVShow(tvShowEntity)
-    }
-
-    fun deleteFavoriteTVShow(tvShowEntity: TVShowEntity?) {
-        catalogueRepository.deleteFavTVShow(tvShowEntity)
-    }
-
-}*/
+}

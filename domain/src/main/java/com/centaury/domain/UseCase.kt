@@ -30,9 +30,9 @@ abstract class UseCase<T, Params>(
             )
     }
 
-    fun dispose() {
+    private fun dispose() {
         disposable?.dispose()
     }
 
-    class None()
+    class None
 }

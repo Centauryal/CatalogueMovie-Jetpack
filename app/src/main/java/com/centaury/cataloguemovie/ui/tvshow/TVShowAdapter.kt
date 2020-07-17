@@ -42,8 +42,6 @@ class TVShowAdapter(
         private val dateView = view.txt_date_movie_list
 
         companion object {
-            private const val DETAIL_EXTRA_TV_SHOW = "extra_tv_show"
-
             fun inflate(parent: ViewGroup): TVShowViewHolder {
                 return TVShowViewHolder(
                     LayoutInflater.from(parent.context)
@@ -78,7 +76,7 @@ class TVShowAdapter(
                 e.printStackTrace()
             }
 
-            poster.loadFromUrl(
+            loadFromUrl(
                 poster,
                 tvShow.image,
                 R.drawable.ic_loading,
@@ -86,7 +84,7 @@ class TVShowAdapter(
             )
             itemView.setOnClickListener {
                 val intent = Intent(context, DetailMovieActivity::class.java).apply {
-                    putExtra(DETAIL_EXTRA_TV_SHOW, tvShow.id)
+                    putExtra(DetailMovieActivity.DETAIL_EXTRA_TV_SHOW, tvShow.id)
                 }
                 context.startActivity(intent)
             }
