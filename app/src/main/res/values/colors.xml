@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimaryVariant">#00574B</color>
+    <color name="colorSecondary">#D81B60</color>
+    <color name="colorSecondaryVariant">#A00037</color>
+
+    <color name="colorSurface">#4CB5A6</color>
+
+    <color name="cod_gray">#121212</color>
+    <color name="azure_radiance">#0A84FF</color>
+    <color name="azure_radianceVariant">#007AFF</color>
+    <color name="supernova">#FFCC00</color>
 
     <color name="grey_3">#f7f7f7</color>
     <color name="grey_5">#f2f2f2</color>
