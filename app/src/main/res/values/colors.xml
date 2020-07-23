@@ -5,12 +5,12 @@
     <color name="colorSecondary">#D81B60</color>
     <color name="colorSecondaryVariant">#A00037</color>
 
-    <color name="colorSurface">#4CB5A6</color>
-
-    <color name="cod_gray">#121212</color>
-    <color name="azure_radiance">#0A84FF</color>
-    <color name="azure_radianceVariant">#007AFF</color>
+    <color name="aquamarine">#64FFDA</color>
+    <color name="java">#14CBA8</color>
+    <color name="violet_red">#FF4081</color>
     <color name="supernova">#FFCC00</color>
+    <color name="cod_gray">#121212</color>
+    <color name="mine_shaft">#272727</color>
 
     <color name="grey_3">#f7f7f7</color>
     <color name="grey_5">#f2f2f2</color>

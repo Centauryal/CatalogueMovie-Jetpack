@@ -6,7 +6,6 @@ import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.centaury.cataloguemovie.MovieCatalogueApp
@@ -33,7 +32,7 @@ class DetailMovieActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.navigationBarDividerColor = ContextCompat.getColor(this, R.color.colorPrimary)
+            window.navigationBarDividerColor = getColor(R.color.colorPrimary)
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val view = window.decorView
