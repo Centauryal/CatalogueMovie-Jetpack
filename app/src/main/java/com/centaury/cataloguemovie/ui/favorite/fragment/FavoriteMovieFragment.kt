@@ -5,14 +5,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.di.component.DaggerFavoriteMovieComponent
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteFragmentCallback
+import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteMovieAdapter
+import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteMovieViewModel
+import com.centaury.cataloguemovie.utils.CommonUtils
+import com.centaury.cataloguemovie.utils.LoaderState
+import com.centaury.cataloguemovie.utils.gone
+import com.centaury.cataloguemovie.utils.visible
+import com.centaury.domain.movies.model.MoviesEntity
 import kotlinx.android.synthetic.main.fragment_favorite_movie.*
+import kotlinx.android.synthetic.main.item_empty_state_placeholder.*
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
 class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var favoriteMovieViewModel: FavoriteMovieViewModel
+
+    private var movieFavoriteData = arrayListOf<MoviesEntity>()
+    private val favoriteMovieAdapter: FavoriteMovieAdapter by lazy {
+        FavoriteMovieAdapter(movieFavoriteData)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,6 +43,66 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorite_movie, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initInjector()
+        initView()
+    }
+
+    private fun initView() {
+        favoriteMovieViewModel =
+            ViewModelProvider(this, viewModelFactory)[FavoriteMovieViewModel::class.java]
+
+        with(rv_fav_movie) {
+            hasFixedSize()
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(CommonUtils.TopItemDecoration(55))
+            adapter = favoriteMovieAdapter
+        }
+
+        initObserver()
+
+    }
+
+    private fun initObserver() {
+        favoriteMovieViewModel.state.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is LoaderState.ShowLoading -> {
+                    shimmer_view_container.startShimmer()
+                    shimmer_view_container.visible()
+                }
+                is LoaderState.HideLoading -> {
+                    shimmer_view_container.stopShimmer()
+                    shimmer_view_container.gone()
+                }
+            }
+        })
+
+        favoriteMovieViewModel.result.observe(viewLifecycleOwner, Observer { result ->
+            toggleEmptyMovies(result.size)
+            movieFavoriteData.addAll(result)
+            favoriteMovieAdapter.notifyDataSetChanged()
+        })
+    }
+
+    private fun toggleEmptyMovies(size: Int) {
+        if (size > 0) {
+            empty_state.gone()
+            rv_fav_movie.visible()
+        } else {
+            rv_fav_movie.gone()
+            empty_state.visible()
+        }
+    }
+
+    private fun initInjector() {
+        DaggerFavoriteMovieComponent.builder()
+            .appComponent((activity?.application as MovieCatalogueApp).appComponent)
+            .build()
+            .inject(this)
+
     }
 
     /*override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -76,16 +159,6 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
             e.printStackTrace()
         } catch (e: InterruptedException) {
             e.printStackTrace()
-        }
-    }*/
-
-    /*private fun toggleEmptyMovies(size: Int) {
-        if (size > 0) {
-            mEmptyState.setVisibility(View.GONE)
-            mRvFavMovie.setVisibility(View.VISIBLE)
-        } else {
-            mRvFavMovie.setVisibility(View.GONE)
-            mEmptyState.setVisibility(View.VISIBLE)
         }
     }*/
 

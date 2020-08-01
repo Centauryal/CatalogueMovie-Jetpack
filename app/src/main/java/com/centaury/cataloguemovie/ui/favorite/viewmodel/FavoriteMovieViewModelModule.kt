@@ -1,4 +1,4 @@
-package com.centaury.cataloguemovie.ui.detail
+package com.centaury.cataloguemovie.ui.favorite.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -11,10 +11,10 @@ import dagger.multibindings.IntoMap
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)
- * Created by Centaury on 7/16/2020.
+ * Created by Centaury on 7/27/2020.
  */
 @Module
-abstract class DetailMovieViewModelModule {
+abstract class FavoriteMovieViewModelModule {
 
     @MovieScope
     @Binds
@@ -22,11 +22,6 @@ abstract class DetailMovieViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DetailMovieViewModel::class)
-    internal abstract fun bindViewModel(viewModel: DetailMovieViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(DetailFavoriteMovieViewModel::class)
-    internal abstract fun bindFavoriteViewModel(favoriteViewModel: DetailFavoriteMovieViewModel): ViewModel
+    @ViewModelKey(FavoriteMovieViewModel::class)
+    internal abstract fun bindViewModel(viewModel: FavoriteMovieViewModel): ViewModel
 }

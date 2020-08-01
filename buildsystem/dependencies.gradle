@@ -60,6 +60,7 @@ ext {
             legacySupport:      [group: 'androidx.legacy', name: 'legacy-support-v4', version: androidLegacyVersion],
             roomRuntime:        [group: 'androidx.room', name: 'room-runtime', version: roomVersion],
             roomCompiler:       [group: 'androidx.room', name: 'room-compiler', version: roomVersion],
+            roomRxJava:         [group: 'androidx.room', name: 'room-rxjava2', version: roomVersion],
             lifecycleViewModel: [group: 'androidx.lifecycle', name: 'lifecycle-viewmodel-ktx', version: lifecycleVersion],
             pagingRuntime:      [group: 'androidx.paging', name: 'paging-runtime', version: pagingVersion]
     ]
@@ -151,6 +152,9 @@ ext {
             [configuration: "implementation", dependency: dependencyInjectionLibs.javax],
             [configuration: "kapt", dependency: dependencyInjectionLibs.daggerCompiler],
             [configuration: "kapt", dependency: dependencyInjectionLibs.daggerProcessor],
+            [configuration: "api", dependency: androidLibs.roomRuntime],
+            [configuration: "api", dependency: androidLibs.roomRxJava],
+            [configuration: "kapt", dependency: androidLibs.roomCompiler],
             [configuration: "api", dependency: networkLibs.retrofit],
             [configuration: "api", dependency: networkLibs.retrofitAdapter],
             [configuration: "api", dependency: networkLibs.retrofitConverter],

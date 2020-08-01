@@ -6,13 +6,9 @@ import com.centaury.domain.tvshow.model.TVShowsEntity
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)
- * Created by Centaury on 7/16/2020.
+ * Created by Centaury on 7/27/2020.
  */
-interface DetailContract {
-
-    fun getDetailMovieContract(movieId: Int)
-
-    fun getDetailTVShowContract(tvShowId: Int)
+interface DetailFavoriteContract {
 
     fun getFavoriteMovieByIdContract(movieId: Int)
 

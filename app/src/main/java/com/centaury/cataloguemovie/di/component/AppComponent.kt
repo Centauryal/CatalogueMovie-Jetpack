@@ -5,6 +5,7 @@ import android.content.Context
 import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.di.module.ApplicationModule
 import com.centaury.data.di.ApiModule
+import com.centaury.data.di.DatabaseModule
 import com.centaury.data.di.NetworkModule
 import com.centaury.domain.detail.DetailRepository
 import com.centaury.domain.genre.GenreRepository
@@ -21,7 +22,8 @@ import javax.inject.Singleton
     modules = [
         ApplicationModule::class,
         NetworkModule::class,
-        ApiModule::class
+        ApiModule::class,
+        DatabaseModule::class
     ]
 )
 interface AppComponent {

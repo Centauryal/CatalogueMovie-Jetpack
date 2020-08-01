@@ -1,10 +1,14 @@
 package com.centaury.data.movies.repository
 
 import com.centaury.data.common.Source
+import com.centaury.data.movies.mapper.MoviesEntityMapper
 import com.centaury.data.movies.mapper.MoviesResultMapper
 import com.centaury.data.movies.repository.source.MoviesDataFactory
 import com.centaury.domain.movies.MoviesRepository
 import com.centaury.domain.movies.model.Movie
+import com.centaury.domain.movies.model.MoviesEntity
+import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -14,14 +18,30 @@ import javax.inject.Inject
  */
 class MoviesEntityRepository @Inject constructor(
     private val moviesDataFactory: MoviesDataFactory,
-    private val moviesResultMapper: MoviesResultMapper
+    private val moviesResultMapper: MoviesResultMapper,
+    private val moviesEntityMapper: MoviesEntityMapper
 ) : MoviesRepository {
 
     override fun getDiscoveryMovies(): Observable<List<Movie>> =
         createMovieData().discoveryMovies().map { moviesResultMapper.transformMovie(it) }
 
+    override fun getAllFavoriteMovie(): Flowable<List<MoviesEntity>> =
+        createEntityMovieData().getAllFavoriteMovie()
+            .map { moviesEntityMapper.transformEntityMovie(it) }
+
+    override fun getFavoriteMovieById(id: Int): Flowable<MoviesEntity> =
+        createEntityMovieData().getFavoriteMovieById(id)
+            .map { moviesEntityMapper.transformEntityMovieById(it) }
+
+    override fun insertFavoriteMovie(movie: MoviesEntity): Completable =
+        createEntityMovieData().insertFavoriteMovie(moviesEntityMapper.transformMovieToEntity(movie))
+
+    override fun deleteFavoriteMovie(movie: MoviesEntity): Completable =
+        createEntityMovieData().deleteFavoriteMovie(moviesEntityMapper.transformMovieToEntity(movie))
+
     private fun createMovieData(): MoviesEntityData =
         moviesDataFactory.createData(Source.NETWORK)
 
-
+    private fun createEntityMovieData(): MoviesEntityData =
+        moviesDataFactory.createData(Source.LOCAL)
 }

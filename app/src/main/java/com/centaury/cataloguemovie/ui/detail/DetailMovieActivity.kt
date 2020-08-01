@@ -13,6 +13,8 @@ import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.di.component.DaggerDetailComponent
 import com.centaury.cataloguemovie.utils.*
 import com.centaury.domain.detail.model.Detail
+import com.centaury.domain.movies.model.MoviesEntity
+import com.centaury.domain.tvshow.model.TVShowsEntity
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import java.text.ParseException
 import javax.inject.Inject
@@ -23,6 +25,12 @@ class DetailMovieActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var detailMovieViewModel: DetailMovieViewModel
+
+    private var movie: MoviesEntity? = null
+    private var tvShow: TVShowsEntity? = null
+    private var isFavorite: Boolean = false
+    private var movieId: Int? = null
+    private var tvShowId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,58 +54,34 @@ class DetailMovieActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         initInjector()
+        initClick()
         initView()
-
-        /*detailMovieViewModel = obtainViewModel(this)
-        val language = Locale.getDefault().toLanguageTag()
-        mClData.setVisibility(View.GONE)
-        mShimmerViewContainer.setVisibility(View.VISIBLE)
-        mShimmerViewContainer.startShimmer()
-        movieId = intent.getIntExtra(AppConstants.DETAIL_EXTRA_MOVIE, 0)
-        if (movieId !== 0) {
-            detailMovieViewModel.setMovieId(java.lang.String.valueOf(movieId))
-            detailMovieViewModel.getDetailMovie(language).observe(this, { detailMovieResponse ->
-                mShimmerViewContainer.stopShimmer()
-                mShimmerViewContainer.setVisibility(View.GONE)
-                mClData.setVisibility(View.VISIBLE)
-                itemMovie(detailMovieResponse)
-                detailMovieResponse = detailMovieResponse
-                stateFavoriteMovie(movieId)
-            })
-        } else {
-            tvshowId = intent.getIntExtra(AppConstants.DETAIL_EXTRA_TV_SHOW, 0)
-            detailMovieViewModel.setTvshowId(java.lang.String.valueOf(tvshowId))
-            detailMovieViewModel.getDetailTVShow(language).observe(this, { detailTVShowResponse ->
-                mShimmerViewContainer.stopShimmer()
-                mShimmerViewContainer.setVisibility(View.GONE)
-                mClData.setVisibility(View.VISIBLE)
-                itemTVShow(detailTVShowResponse)
-                detailTVShowResponse = detailTVShowResponse
-                stateFavoriteTVShow(tvshowId)
-            })
-        }
-        setFavorite()
-        mBtnFavorite.setScale(2.481f)*/
     }
 
     private fun initView() {
         detailMovieViewModel =
             ViewModelProvider(this, viewModelFactory)[DetailMovieViewModel::class.java]
 
+        cl_data.gone()
+
         initParam()
         initObserver()
 
-        cl_data.gone()
+        setFavorite()
         btn_favorite.scale = 2.481f
     }
 
     private fun initParam() {
-        val movieId = intent.getIntExtra(DETAIL_EXTRA_MOVIE, 0)
+        movieId = intent.getIntExtra(DETAIL_EXTRA_MOVIE, 0)
         if (movieId != 0) {
-            detailMovieViewModel.getDetailMovieContract(movieId)
+            detailMovieViewModel.getFavoriteMovieByIdContract(movieId!!)
+            detailMovieViewModel.getDetailMovieContract(movieId!!)
+            stateFavorite()
         } else {
-            val tvShowId = intent.getIntExtra(DETAIL_EXTRA_TV_SHOW, 0)
-            detailMovieViewModel.getDetailTVShowContract(tvShowId)
+            tvShowId = intent.getIntExtra(DETAIL_EXTRA_TV_SHOW, 0)
+            detailMovieViewModel.getFavoriteTVShowByIdContract(tvShowId!!)
+            detailMovieViewModel.getDetailTVShowContract(tvShowId!!)
+            stateFavorite()
         }
     }
 
@@ -131,6 +115,56 @@ class DetailMovieActivity : AppCompatActivity() {
         detailMovieViewModel.errorTVShow.observe(this, Observer { errorTVShow ->
             showToast(errorTVShow)
         })
+
+        detailMovieViewModel.resultMovieById.observe(this, Observer { movieById ->
+            movie = movieById
+        })
+
+        detailMovieViewModel.errorMovieById.observe(this, Observer { errorMovieById ->
+            showToast(errorMovieById)
+        })
+
+        detailMovieViewModel.resultTVShowById.observe(this, Observer { tvShowById ->
+            tvShow = tvShowById
+        })
+
+        detailMovieViewModel.errorTVShowById.observe(this, Observer { errorTVShowById ->
+            showToast(errorTVShowById)
+        })
+
+        detailMovieViewModel.errorInsertMovie.observe(this, Observer { errorInsertMovie ->
+            showToast(errorInsertMovie)
+        })
+
+        detailMovieViewModel.errorInsertTVShow.observe(this, Observer { errorInsertTVShow ->
+            showToast(errorInsertTVShow)
+        })
+
+        detailMovieViewModel.errorDeleteMovie.observe(this, Observer { errorDeleteMovie ->
+            showToast(errorDeleteMovie)
+        })
+
+        detailMovieViewModel.errorDeleteTVShow.observe(this, Observer { errorDeleteTVShow ->
+            showToast(errorDeleteTVShow)
+        })
+    }
+
+    private fun initClick() {
+        btn_favorite.setOnClickListener {
+            if (isFavorite) {
+                if (movieId != 0) {
+                    removeFavorite(movie)
+                } else {
+                    removeFavorite(null, tvShow)
+                }
+            } else {
+                addFavorite(movie, tvShow)
+            }
+
+            isFavorite = !isFavorite
+            setFavorite()
+            btn_favorite.playAnimation()
+        }
     }
 
     private fun showDetail(detail: Detail) {
@@ -203,123 +237,76 @@ class DetailMovieActivity : AppCompatActivity() {
         super.onPause()
     }
 
-    companion object {
-        const val DETAIL_EXTRA_MOVIE = "extra_movie"
-        const val DETAIL_EXTRA_TV_SHOW = "extra_tv_show"
-
-    }
-
-    /*private fun addFavorite() {
-        if (movieId !== 0) {
-            val movieEntity = MovieEntity(
-                detailMovieResponse.getId(),
-                mTxtTitledetail.getText().toString(),
-                detailMovieResponse.getOriginalTitle(),
-                detailMovieResponse.getPosterPath(),
-                detailMovieResponse.getBackdropPath(),
-                mTxtGenredetail.getText().toString(),
-                detailMovieResponse.getReleaseDate(),
-                mTxtDescdetail.getText().toString(),
-                detailMovieResponse.getVoteAverage()
-            )
-            detailMovieViewModel.insertFavoriteMovie(movieEntity)
-        } else {
-            val tvShowEntity = TVShowEntity(
-                detailTVShowResponse.getId(),
-                mTxtTitledetail.getText().toString(),
-                detailTVShowResponse.getOriginalName(),
-                detailTVShowResponse.getPosterPath(),
-                detailTVShowResponse.getBackdropPath(),
-                mTxtGenredetail.getText().toString(),
-                detailTVShowResponse.getFirstAirDate(),
-                mTxtDescdetail.getText().toString(),
-                detailTVShowResponse.getVoteAverage()
-            )
-            detailMovieViewModel.insertFavoriteTVShow(tvShowEntity)
-        }
-        Toast.makeText(this, getString(R.string.txt_movie_add), Toast.LENGTH_SHORT).show()
-    }
-
-    private fun removeFavorite(id: Int) {
-        if (movieId !== 0) {
-            val movieEntity: MovieEntity
-            try {
-                movieEntity = detailMovieViewModel.getDetailFavMovie(id)
-                detailMovieViewModel.deleteFavoriteMovie(movieEntity)
-            } catch (e: ExecutionException) {
-                e.printStackTrace()
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
+    private fun addFavorite(movie: MoviesEntity? = null, tvShow: TVShowsEntity? = null) {
+        if (movieId != 0) {
+            movie?.let {
+                val movieEntity = MoviesEntity(
+                    it.id,
+                    it.title,
+                    it.titleBackground,
+                    it.image,
+                    txt_genre_detail.text.toString(),
+                    it.overview,
+                    it.date
+                )
+                detailMovieViewModel.getInsertFavoriteMovieContract(this, movieEntity)
             }
         } else {
-            val tvShowEntity: TVShowEntity
-            try {
-                tvShowEntity = detailMovieViewModel.getDetailFavTVShow(id)
-                detailMovieViewModel.deleteFavoriteTVShow(tvShowEntity)
-            } catch (e: ExecutionException) {
-                e.printStackTrace()
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
+            tvShow?.let {
+                val tvShowEntity = TVShowsEntity(
+                    it.id,
+                    it.title,
+                    it.titleBackground,
+                    it.image,
+                    txt_genre_detail.text.toString(),
+                    it.overview,
+                    it.date
+                )
+                detailMovieViewModel.getInsertFavoriteTVSHowContract(this, tvShowEntity)
             }
         }
-        Toast.makeText(this, getString(R.string.txt_movie_remove), Toast.LENGTH_SHORT).show()
     }
 
-    private fun stateFavoriteMovie(id: Int) {
-        val movieEntity: MovieEntity
-        try {
-            movieEntity = detailMovieViewModel.getDetailFavMovie(id)
-            if (movieEntity != null) {
+    private fun removeFavorite(movie: MoviesEntity? = null, tvShow: TVShowsEntity? = null) {
+        if (movieId != 0) {
+            movie?.let {
+                detailMovieViewModel.getDeleteFavoriteMovieContract(this, it)
+            }
+        } else {
+            tvShow?.let {
+                detailMovieViewModel.getDeleteFavoriteTVShowContract(this, it)
+            }
+        }
+
+    }
+
+    private fun stateFavorite() {
+        if (movieId != 0) {
+            movie?.let {
                 isFavorite = true
             }
             setFavorite()
-        } catch (e: ExecutionException) {
-            e.printStackTrace()
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
-    }
-
-    private fun stateFavoriteTVShow(id: Int) {
-        val tvShowEntity: TVShowEntity
-        try {
-            tvShowEntity = detailMovieViewModel.getDetailFavTVShow(id)
-            if (tvShowEntity != null) {
+        } else {
+            tvShow?.let {
                 isFavorite = true
             }
             setFavorite()
-        } catch (e: ExecutionException) {
-            e.printStackTrace()
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
         }
     }
 
     private fun setFavorite() {
         if (isFavorite) {
-            mBtnFavorite.setSpeed(1f)
-            mBtnFavorite.setProgress(1f)
+            btn_favorite.speed = 1f
+            btn_favorite.progress = 1f
         } else {
-            mBtnFavorite.setProgress(0f)
-            mBtnFavorite.setSpeed(-2f)
+            btn_favorite.progress = 0f
+            btn_favorite.speed = -2f
         }
     }
 
-    @OnClick(R.id.btn_favorite)
-    fun onClick(v: View) {
-        if (v.id == R.id.btn_favorite) {
-            if (isFavorite) {
-                if (movieId !== 0) {
-                    removeFavorite(movieId)
-                } else {
-                    removeFavorite(tvshowId)
-                }
-            } else {
-                addFavorite()
-            }
-            isFavorite = !isFavorite
-            setFavorite()
-            mBtnFavorite.playAnimation()
-        }
-    }*/
+    companion object {
+        const val DETAIL_EXTRA_MOVIE = "extra_movie"
+        const val DETAIL_EXTRA_TV_SHOW = "extra_tv_show"
+
+    }
 }

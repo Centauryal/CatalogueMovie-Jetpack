@@ -5,6 +5,7 @@ import com.centaury.cataloguemovie.di.component.AppComponent
 import com.centaury.cataloguemovie.di.component.DaggerAppComponent
 import com.centaury.cataloguemovie.di.module.ApplicationModule
 import com.centaury.data.di.ApiModule
+import com.centaury.data.di.DatabaseModule
 import com.centaury.data.di.NetworkModule
 
 /**
@@ -17,6 +18,7 @@ class MovieCatalogueApp : Application() {
             .applicationModule(ApplicationModule(this))
             .apiModule(ApiModule())
             .networkModule(NetworkModule())
+            .databaseModule(DatabaseModule())
             .build()
     }
 

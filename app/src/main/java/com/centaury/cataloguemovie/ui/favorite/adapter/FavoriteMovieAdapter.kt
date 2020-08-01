@@ -1,95 +1,86 @@
 package com.centaury.cataloguemovie.ui.favorite.adapter
 
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.utils.CommonUtils
+import com.centaury.cataloguemovie.utils.loadFromUrl
+import com.centaury.domain.movies.model.MoviesEntity
+import kotlinx.android.synthetic.main.item_favorite_movielist.view.*
+import java.text.ParseException
+
 /**
  * Created by Centaury on 11/23/2019.
  */
-/*
+
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class FavoriteMovieAdapter(
-    private val activity: Activity,
-    private val callback: FavoriteFragmentCallback
-) :
-    PagedListAdapter<MovieEntity?, FavoriteMovieViewHolder?>(DIFF_CALLBACK) {
-    fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteMovieViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_favorite_movielist, parent, false)
-        return FavoriteMovieViewHolder(view)
+    private var moviesFavorite: List<MoviesEntity>
+) : RecyclerView.Adapter<FavoriteMovieAdapter.FavoriteMovieViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteMovieViewHolder {
+        return FavoriteMovieViewHolder.inflate(parent)
     }
 
-    fun onBindViewHolder(holder: FavoriteMovieViewHolder, position: Int) {
-        val movie: MovieEntity = getItem(position)
-        if (movie != null) {
-            holder.bind(movie)
-        }
-        holder.itemView.setOnClickListener { v: View? ->
-            val intent = Intent(activity, DetailFavoriteMovieActivity::class.java)
-            intent.putExtra(AppConstants.DETAIL_EXTRA_FAV_MOVIE, movie.movieId)
-            activity.startActivity(intent)
-        }
-        holder.mBtnDelete!!.setOnClickListener { v: View? ->
-            callback.onDeleteItemClick(
-                movie.movieId
-            )
-        }
+    override fun getItemCount(): Int = moviesFavorite.size
+
+    override fun onBindViewHolder(holder: FavoriteMovieViewHolder, position: Int) {
+        holder.bind(moviesFavorite[position])
     }
 
-    inner class FavoriteMovieViewHolder(itemView: View?) :
-        RecyclerView.ViewHolder(itemView!!) {
+    class FavoriteMovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+        private val title = view.txt_title_movie_fav_list
+        private val titleBackground = view.txt_title_fav_background
+        private val poster = view.iv_movie_fav_list
+        private val genreView = view.txt_genre_movie_fav_list
+        private val overview = view.txt_desc_movie_fav_list
+        private val dateView = view.txt_date_movie_fav_list
+        private val btnDelete = view.btn_delete
 
-        fun bind(movie: MovieEntity) {
-            mTxtTitlemovielist!!.text = movie.name
-            mTxtTitlebackground!!.text = movie.originalName
-            if (movie.genres == null || movie.genres == "") {
-                mTxtGenremovielist!!.text = activity.resources.getString(R.string.txt_no_genre)
-            } else {
-                mTxtGenremovielist!!.text = movie.genres
-            }
-            GlideApp.with(itemView.context)
-                .load(BuildConfig.IMAGE_URL + AppConstants.SIZE_IMAGE + movie.posterPath)
-                .apply(
-                    RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error)
+        companion object {
+            fun inflate(parent: ViewGroup): FavoriteMovieViewHolder {
+                return FavoriteMovieViewHolder(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_favorite_movielist, parent, false)
                 )
-                .into(mIvMovielist)
-            if (movie.overview == null || movie.overview == "") {
-                mTxtDescmovielist!!.text = activity.getString(R.string.txt_no_desc)
-            } else {
-                mTxtDescmovielist!!.text = movie.overview
             }
-            val inputDate: DateFormat =
-                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val outputDate: DateFormat =
-                SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+        }
+
+        fun bind(movie: MoviesEntity) {
+            val context = view.context
+            title.text = movie.title
+            titleBackground.text = movie.titleBackground
+            if (movie.overview.isEmpty() || movie.overview == "") {
+                overview.text = context.getString(R.string.txt_no_desc)
+            } else {
+                overview.text = movie.overview
+            }
+            if (movie.genre.isEmpty()) {
+                genreView.text = context.getString(R.string.txt_no_genre)
+            } else {
+                genreView.text = movie.genre
+            }
+
             try {
-                val date = inputDate.parse(movie.releaseDate)
-                val releaseDate = outputDate.format(date)
-                mTxtDatemovielist!!.text = releaseDate
+                val date = CommonUtils.inputDate().parse(movie.date)
+                var releaseDate: String
+                date.let {
+                    releaseDate = CommonUtils.outputDate().format(it)
+                }
+                dateView.text = releaseDate
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
+
+            loadFromUrl(
+                poster,
+                movie.image,
+                R.drawable.ic_loading,
+                R.drawable.ic_error
+            )
         }
 
-        init {
-            ButterKnife.bind(this, itemView)
-        }
     }
-
-    companion object {
-        private val DIFF_CALLBACK: DiffUtil.ItemCallback<MovieEntity> =
-            object : DiffUtil.ItemCallback<MovieEntity>() {
-                override fun areItemsTheSame(
-                    oldItem: MovieEntity,
-                    newItem: MovieEntity
-                ): Boolean {
-                    return oldItem.movieId == newItem.movieId
-                }
-
-                @SuppressLint("DiffUtilEquals")
-                override fun areContentsTheSame(
-                    oldItem: MovieEntity,
-                    newItem: MovieEntity
-                ): Boolean {
-                    return oldItem == newItem
-                }
-            }
-    }
-
-}*/
+}
