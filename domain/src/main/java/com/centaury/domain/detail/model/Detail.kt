@@ -7,6 +7,7 @@ package com.centaury.domain.detail.model
 data class Detail(
     val id: Int,
     val title: String,
+    val originalTitle: String,
     val image: String,
     val imageBackground: String,
     val genre: List<String>,

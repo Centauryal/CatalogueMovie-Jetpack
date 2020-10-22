@@ -18,9 +18,11 @@ class MoviesEntityMapper @Inject constructor() {
         title = this.title,
         titleBackground = this.titleBackground,
         image = this.image,
+        imageBackground = this.imageBackground,
         genre = this.genre,
-        overview = this.overview,
-        date = this.date
+        vote = this.vote,
+        date = this.date,
+        overview = this.overview
     )
 
     fun transformEntityMovieById(movieEntity: MovieEntity): MoviesEntity {
@@ -29,9 +31,11 @@ class MoviesEntityMapper @Inject constructor() {
             movieEntity.title,
             movieEntity.titleBackground,
             movieEntity.image,
+            movieEntity.imageBackground,
             movieEntity.genre,
-            movieEntity.overview,
-            movieEntity.date
+            movieEntity.vote,
+            movieEntity.date,
+            movieEntity.overview
         )
     }
 
@@ -41,9 +45,11 @@ class MoviesEntityMapper @Inject constructor() {
             movie.title,
             movie.titleBackground,
             movie.image,
+            movie.imageBackground,
             movie.genre,
-            movie.overview,
-            movie.date
+            movie.vote,
+            movie.date,
+            movie.overview
         )
     }
 }

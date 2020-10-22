@@ -17,6 +17,7 @@ class DetailResultMapper @Inject constructor() {
         return Detail(
             detailMovieResponse.id,
             detailMovieResponse.title,
+            detailMovieResponse.originalTitle,
             detailMovieResponse.posterPath,
             detailMovieResponse.backdropPath,
             listGenre(detailMovieResponse.genres),
@@ -31,6 +32,7 @@ class DetailResultMapper @Inject constructor() {
         return Detail(
             detailTVShowResponse.id,
             detailTVShowResponse.name,
+            detailTVShowResponse.originalName,
             detailTVShowResponse.posterPath,
             detailTVShowResponse.backdropPath,
             listGenreTVShow(detailTVShowResponse.genres),

@@ -27,14 +27,20 @@ data class TVShowEntity(
     @ColumnInfo(name = COLUMN_IMAGE)
     val image: String,
 
+    @ColumnInfo(name = COLUMN_IMAGE_BACKGROUND)
+    val imageBackground: String,
+
     @ColumnInfo(name = COLUMN_GENRE)
     val genre: String,
 
-    @ColumnInfo(name = COLUMN_OVERVIEW)
-    val overview: String,
+    @ColumnInfo(name = COLUMN_VOTE)
+    val vote: String,
 
     @ColumnInfo(name = COLUMN_DATE)
-    val date: String
+    val date: String,
+
+    @ColumnInfo(name = COLUMN_OVERVIEW)
+    val overview: String
 ) {
 
     companion object {
@@ -43,8 +49,10 @@ data class TVShowEntity(
         private const val COLUMN_TITLE = "name"
         private const val COLUMN_TITLE_BACKGROUND = "title_background"
         private const val COLUMN_IMAGE = "image"
+        private const val COLUMN_IMAGE_BACKGROUND = "image_background"
         private const val COLUMN_GENRE = "genre"
-        private const val COLUMN_OVERVIEW = "overview"
+        private const val COLUMN_VOTE = "vote"
         private const val COLUMN_DATE = "date"
+        private const val COLUMN_OVERVIEW = "overview"
     }
 }

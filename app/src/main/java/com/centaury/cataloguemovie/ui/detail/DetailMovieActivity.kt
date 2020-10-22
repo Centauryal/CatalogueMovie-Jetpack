@@ -6,7 +6,6 @@ import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.R
@@ -28,6 +27,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
     private var movie: MoviesEntity? = null
     private var tvShow: TVShowsEntity? = null
+    private var detailFavorite: Detail? = null
     private var isFavorite: Boolean = false
     private var movieId: Int? = null
     private var tvShowId: Int? = null
@@ -49,9 +49,11 @@ class DetailMovieActivity : AppCompatActivity() {
         }
 
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+            setDisplayShowTitleEnabled(false)
+        }
 
         initInjector()
         initClick()
@@ -74,19 +76,21 @@ class DetailMovieActivity : AppCompatActivity() {
     private fun initParam() {
         movieId = intent.getIntExtra(DETAIL_EXTRA_MOVIE, 0)
         if (movieId != 0) {
-            detailMovieViewModel.getFavoriteMovieByIdContract(movieId!!)
-            detailMovieViewModel.getDetailMovieContract(movieId!!)
-            stateFavorite()
+            movieId?.let {
+                detailMovieViewModel.getFavoriteMovieByIdContract(it)
+                detailMovieViewModel.getDetailMovieContract(it)
+            }
         } else {
             tvShowId = intent.getIntExtra(DETAIL_EXTRA_TV_SHOW, 0)
-            detailMovieViewModel.getFavoriteTVShowByIdContract(tvShowId!!)
-            detailMovieViewModel.getDetailTVShowContract(tvShowId!!)
-            stateFavorite()
+            tvShowId?.let {
+                detailMovieViewModel.getFavoriteTVShowByIdContract(it)
+                detailMovieViewModel.getDetailTVShowContract(it)
+            }
         }
     }
 
     private fun initObserver() {
-        detailMovieViewModel.state.observe(this, Observer { state ->
+        detailMovieViewModel.state.observe(this, { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
                     shimmer_view_container.startShimmer()
@@ -100,71 +104,79 @@ class DetailMovieActivity : AppCompatActivity() {
             }
         })
 
-        detailMovieViewModel.resultMovie.observe(this, Observer { resultMovie ->
+        detailMovieViewModel.resultMovie.observe(this, { resultMovie ->
             showDetail(resultMovie)
+            detailFavorite = resultMovie
         })
 
-        detailMovieViewModel.errorMovie.observe(this, Observer { errorMovie ->
+        detailMovieViewModel.errorMovie.observe(this, { errorMovie ->
             showToast(errorMovie)
         })
 
-        detailMovieViewModel.resultTVShow.observe(this, Observer { resultTVShow ->
+        detailMovieViewModel.resultTVShow.observe(this, { resultTVShow ->
             showDetail(resultTVShow)
+            detailFavorite = resultTVShow
         })
 
-        detailMovieViewModel.errorTVShow.observe(this, Observer { errorTVShow ->
+        detailMovieViewModel.errorTVShow.observe(this, { errorTVShow ->
             showToast(errorTVShow)
         })
 
-        detailMovieViewModel.resultMovieById.observe(this, Observer { movieById ->
+        detailMovieViewModel.resultMovieById.observe(this, { movieById ->
             movie = movieById
+            stateFavorite()
         })
 
-        detailMovieViewModel.errorMovieById.observe(this, Observer { errorMovieById ->
+        detailMovieViewModel.errorMovieById.observe(this, { errorMovieById ->
             showToast(errorMovieById)
         })
 
-        detailMovieViewModel.resultTVShowById.observe(this, Observer { tvShowById ->
+        detailMovieViewModel.resultTVShowById.observe(this, { tvShowById ->
             tvShow = tvShowById
+            stateFavorite()
         })
 
-        detailMovieViewModel.errorTVShowById.observe(this, Observer { errorTVShowById ->
+        detailMovieViewModel.errorTVShowById.observe(this, { errorTVShowById ->
             showToast(errorTVShowById)
         })
 
-        detailMovieViewModel.errorInsertMovie.observe(this, Observer { errorInsertMovie ->
+        detailMovieViewModel.errorInsertMovie.observe(this, { errorInsertMovie ->
             showToast(errorInsertMovie)
         })
 
-        detailMovieViewModel.errorInsertTVShow.observe(this, Observer { errorInsertTVShow ->
+        detailMovieViewModel.errorInsertTVShow.observe(this, { errorInsertTVShow ->
             showToast(errorInsertTVShow)
         })
 
-        detailMovieViewModel.errorDeleteMovie.observe(this, Observer { errorDeleteMovie ->
+        detailMovieViewModel.errorDeleteMovie.observe(this, { errorDeleteMovie ->
             showToast(errorDeleteMovie)
         })
 
-        detailMovieViewModel.errorDeleteTVShow.observe(this, Observer { errorDeleteTVShow ->
+        detailMovieViewModel.errorDeleteTVShow.observe(this, { errorDeleteTVShow ->
             showToast(errorDeleteTVShow)
         })
     }
 
     private fun initClick() {
         btn_favorite.setOnClickListener {
-            if (isFavorite) {
-                if (movieId != 0) {
-                    removeFavorite(movie)
-                } else {
-                    removeFavorite(null, tvShow)
-                }
-            } else {
-                addFavorite(movie, tvShow)
-            }
-
-            isFavorite = !isFavorite
-            setFavorite()
-            btn_favorite.playAnimation()
+            clickFavorite()
         }
+    }
+
+    private fun clickFavorite() {
+        if (isFavorite) {
+            if (movieId != 0) {
+                removeFavorite(movie)
+            } else {
+                removeFavorite(null, tvShow)
+            }
+        } else {
+            detailFavorite?.let { detail -> addFavorite(detail) }
+        }
+
+        isFavorite = !isFavorite
+        setFavorite()
+        btn_favorite.playAnimation()
     }
 
     private fun showDetail(detail: Detail) {
@@ -237,30 +249,34 @@ class DetailMovieActivity : AppCompatActivity() {
         super.onPause()
     }
 
-    private fun addFavorite(movie: MoviesEntity? = null, tvShow: TVShowsEntity? = null) {
+    private fun addFavorite(detailFavorite: Detail) {
         if (movieId != 0) {
-            movie?.let {
+            detailFavorite.let {
                 val movieEntity = MoviesEntity(
                     it.id,
                     it.title,
-                    it.titleBackground,
+                    it.originalTitle,
                     it.image,
+                    it.imageBackground,
                     txt_genre_detail.text.toString(),
-                    it.overview,
-                    it.date
+                    txt_rate_movie.text.toString(),
+                    it.date,
+                    it.overview
                 )
                 detailMovieViewModel.getInsertFavoriteMovieContract(this, movieEntity)
             }
         } else {
-            tvShow?.let {
+            detailFavorite.let {
                 val tvShowEntity = TVShowsEntity(
                     it.id,
                     it.title,
-                    it.titleBackground,
+                    it.originalTitle,
                     it.image,
+                    it.imageBackground,
                     txt_genre_detail.text.toString(),
-                    it.overview,
-                    it.date
+                    txt_rate_movie.text.toString(),
+                    it.date,
+                    it.overview
                 )
                 detailMovieViewModel.getInsertFavoriteTVSHowContract(this, tvShowEntity)
             }
@@ -284,13 +300,13 @@ class DetailMovieActivity : AppCompatActivity() {
         if (movieId != 0) {
             movie?.let {
                 isFavorite = true
+                setFavorite()
             }
-            setFavorite()
         } else {
             tvShow?.let {
                 isFavorite = true
+                setFavorite()
             }
-            setFavorite()
         }
     }
 

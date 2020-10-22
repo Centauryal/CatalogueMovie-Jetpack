@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.MovieCatalogueApp
@@ -14,10 +15,7 @@ import com.centaury.cataloguemovie.di.component.DaggerFavoriteMovieComponent
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteFragmentCallback
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteMovieAdapter
 import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteMovieViewModel
-import com.centaury.cataloguemovie.utils.CommonUtils
-import com.centaury.cataloguemovie.utils.LoaderState
-import com.centaury.cataloguemovie.utils.gone
-import com.centaury.cataloguemovie.utils.visible
+import com.centaury.cataloguemovie.utils.*
 import com.centaury.domain.movies.model.MoviesEntity
 import kotlinx.android.synthetic.main.fragment_favorite_movie.*
 import kotlinx.android.synthetic.main.item_empty_state_placeholder.*
@@ -34,8 +32,11 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
 
     private var movieFavoriteData = arrayListOf<MoviesEntity>()
     private val favoriteMovieAdapter: FavoriteMovieAdapter by lazy {
-        FavoriteMovieAdapter(movieFavoriteData)
+        FavoriteMovieAdapter(movieFavoriteData, this)
     }
+
+    private lateinit var titleDialog: TextView
+    private var movie: MoviesEntity? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +68,7 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
     }
 
     private fun initObserver() {
-        favoriteMovieViewModel.state.observe(viewLifecycleOwner, Observer { state ->
+        favoriteMovieViewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
                     shimmer_view_container.startShimmer()
@@ -80,21 +81,28 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
             }
         })
 
-        favoriteMovieViewModel.result.observe(viewLifecycleOwner, Observer { result ->
-            toggleEmptyMovies(result.size)
+        favoriteMovieViewModel.result.observe(viewLifecycleOwner, { result ->
+            movieFavoriteData.clear()
             movieFavoriteData.addAll(result)
+            CommonUtils.toggleEmptyState(result.size, empty_state, rv_fav_movie)
             favoriteMovieAdapter.notifyDataSetChanged()
         })
-    }
 
-    private fun toggleEmptyMovies(size: Int) {
-        if (size > 0) {
-            empty_state.gone()
-            rv_fav_movie.visible()
-        } else {
-            rv_fav_movie.gone()
-            empty_state.visible()
-        }
+        favoriteMovieViewModel.error.observe(viewLifecycleOwner, { error ->
+            context?.showToast(error)
+        })
+
+        favoriteMovieViewModel.resultMovieById.observe(viewLifecycleOwner, { resultMovieById ->
+            movie = resultMovieById
+        })
+
+        favoriteMovieViewModel.errorMovieById.observe(viewLifecycleOwner, { errorMovieById ->
+            context?.showToast(errorMovieById)
+        })
+
+        favoriteMovieViewModel.errorDeleteMovie.observe(viewLifecycleOwner, { errorDeleteMovie ->
+            context?.showToast(errorDeleteMovie)
+        })
     }
 
     private fun initInjector() {
@@ -105,62 +113,32 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
 
     }
 
-    /*override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (activity != null) {
-            favoriteMovieViewModel = obtainViewModel(activity)
-            val favoriteMovieAdapter =
-                FavoriteMovieAdapter(activity, this)
-            favoriteMovieViewModel.getFavoriteMovie().observe(activity, { favoriteMovie ->
-                if (favoriteMovie != null) {
-                    mShimmerViewContainer.stopShimmer()
-                    mShimmerViewContainer.setVisibility(View.GONE)
-                    toggleEmptyMovies(favoriteMovie.size())
-                    favoriteMovieAdapter.submitList(favoriteMovie)
-                    favoriteMovieAdapter.notifyDataSetChanged()
-                }
-            })
-            mRvFavMovie.setLayoutManager(LinearLayoutManager(context))
-            mRvFavMovie.setHasFixedSize(true)
-            mRvFavMovie.setAdapter(favoriteMovieAdapter)
-            mRvFavMovie.addItemDecoration(TopItemDecoration(55))
-        }
-    }*/
+    private fun showDialogDeleteFavorite(movieId: Int) {
+        favoriteMovieViewModel.getFavoriteMovieByIdContract(movieId)
 
-    /*private fun showDialogDeleteFavorite(movieId: Int) {
-        val movieEntity: MovieEntity
-        try {
-            movieEntity = favoriteMovieViewModel.getDetailFavMovie(movieId)
-            val inflater = LayoutInflater.from(context)
-            val view = inflater.inflate(R.layout.item_alert_dialog, null)
-            val builder =
-                AlertDialog.Builder(context!!)
-            builder.setView(view)
-            val title = view.findViewById<TextView>(R.id.alert_title)
-            title.text = getString(R.string.txt_title_delete_dialog)
-            builder.setCancelable(false)
-                .setPositiveButton(
-                    getString(R.string.btn_delete)
-                ) { dialog: DialogInterface, which: Int ->
-                    favoriteMovieViewModel.deleteFavoriteMovie(movieEntity)
-                    dialog.dismiss()
-                    Toast.makeText(
-                        context,
-                        getString(R.string.txt_movie_remove),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                .setNegativeButton(
-                    getString(R.string.btn_cancel)
-                ) { dialog: DialogInterface, which: Int -> dialog.dismiss() }
-            val alertDialog = builder.create()
-            alertDialog.show()
-        } catch (e: ExecutionException) {
-            e.printStackTrace()
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
+        val customDialog: AlertDialog.Builder? = context?.let { AlertDialog.Builder(it) }
+        val inflater = LayoutInflater.from(context)
+        val view = inflater.inflate(R.layout.item_alert_dialog, null)
+
+        titleDialog = view.findViewById(R.id.alert_title)
+        titleDialog.text = context?.getString(R.string.txt_title_delete_dialog)
+
+        customDialog?.apply {
+            setView(view)
+            setCancelable(false)
+            setPositiveButton(R.string.btn_delete) { dialog, _ ->
+                movie?.let { favoriteMovieViewModel.getDeleteFavoriteMovieContract(context, it) }
+                dialog.dismiss()
+                context.showToast(R.string.txt_movie_remove)
+            }
+            setNegativeButton(R.string.btn_cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+
         }
-    }*/
+        val alertDialog = customDialog?.create()
+        alertDialog?.show()
+    }
 
     override fun onResume() {
         super.onResume()
@@ -173,8 +151,6 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
     }
 
     override fun onDeleteItemClick(movieId: Int) {
-        /*if (activity != null) {
-            showDialogDeleteFavorite(movieId)
-        }*/
+        showDialogDeleteFavorite(movieId)
     }
 }

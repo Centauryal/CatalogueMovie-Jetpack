@@ -9,7 +9,9 @@ data class MoviesEntity(
     val title: String,
     val titleBackground: String,
     val image: String,
+    val imageBackground: String,
     val genre: String,
-    val overview: String,
-    val date: String
+    val vote: String,
+    val date: String,
+    val overview: String
 )

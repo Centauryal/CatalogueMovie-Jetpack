@@ -24,6 +24,16 @@ object CommonUtils {
         return SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
     }
 
+    fun toggleEmptyState(size: Int, emptyState: View, recyclerView: RecyclerView) {
+        if (size > 0) {
+            emptyState.gone()
+            recyclerView.visible()
+        } else {
+            recyclerView.gone()
+            emptyState.visible()
+        }
+    }
+
     fun getGenresString(genreData: List<String>, txtGenre: TextView) {
         if (genreData.size == 1) {
             txtGenre.text = TextUtils.join(", ", genreData)

@@ -18,9 +18,11 @@ class FavoriteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_favorite)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+            setDisplayShowTitleEnabled(false)
+        }
 
         setupViewPager(fav_view_pager)
         fav_tabs.setupWithViewPager(fav_view_pager)

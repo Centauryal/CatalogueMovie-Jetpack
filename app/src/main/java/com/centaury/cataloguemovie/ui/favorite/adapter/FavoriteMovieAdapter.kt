@@ -1,10 +1,12 @@
 package com.centaury.cataloguemovie.ui.favorite.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.ui.detail.DetailFavoriteMovieActivity
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
 import com.centaury.domain.movies.model.MoviesEntity
@@ -17,7 +19,8 @@ import java.text.ParseException
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class FavoriteMovieAdapter(
-    private var moviesFavorite: List<MoviesEntity>
+    private var moviesFavorite: List<MoviesEntity>,
+    private var callback: FavoriteFragmentCallback
 ) : RecyclerView.Adapter<FavoriteMovieAdapter.FavoriteMovieViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteMovieViewHolder {
@@ -27,7 +30,7 @@ class FavoriteMovieAdapter(
     override fun getItemCount(): Int = moviesFavorite.size
 
     override fun onBindViewHolder(holder: FavoriteMovieViewHolder, position: Int) {
-        holder.bind(moviesFavorite[position])
+        holder.bind(moviesFavorite[position], callback)
     }
 
     class FavoriteMovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -48,7 +51,7 @@ class FavoriteMovieAdapter(
             }
         }
 
-        fun bind(movie: MoviesEntity) {
+        fun bind(movie: MoviesEntity, callback: FavoriteFragmentCallback) {
             val context = view.context
             title.text = movie.title
             titleBackground.text = movie.titleBackground
@@ -80,6 +83,15 @@ class FavoriteMovieAdapter(
                 R.drawable.ic_loading,
                 R.drawable.ic_error
             )
+            itemView.setOnClickListener {
+                val intent = Intent(context, DetailFavoriteMovieActivity::class.java).apply {
+                    putExtra(DetailFavoriteMovieActivity.DETAIL_EXTRA_FAV_MOVIE, movie.id)
+                }
+                context.startActivity(intent)
+            }
+            btnDelete.setOnClickListener {
+                callback.onDeleteItemClick(movie.id)
+            }
         }
 
     }

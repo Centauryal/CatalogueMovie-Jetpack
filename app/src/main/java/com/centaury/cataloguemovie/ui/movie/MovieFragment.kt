@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.MovieCatalogueApp
@@ -60,7 +59,7 @@ class MovieFragment : Fragment() {
     }
 
     private fun initObserver() {
-        movieViewModel.state.observe(viewLifecycleOwner, Observer { state ->
+        movieViewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
                     shimmer_view_container.startShimmer()
@@ -73,21 +72,23 @@ class MovieFragment : Fragment() {
             }
         })
 
-        movieViewModel.result.observe(viewLifecycleOwner, Observer { result ->
+        movieViewModel.result.observe(viewLifecycleOwner, { result ->
+            movieData.clear()
             movieData.addAll(result)
             movieAdapter.notifyDataSetChanged()
         })
 
-        movieViewModel.error.observe(viewLifecycleOwner, Observer { error ->
+        movieViewModel.error.observe(viewLifecycleOwner, { error ->
             context?.showToast(error)
         })
 
-        movieViewModel.resultGenre.observe(viewLifecycleOwner, Observer { resultGenre ->
+        movieViewModel.resultGenre.observe(viewLifecycleOwner, { resultGenre ->
+            genreData.clear()
             genreData.addAll(resultGenre)
             movieAdapter.notifyDataSetChanged()
         })
 
-        movieViewModel.errorGenre.observe(viewLifecycleOwner, Observer { errorGenre ->
+        movieViewModel.errorGenre.observe(viewLifecycleOwner, { errorGenre ->
             context?.showToast(errorGenre)
         })
     }

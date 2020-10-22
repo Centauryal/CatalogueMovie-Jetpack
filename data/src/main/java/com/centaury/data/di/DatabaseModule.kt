@@ -19,7 +19,7 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideCatalogueDatabase(context: Context) =
+    fun provideCatalogueDatabase(context: Context): CatalogueDatabase =
         Room.databaseBuilder(context, CatalogueDatabase::class.java, DATABASE_NAME)
             .build()
 

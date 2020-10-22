@@ -7,6 +7,7 @@ import com.centaury.cataloguemovie.di.module.ApplicationModule
 import com.centaury.data.di.ApiModule
 import com.centaury.data.di.DatabaseModule
 import com.centaury.data.di.NetworkModule
+import timber.log.Timber
 
 /**
  * Created by Centaury on 10/24/2019.
@@ -26,5 +27,9 @@ class MovieCatalogueApp : Application() {
         super.onCreate()
 
         appComponent.inject(this)
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 }
