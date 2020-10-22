@@ -1,12 +1,12 @@
 package com.centaury.cataloguemovie.ui.movie
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.centaury.cataloguemovie.R
-import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
+import com.centaury.cataloguemovie.ui.main.ItemClickCallback
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
 import com.centaury.domain.genre.model.Genre
@@ -20,7 +20,8 @@ import java.text.ParseException
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MovieAdapter(
     private val movies: List<Movie>,
-    private val genres: List<Genre>
+    private val genres: List<Genre>,
+    private val callback: ItemClickCallback
 ) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -30,7 +31,7 @@ class MovieAdapter(
     override fun getItemCount(): Int = movies.size
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(movies[position], genres)
+        holder.bind(movies[position], genres, callback)
     }
 
     class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -50,7 +51,7 @@ class MovieAdapter(
             }
         }
 
-        fun bind(movie: Movie, genres: List<Genre>) {
+        fun bind(movie: Movie, genres: List<Genre>, callback: ItemClickCallback) {
             val context = view.context
             title.text = movie.title
             titleBackground.text = movie.titleBackground
@@ -82,11 +83,11 @@ class MovieAdapter(
                 R.drawable.ic_loading,
                 R.drawable.ic_error
             )
+
+            ViewCompat.setTransitionName(poster, movie.title)
+
             itemView.setOnClickListener {
-                val intent = Intent(context, DetailMovieActivity::class.java).apply {
-                    putExtra(DetailMovieActivity.DETAIL_EXTRA_MOVIE, movie.id)
-                }
-                context.startActivity(intent)
+                callback.onItemClick(movie.id, poster, movie.title)
             }
         }
     }

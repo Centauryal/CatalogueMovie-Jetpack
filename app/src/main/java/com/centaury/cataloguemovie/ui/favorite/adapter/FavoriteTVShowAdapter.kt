@@ -1,12 +1,11 @@
 package com.centaury.cataloguemovie.ui.favorite.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.centaury.cataloguemovie.R
-import com.centaury.cataloguemovie.ui.detail.DetailFavoriteMovieActivity
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
 import com.centaury.domain.tvshow.model.TVShowsEntity
@@ -19,7 +18,7 @@ import java.text.ParseException
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class FavoriteTVShowAdapter(
-    private var tvShowsFavorite: List<TVShowsEntity>,
+    private val tvShowsFavorite: List<TVShowsEntity>,
     private val callback: FavoriteFragmentCallback
 ) : RecyclerView.Adapter<FavoriteTVShowAdapter.FavoriteTVShowViewHolder>() {
 
@@ -83,11 +82,11 @@ class FavoriteTVShowAdapter(
                 R.drawable.ic_loading,
                 R.drawable.ic_error
             )
+
+            ViewCompat.setTransitionName(poster, tvShow.title)
+
             itemView.setOnClickListener {
-                val intent = Intent(context, DetailFavoriteMovieActivity::class.java).apply {
-                    putExtra(DetailFavoriteMovieActivity.DETAIL_EXTRA_FAV_TV_SHOW, tvShow.id)
-                }
-                context.startActivity(intent)
+                callback.onItemClick(tvShow.id, poster, tvShow.title)
             }
             btnDelete.setOnClickListener {
                 callback.onDeleteItemClick(tvShow.id)

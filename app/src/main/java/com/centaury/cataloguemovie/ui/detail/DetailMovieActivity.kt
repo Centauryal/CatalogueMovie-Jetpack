@@ -100,6 +100,8 @@ class DetailMovieActivity : AppCompatActivity() {
         })
 
         detailMovieViewModel.resultMovie.observe(this, { resultMovie ->
+            iv_img_detail.transitionName = resultMovie.title
+            supportPostponeEnterTransition()
             showDetail(resultMovie)
             detailFavorite = resultMovie
         })
@@ -109,6 +111,8 @@ class DetailMovieActivity : AppCompatActivity() {
         })
 
         detailMovieViewModel.resultTVShow.observe(this, { resultTVShow ->
+            iv_img_detail.transitionName = resultTVShow.title
+            supportPostponeEnterTransition()
             showDetail(resultTVShow)
             detailFavorite = resultTVShow
         })

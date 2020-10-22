@@ -1,12 +1,12 @@
 package com.centaury.cataloguemovie.ui.tvshow
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.centaury.cataloguemovie.R
-import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
+import com.centaury.cataloguemovie.ui.main.ItemClickCallback
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
 import com.centaury.domain.genre.model.Genre
@@ -20,7 +20,8 @@ import java.text.ParseException
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class TVShowAdapter(
     private val tvShows: List<TVShow>,
-    private val genres: List<Genre>
+    private val genres: List<Genre>,
+    private val callback: ItemClickCallback
 ) : RecyclerView.Adapter<TVShowAdapter.TVShowViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVShowViewHolder {
@@ -30,7 +31,7 @@ class TVShowAdapter(
     override fun getItemCount(): Int = tvShows.size
 
     override fun onBindViewHolder(holder: TVShowViewHolder, position: Int) {
-        holder.bind(tvShows[position], genres)
+        holder.bind(tvShows[position], genres, callback)
     }
 
     class TVShowViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -50,7 +51,7 @@ class TVShowAdapter(
             }
         }
 
-        fun bind(tvShow: TVShow, genres: List<Genre>) {
+        fun bind(tvShow: TVShow, genres: List<Genre>, callback: ItemClickCallback) {
             val context = view.context
             title.text = tvShow.title
             titleBackground.text = tvShow.titleBackground
@@ -82,11 +83,11 @@ class TVShowAdapter(
                 R.drawable.ic_loading,
                 R.drawable.ic_error
             )
+
+            ViewCompat.setTransitionName(poster, tvShow.title)
+
             itemView.setOnClickListener {
-                val intent = Intent(context, DetailMovieActivity::class.java).apply {
-                    putExtra(DetailMovieActivity.DETAIL_EXTRA_TV_SHOW, tvShow.id)
-                }
-                context.startActivity(intent)
+                callback.onItemClick(tvShow.id, poster, tvShow.title)
             }
         }
     }

@@ -1,9 +1,11 @@
 package com.centaury.cataloguemovie.ui.favorite.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.di.component.DaggerFavoriteTVShowComponent
+import com.centaury.cataloguemovie.ui.detail.DetailFavoriteMovieActivity
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteFragmentCallback
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteTVShowAdapter
 import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteTVShowViewModel
@@ -138,6 +141,18 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
         alertDialog?.show()
     }
 
+    private fun showTransitionImage(movieId: Int, image: ImageView, title: String) {
+        val intent = Intent(context, DetailFavoriteMovieActivity::class.java).apply {
+            putExtra(DetailFavoriteMovieActivity.DETAIL_EXTRA_FAV_TV_SHOW, movieId)
+        }
+        activity?.let {
+            it.startActivity(
+                intent,
+                CommonUtils.pairOptionsTransition(it, image, title).toBundle()
+            )
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         shimmer_view_container.startShimmer()
@@ -150,5 +165,9 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
 
     override fun onDeleteItemClick(movieId: Int) {
         showDialogDeleteFavorite(movieId)
+    }
+
+    override fun onItemClick(movieId: Int, image: ImageView, title: String) {
+        showTransitionImage(movieId, image, title)
     }
 }

@@ -96,6 +96,8 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
         detailFavoriteMovieViewModel.resultMovieById.observe(this, { movieById ->
             movie = movieById
+            iv_img_fav_detail.transitionName = movieById.title
+            supportPostponeEnterTransition()
             showDetail(DetailMapper.mapperMovieToDetail(movieById))
             detailFavorite = DetailMapper.mapperMovieToDetail(movieById)
             stateFavorite()
@@ -107,6 +109,8 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
         detailFavoriteMovieViewModel.resultTVShowById.observe(this, { tvShowById ->
             tvShow = tvShowById
+            iv_img_fav_detail.transitionName = tvShowById.title
+            supportPostponeEnterTransition()
             showDetail(DetailMapper.mapperTVShowToDetail(tvShowById))
             detailFavorite = DetailMapper.mapperTVShowToDetail(tvShowById)
             stateFavorite()

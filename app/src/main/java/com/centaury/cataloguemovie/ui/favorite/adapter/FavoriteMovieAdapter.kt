@@ -1,12 +1,11 @@
 package com.centaury.cataloguemovie.ui.favorite.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.centaury.cataloguemovie.R
-import com.centaury.cataloguemovie.ui.detail.DetailFavoriteMovieActivity
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
 import com.centaury.domain.movies.model.MoviesEntity
@@ -19,8 +18,8 @@ import java.text.ParseException
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class FavoriteMovieAdapter(
-    private var moviesFavorite: List<MoviesEntity>,
-    private var callback: FavoriteFragmentCallback
+    private val moviesFavorite: List<MoviesEntity>,
+    private val callback: FavoriteFragmentCallback
 ) : RecyclerView.Adapter<FavoriteMovieAdapter.FavoriteMovieViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteMovieViewHolder {
@@ -83,11 +82,11 @@ class FavoriteMovieAdapter(
                 R.drawable.ic_loading,
                 R.drawable.ic_error
             )
+
+            ViewCompat.setTransitionName(poster, movie.title)
+
             itemView.setOnClickListener {
-                val intent = Intent(context, DetailFavoriteMovieActivity::class.java).apply {
-                    putExtra(DetailFavoriteMovieActivity.DETAIL_EXTRA_FAV_MOVIE, movie.id)
-                }
-                context.startActivity(intent)
+                callback.onItemClick(movie.id, poster, movie.title)
             }
             btnDelete.setOnClickListener {
                 callback.onDeleteItemClick(movie.id)

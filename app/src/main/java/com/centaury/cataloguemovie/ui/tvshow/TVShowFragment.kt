@@ -1,15 +1,19 @@
 package com.centaury.cataloguemovie.ui.tvshow
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.di.component.DaggerDiscoverTVShowComponent
+import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
+import com.centaury.cataloguemovie.ui.main.ItemClickCallback
 import com.centaury.cataloguemovie.utils.*
 import com.centaury.domain.genre.model.Genre
 import com.centaury.domain.tvshow.model.TVShow
@@ -19,7 +23,7 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  */
-class TVShowFragment : Fragment() {
+class TVShowFragment : Fragment(), ItemClickCallback {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -28,7 +32,7 @@ class TVShowFragment : Fragment() {
     private var tvShowData = arrayListOf<TVShow>()
     private var genreData = arrayListOf<Genre>()
     private val tvShowAdapter: TVShowAdapter by lazy {
-        TVShowAdapter(tvShowData, genreData)
+        TVShowAdapter(tvShowData, genreData, this)
     }
 
     override fun onCreateView(
@@ -109,5 +113,22 @@ class TVShowFragment : Fragment() {
     override fun onPause() {
         shimmer_view_container.stopShimmer()
         super.onPause()
+    }
+
+    private fun showTransitionImage(movieId: Int, image: ImageView, title: String) {
+        val intent = Intent(activity, DetailMovieActivity::class.java).apply {
+            putExtra(DetailMovieActivity.DETAIL_EXTRA_TV_SHOW, movieId)
+        }
+
+        activity?.let {
+            it.startActivity(
+                intent,
+                CommonUtils.pairOptionsTransition(it, image, title).toBundle()
+            )
+        }
+    }
+
+    override fun onItemClick(movieId: Int, image: ImageView, title: String) {
+        showTransitionImage(movieId, image, title)
     }
 }

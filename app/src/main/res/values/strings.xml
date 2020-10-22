@@ -22,7 +22,6 @@
     <string name="txt_load_more">Loading data…</string>
     <string name="txt_loading">Please wait! This may take a moment.</string>
 
-
     <string name="content_desc_image_detail">image on detail</string>
     <string name="content_desc_image_favorite">image on favorite</string>
     <string name="content_desc_image">image on data</string>

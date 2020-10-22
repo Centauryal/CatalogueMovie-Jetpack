@@ -1,9 +1,13 @@
 package com.centaury.cataloguemovie.utils
 
+import android.app.Activity
 import android.graphics.Rect
 import android.text.TextUtils
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.centaury.domain.genre.model.Genre
@@ -32,6 +36,16 @@ object CommonUtils {
             recyclerView.gone()
             emptyState.visible()
         }
+    }
+
+    fun pairOptionsTransition(
+        activity: Activity,
+        image: ImageView,
+        title: String
+    ): ActivityOptionsCompat {
+        val pairImage = Pair<View, String>(image, title)
+
+        return ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairImage)
     }
 
     fun getGenresString(genreData: List<String>, txtGenre: TextView) {

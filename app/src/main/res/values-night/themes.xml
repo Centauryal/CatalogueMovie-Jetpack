@@ -12,9 +12,16 @@
         <item name="colorSurface">@color/cod_gray</item>
         <item name="colorOnSurface">@color/grey_60</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:fontFamily">@font/varelaround_regular</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:windowBackground">?attr/colorSurface</item>
         <item name="colorOnBackground">@color/mine_shaft</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.App.LargeComponent</item>
     </style>
 
 </resources>
