@@ -1,9 +1,9 @@
 ext {
     // Android Core
-    androidCompileSdkVersion = 29
-    androidBuildToolsVersion = '29.0.3'
+    androidCompileSdkVersion = 30
+    androidBuildToolsVersion = '30.0.2'
     androidMinSdkVersion = 23
-    androidTargetSdkVersion = 29
+    androidTargetSdkVersion = 30
     androidVersionCode = 3
     androidVersionName = '2.0'
 
