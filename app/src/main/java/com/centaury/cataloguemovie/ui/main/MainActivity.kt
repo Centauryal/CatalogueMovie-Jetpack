@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.ui.favorite.FavoriteActivity
 import com.centaury.cataloguemovie.ui.movie.MovieFragment
 import com.centaury.cataloguemovie.ui.tvshow.TVShowFragment
 import com.centaury.cataloguemovie.utils.ViewPagerAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -25,16 +25,20 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         setupViewPager(view_pager)
-        tabs.setupWithViewPager(view_pager)
+        TabLayoutMediator(tabs, view_pager) { tab, position ->
+            when (position) {
+                0 -> tab.text = getString(R.string.title_movie)
+                1 -> tab.text = getString(R.string.title_tv_show)
+            }
+        }.attach()
     }
 
-    private fun setupViewPager(viewPager: ViewPager) {
-        val viewPagerAdapter = ViewPagerAdapter(
-            supportFragmentManager, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-        )
-        viewPagerAdapter.addFragment(MovieFragment(), getString(R.string.title_movie))
-        viewPagerAdapter.addFragment(TVShowFragment(), getString(R.string.title_tv_show))
+    private fun setupViewPager(viewPager: ViewPager2) {
+        val viewPagerAdapter = ViewPagerAdapter(this)
         viewPager.adapter = viewPagerAdapter
+
+        viewPagerAdapter.addFragment(MovieFragment())
+        viewPagerAdapter.addFragment(TVShowFragment())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

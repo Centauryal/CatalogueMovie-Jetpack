@@ -3,12 +3,12 @@ package com.centaury.cataloguemovie.ui.favorite
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.ui.favorite.fragment.FavoriteMovieFragment
 import com.centaury.cataloguemovie.ui.favorite.fragment.FavoriteTVShowFragment
 import com.centaury.cataloguemovie.utils.ViewPagerAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_favorite.*
 
 class FavoriteActivity : AppCompatActivity() {
@@ -25,16 +25,20 @@ class FavoriteActivity : AppCompatActivity() {
         }
 
         setupViewPager(fav_view_pager)
-        fav_tabs.setupWithViewPager(fav_view_pager)
+        TabLayoutMediator(fav_tabs, fav_view_pager) { tab, position ->
+            when (position) {
+                0 -> tab.text = getString(R.string.title_movie)
+                1 -> tab.text = getString(R.string.title_tv_show)
+            }
+        }.attach()
     }
 
-    private fun setupViewPager(viewPager: ViewPager) {
-        val viewPagerAdapter = ViewPagerAdapter(
-            supportFragmentManager, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-        )
-        viewPagerAdapter.addFragment(FavoriteMovieFragment(), getString(R.string.title_movie))
-        viewPagerAdapter.addFragment(FavoriteTVShowFragment(), getString(R.string.title_tv_show))
+    private fun setupViewPager(viewPager: ViewPager2) {
+        val viewPagerAdapter = ViewPagerAdapter(this)
         viewPager.adapter = viewPagerAdapter
+
+        viewPagerAdapter.addFragment(FavoriteMovieFragment())
+        viewPagerAdapter.addFragment(FavoriteTVShowFragment())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
