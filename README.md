@@ -17,7 +17,7 @@ So we will break down our solution into layers in order to respect the dependenc
 ![Clean Architecture Layers](screenshots/clean_architecture_layers.png "Clean architecture layers")
 
 ### The MovieDB API key
-Movie Catalogue uses [TheMovieDB API] (https://api.themoviedb.org) to load a catalog of movies available on the screen.
+Movie Catalogue uses [TheMovieDB API](https://api.themoviedb.org) to load a catalog of movies available on the screen.
 
 Once you have the key, add this line to the `gradle.properties` file, either in your user home
 directory (usually `~/.gradle/gradle.properties` on Linux and Mac) or in the project's root folder:
