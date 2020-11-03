@@ -5,16 +5,16 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.ViewModelProvider
 import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.databinding.ActivityDetailFavoriteMovieBinding
 import com.centaury.cataloguemovie.di.component.DaggerDetailFavoriteComponent
 import com.centaury.cataloguemovie.utils.*
 import com.centaury.domain.detail.model.Detail
 import com.centaury.domain.movies.model.MoviesEntity
 import com.centaury.domain.tvshow.model.TVShowsEntity
-import kotlinx.android.synthetic.main.activity_detail_favorite_movie.*
-import java.text.ParseException
 import javax.inject.Inject
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -23,6 +23,8 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var detailFavoriteMovieViewModel: DetailFavoriteMovieViewModel
+
+    private lateinit var binding: ActivityDetailFavoriteMovieBinding
 
     private var movie: MoviesEntity? = null
     private var tvShow: TVShowsEntity? = null
@@ -33,7 +35,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_favorite_movie)
+        binding = setContentView(this, R.layout.activity_detail_favorite_movie)
         showSystemUI()
 
         window.setFlags(
@@ -44,7 +46,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
             window.navigationBarDividerColor = getColor(R.color.colorPrimary)
         }
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
@@ -53,20 +55,18 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
         initInjector()
         initClick()
-        initView()
+        initView(binding)
     }
 
-    private fun initView() {
+    private fun initView(binding: ActivityDetailFavoriteMovieBinding) {
         detailFavoriteMovieViewModel =
             ViewModelProvider(this, viewModelFactory)[DetailFavoriteMovieViewModel::class.java]
 
-        cl_fav_data.gone()
-
         initParam()
-        initObserver()
+        initObserver(binding)
 
         setFavorite()
-        btn_favorite.scale = 2.481f
+        binding.btnFavorite.scale = 2.481f
     }
 
     private fun initParam() {
@@ -79,24 +79,23 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
         }
     }
 
-    private fun initObserver() {
+    private fun initObserver(binding: ActivityDetailFavoriteMovieBinding) {
         detailFavoriteMovieViewModel.state.observe(this, { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
-                    shimmer_view_container.startShimmer()
-                    shimmer_view_container.visible()
+                    binding.shimmerViewContainer.startShimmer()
+                    binding.hasDetailFavoriteMovies = true
                 }
                 is LoaderState.HideLoading -> {
-                    cl_fav_data.visible()
-                    shimmer_view_container.stopShimmer()
-                    shimmer_view_container.gone()
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.hasDetailFavoriteMovies = false
                 }
             }
         })
 
         detailFavoriteMovieViewModel.resultMovieById.observe(this, { movieById ->
             movie = movieById
-            iv_img_fav_detail.transitionName = movieById.title
+            binding.ivImgFavDetail.transitionName = movieById.title
             supportPostponeEnterTransition()
             showDetail(DetailMapper.mapperMovieToDetail(movieById))
             detailFavorite = DetailMapper.mapperMovieToDetail(movieById)
@@ -109,7 +108,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
         detailFavoriteMovieViewModel.resultTVShowById.observe(this, { tvShowById ->
             tvShow = tvShowById
-            iv_img_fav_detail.transitionName = tvShowById.title
+            binding.ivImgFavDetail.transitionName = tvShowById.title
             supportPostponeEnterTransition()
             showDetail(DetailMapper.mapperTVShowToDetail(tvShowById))
             detailFavorite = DetailMapper.mapperTVShowToDetail(tvShowById)
@@ -138,7 +137,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
     }
 
     private fun initClick() {
-        btn_favorite.setOnClickListener {
+        binding.setClickFavoriteListener {
             clickFavorite()
         }
     }
@@ -156,60 +155,36 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
         isFavorite = !isFavorite
         setFavorite()
-        btn_favorite.playAnimation()
+        binding.btnFavorite.playAnimation()
     }
 
     private fun showDetail(detail: Detail) {
-        txt_title_fav_detail.text = detail.title
-        txt_rate_fav_movie.text = detail.rating.toString()
+        binding.txtTitleFavDetail.text = detail.title
+        binding.txtRateFavMovie.text = detail.rating.toString()
         val rating = (detail.rating / 2).toFloat()
-        rb_rating_fav_detail.rating = rating
+        binding.rbRatingFavDetail.rating = rating
 
         if (detail.genre.isEmpty()) {
-            txt_genre_fav_detail.text = getString(R.string.txt_no_genre)
+            binding.txtGenreFavDetail.text = getString(R.string.txt_no_genre)
         } else {
-            CommonUtils.getGenresString(detail.genre, txt_genre_fav_detail)
+            CommonUtils.getGenresString(detail.genre, binding.txtGenreFavDetail)
         }
 
         if (detail.overview.isEmpty() || detail.overview == "") {
-            txt_desc_fav_detail.text = getString(R.string.txt_no_desc)
+            binding.txtDescFavDetail.text = getString(R.string.txt_no_desc)
         } else {
-            txt_desc_fav_detail.text = detail.overview
+            binding.txtDescFavDetail.text = detail.overview
         }
 
-        loadFromUrl(
-            iv_img_fav_detail,
-            detail.image,
-            R.drawable.ic_loading,
-            R.drawable.ic_error
-        )
+        loadFromUrl(binding.ivImgFavDetail, detail.image)
 
         if (detail.imageBackground != "null") {
-            loadFromUrl(
-                iv_cover_fav_detail,
-                detail.imageBackground,
-                R.drawable.ic_loading,
-                R.drawable.ic_error
-            )
+            loadFromUrl(binding.ivCoverFavDetail, detail.imageBackground)
         } else {
-            loadFromUrl(
-                iv_cover_fav_detail,
-                detail.image,
-                R.drawable.ic_loading,
-                R.drawable.ic_error
-            )
+            loadFromUrl(binding.ivCoverFavDetail, detail.image)
         }
 
-        try {
-            val date = CommonUtils.inputDate().parse(detail.date)
-            var releaseDate: String
-            date.let {
-                releaseDate = CommonUtils.outputDate().format(it)
-            }
-            txt_date_fav_detail.text = releaseDate
-        } catch (e: ParseException) {
-            e.printStackTrace()
-        }
+        binding.txtDateFavDetail.text = CommonUtils.toDateString(detail.date)
     }
 
     private fun initInjector() {
@@ -228,11 +203,11 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
     public override fun onResume() {
         super.onResume()
-        shimmer_view_container.startShimmer()
+        binding.shimmerViewContainer.startShimmer()
     }
 
     public override fun onPause() {
-        shimmer_view_container.stopShimmer()
+        binding.shimmerViewContainer.stopShimmer()
         super.onPause()
     }
 
@@ -245,8 +220,8 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
                     it.originalTitle,
                     it.image,
                     it.imageBackground,
-                    txt_genre_fav_detail.text.toString(),
-                    txt_rate_fav_movie.text.toString(),
+                    binding.txtGenreFavDetail.text.toString(),
+                    binding.txtRateFavMovie.text.toString(),
                     it.date,
                     it.overview
                 )
@@ -260,8 +235,8 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
                     it.originalTitle,
                     it.image,
                     it.imageBackground,
-                    txt_genre_fav_detail.text.toString(),
-                    txt_rate_fav_movie.text.toString(),
+                    binding.txtGenreFavDetail.text.toString(),
+                    binding.txtRateFavMovie.text.toString(),
                     it.date,
                     it.overview
                 )
@@ -298,11 +273,11 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
     private fun setFavorite() {
         if (isFavorite) {
-            btn_favorite.speed = 1f
-            btn_favorite.progress = 1f
+            binding.btnFavorite.speed = 1f
+            binding.btnFavorite.progress = 1f
         } else {
-            btn_favorite.progress = 0f
-            btn_favorite.speed = -2f
+            binding.btnFavorite.progress = 0f
+            binding.btnFavorite.speed = -2f
         }
     }
 

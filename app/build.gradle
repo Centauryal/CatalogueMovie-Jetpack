@@ -11,6 +11,10 @@ android {
     compileSdkVersion globalConfig.androidCompileSdkVersion
     buildToolsVersion globalConfig.androidBuildToolsVersion
 
+    buildFeatures {
+        dataBinding true
+    }
+
     defaultConfig {
         applicationId "com.centaury.cataloguemovie"
         minSdkVersion globalConfig.androidMinSdkVersion

@@ -13,15 +13,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.databinding.FragmentFavoriteTvshowBinding
 import com.centaury.cataloguemovie.di.component.DaggerFavoriteTVShowComponent
 import com.centaury.cataloguemovie.ui.detail.DetailFavoriteMovieActivity
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteFragmentCallback
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteTVShowAdapter
 import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteTVShowViewModel
-import com.centaury.cataloguemovie.utils.*
+import com.centaury.cataloguemovie.utils.CommonUtils
+import com.centaury.cataloguemovie.utils.LoaderState
+import com.centaury.cataloguemovie.utils.showToast
 import com.centaury.domain.tvshow.model.TVShowsEntity
-import kotlinx.android.synthetic.main.fragment_favorite_tvshow.*
-import kotlinx.android.synthetic.main.item_empty_state_placeholder.*
 import javax.inject.Inject
 
 /**
@@ -32,6 +33,8 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var favoriteTVShowViewModel: FavoriteTVShowViewModel
+
+    private lateinit var binding: FragmentFavoriteTvshowBinding
 
     private var tvShowFavoriteData = arrayListOf<TVShowsEntity>()
     private val favoriteTVShowAdapter: FavoriteTVShowAdapter by lazy {
@@ -46,39 +49,41 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_tvshow, container, false)
+        binding = FragmentFavoriteTvshowBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initInjector()
-        initView()
+        initView(binding)
     }
 
-    private fun initView() {
+    private fun initView(binding: FragmentFavoriteTvshowBinding) {
         favoriteTVShowViewModel =
             ViewModelProvider(this, viewModelFactory)[FavoriteTVShowViewModel::class.java]
 
-        with(rv_fav_tv_show) {
+        with(binding.rvFavTvShow) {
             hasFixedSize()
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(CommonUtils.TopItemDecoration(55))
             adapter = favoriteTVShowAdapter
         }
 
-        initObserver()
+        initObserver(binding)
     }
 
-    private fun initObserver() {
+    private fun initObserver(binding: FragmentFavoriteTvshowBinding) {
         favoriteTVShowViewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
-                    shimmer_view_container.startShimmer()
-                    shimmer_view_container.visible()
+                    binding.shimmerViewContainer.startShimmer()
+                    binding.hasFavoriteTVShows = true
                 }
                 is LoaderState.HideLoading -> {
-                    shimmer_view_container.stopShimmer()
-                    shimmer_view_container.gone()
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.hasFavoriteTVShows = false
                 }
             }
         })
@@ -86,7 +91,7 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
         favoriteTVShowViewModel.result.observe(viewLifecycleOwner, { result ->
             tvShowFavoriteData.clear()
             tvShowFavoriteData.addAll(result)
-            CommonUtils.toggleEmptyState(result.size, empty_state, rv_fav_tv_show)
+            CommonUtils.toggleEmptyState(result.size, binding.emptyState, binding.rvFavTvShow)
             favoriteTVShowAdapter.notifyDataSetChanged()
         })
 
@@ -114,7 +119,7 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
             .inject(this)
     }
 
-    private fun showDialogDeleteFavorite(tvShowId: Int) {
+    private fun showDialogDeleteFavorite(tvShowId: Int, position: Int) {
         favoriteTVShowViewModel.getFavoriteTVShowByIdContract(tvShowId)
 
         val customDialog: AlertDialog.Builder? = context?.let { AlertDialog.Builder(it) }
@@ -129,6 +134,7 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
             setCancelable(false)
             setPositiveButton(R.string.btn_delete) { dialog, _ ->
                 tvShow?.let { favoriteTVShowViewModel.getDeleteFavoriteTVShowContract(context, it) }
+                favoriteTVShowAdapter.notifyItemRemoved(position)
                 dialog.dismiss()
                 context.showToast(R.string.txt_movie_remove)
             }
@@ -155,16 +161,16 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
 
     override fun onResume() {
         super.onResume()
-        shimmer_view_container.startShimmer()
+        binding.shimmerViewContainer.startShimmer()
     }
 
     override fun onPause() {
-        shimmer_view_container.stopShimmer()
+        binding.shimmerViewContainer.stopShimmer()
         super.onPause()
     }
 
-    override fun onDeleteItemClick(movieId: Int) {
-        showDialogDeleteFavorite(movieId)
+    override fun onDeleteItemClick(movieId: Int, position: Int) {
+        showDialogDeleteFavorite(movieId, position)
     }
 
     override fun onItemClick(movieId: Int, image: ImageView, title: String) {

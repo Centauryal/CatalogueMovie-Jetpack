@@ -10,14 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.MovieCatalogueApp
-import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.databinding.FragmentTvshowBinding
 import com.centaury.cataloguemovie.di.component.DaggerDiscoverTVShowComponent
 import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
 import com.centaury.cataloguemovie.ui.main.ItemClickCallback
-import com.centaury.cataloguemovie.utils.*
+import com.centaury.cataloguemovie.utils.CommonUtils
+import com.centaury.cataloguemovie.utils.LoaderState
+import com.centaury.cataloguemovie.utils.showToast
 import com.centaury.domain.genre.model.Genre
 import com.centaury.domain.tvshow.model.TVShow
-import kotlinx.android.synthetic.main.fragment_tvshow.*
 import javax.inject.Inject
 
 /**
@@ -28,6 +29,8 @@ class TVShowFragment : Fragment(), ItemClickCallback {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var tvShowViewModel: TVShowViewModel
+
+    private lateinit var binding: FragmentTvshowBinding
 
     private var tvShowData = arrayListOf<TVShow>()
     private var genreData = arrayListOf<Genre>()
@@ -40,38 +43,40 @@ class TVShowFragment : Fragment(), ItemClickCallback {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tvshow, container, false)
+        binding = FragmentTvshowBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initInjector()
-        initView()
+        initView(binding)
     }
 
-    private fun initView() {
+    private fun initView(binding: FragmentTvshowBinding) {
         tvShowViewModel = ViewModelProvider(this, viewModelFactory)[TVShowViewModel::class.java]
 
-        with(rv_tv_show) {
+        with(binding.rvTvShow) {
             hasFixedSize()
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(CommonUtils.TopItemDecoration(55))
             adapter = tvShowAdapter
         }
 
-        initObserver()
+        initObserver(binding)
     }
 
-    private fun initObserver() {
+    private fun initObserver(binding: FragmentTvshowBinding) {
         tvShowViewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
-                    shimmer_view_container.startShimmer()
-                    shimmer_view_container.visible()
+                    binding.shimmerViewContainer.startShimmer()
+                    binding.hasTVShows = true
                 }
                 is LoaderState.HideLoading -> {
-                    shimmer_view_container.stopShimmer()
-                    shimmer_view_container.gone()
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.hasTVShows = false
                 }
             }
         })
@@ -107,11 +112,11 @@ class TVShowFragment : Fragment(), ItemClickCallback {
 
     override fun onResume() {
         super.onResume()
-        shimmer_view_container.startShimmer()
+        binding.shimmerViewContainer.startShimmer()
     }
 
     override fun onPause() {
-        shimmer_view_container.stopShimmer()
+        binding.shimmerViewContainer.stopShimmer()
         super.onPause()
     }
 

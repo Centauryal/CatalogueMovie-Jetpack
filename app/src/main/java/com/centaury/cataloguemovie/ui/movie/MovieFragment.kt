@@ -10,14 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.MovieCatalogueApp
-import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.databinding.FragmentMovieBinding
 import com.centaury.cataloguemovie.di.component.DaggerDiscoverMovieComponent
 import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
 import com.centaury.cataloguemovie.ui.main.ItemClickCallback
-import com.centaury.cataloguemovie.utils.*
+import com.centaury.cataloguemovie.utils.CommonUtils
+import com.centaury.cataloguemovie.utils.LoaderState
+import com.centaury.cataloguemovie.utils.showToast
 import com.centaury.domain.genre.model.Genre
 import com.centaury.domain.movies.model.Movie
-import kotlinx.android.synthetic.main.fragment_movie.*
 import javax.inject.Inject
 
 /**
@@ -28,6 +29,8 @@ class MovieFragment : Fragment(), ItemClickCallback {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var movieViewModel: MovieViewModel
+
+    private lateinit var binding: FragmentMovieBinding
 
     private var movieData = arrayListOf<Movie>()
     private var genreData = arrayListOf<Genre>()
@@ -40,38 +43,39 @@ class MovieFragment : Fragment(), ItemClickCallback {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie, container, false)
+        binding = FragmentMovieBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initInjector()
-        initView()
+        initView(binding)
     }
 
-    private fun initView() {
+    private fun initView(binding: FragmentMovieBinding) {
         movieViewModel = ViewModelProvider(this, viewModelFactory)[MovieViewModel::class.java]
 
-        with(rv_movie) {
+        with(binding.rvMovie) {
             hasFixedSize()
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(CommonUtils.TopItemDecoration(55))
             adapter = movieAdapter
         }
 
-        initObserver()
+        initObserver(binding)
     }
 
-    private fun initObserver() {
+    private fun initObserver(binding: FragmentMovieBinding) {
         movieViewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
-                    shimmer_view_container.startShimmer()
-                    shimmer_view_container.visible()
+                    binding.shimmerViewContainer.startShimmer()
+                    binding.hasMovies = true
                 }
                 is LoaderState.HideLoading -> {
-                    shimmer_view_container.stopShimmer()
-                    shimmer_view_container.gone()
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.hasMovies = false
                 }
             }
         })
@@ -106,11 +110,11 @@ class MovieFragment : Fragment(), ItemClickCallback {
 
     override fun onResume() {
         super.onResume()
-        shimmer_view_container.startShimmer()
+        binding.shimmerViewContainer.startShimmer()
     }
 
     override fun onPause() {
-        shimmer_view_container.stopShimmer()
+        binding.shimmerViewContainer.stopShimmer()
         super.onPause()
     }
 

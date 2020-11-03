@@ -1,16 +1,14 @@
 package com.centaury.cataloguemovie.ui.favorite.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.databinding.ItemFavoriteMovielistBinding
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
 import com.centaury.domain.movies.model.MoviesEntity
-import kotlinx.android.synthetic.main.item_favorite_movielist.view.*
-import java.text.ParseException
 
 /**
  * Created by Centaury on 11/23/2019.
@@ -29,29 +27,32 @@ class FavoriteMovieAdapter(
     override fun getItemCount(): Int = moviesFavorite.size
 
     override fun onBindViewHolder(holder: FavoriteMovieViewHolder, position: Int) {
-        holder.bind(moviesFavorite[position], callback)
+        holder.bind(moviesFavorite[position], position, callback)
     }
 
-    class FavoriteMovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        private val title = view.txt_title_movie_fav_list
-        private val titleBackground = view.txt_title_fav_background
-        private val poster = view.iv_movie_fav_list
-        private val genreView = view.txt_genre_movie_fav_list
-        private val overview = view.txt_desc_movie_fav_list
-        private val dateView = view.txt_date_movie_fav_list
-        private val btnDelete = view.btn_delete
+    class FavoriteMovieViewHolder(private val binding: ItemFavoriteMovielistBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        private val title = binding.txtTitleMovieFavList
+        private val titleBackground = binding.txtTitleFavBackground
+        private val poster = binding.ivMovieFavList
+        private val genreView = binding.txtGenreMovieFavList
+        private val overview = binding.txtDescMovieFavList
+        private val dateView = binding.txtDateMovieFavList
 
         companion object {
             fun inflate(parent: ViewGroup): FavoriteMovieViewHolder {
                 return FavoriteMovieViewHolder(
-                    LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_favorite_movielist, parent, false)
+                    ItemFavoriteMovielistBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
             }
         }
 
-        fun bind(movie: MoviesEntity, callback: FavoriteFragmentCallback) {
-            val context = view.context
+        fun bind(movie: MoviesEntity, position: Int, callback: FavoriteFragmentCallback) {
+            val context = binding.root.context
             title.text = movie.title
             titleBackground.text = movie.titleBackground
             if (movie.overview.isEmpty() || movie.overview == "") {
@@ -65,31 +66,16 @@ class FavoriteMovieAdapter(
                 genreView.text = movie.genre
             }
 
-            try {
-                val date = CommonUtils.inputDate().parse(movie.date)
-                var releaseDate: String
-                date.let {
-                    releaseDate = CommonUtils.outputDate().format(it)
-                }
-                dateView.text = releaseDate
-            } catch (e: ParseException) {
-                e.printStackTrace()
-            }
-
-            loadFromUrl(
-                poster,
-                movie.image,
-                R.drawable.ic_loading,
-                R.drawable.ic_error
-            )
+            dateView.text = CommonUtils.toDateString(movie.date)
+            loadFromUrl(poster, movie.image)
 
             ViewCompat.setTransitionName(poster, movie.title)
 
-            itemView.setOnClickListener {
+            binding.setClickListener {
                 callback.onItemClick(movie.id, poster, movie.title)
             }
-            btnDelete.setOnClickListener {
-                callback.onDeleteItemClick(movie.id)
+            binding.setClickDeleteListener {
+                callback.onDeleteItemClick(movie.id, position)
             }
         }
 

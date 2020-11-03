@@ -1,18 +1,16 @@
 package com.centaury.cataloguemovie.ui.movie
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.databinding.ItemMovieListBinding
 import com.centaury.cataloguemovie.ui.main.ItemClickCallback
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
 import com.centaury.domain.genre.model.Genre
 import com.centaury.domain.movies.model.Movie
-import kotlinx.android.synthetic.main.item_movie_list.view.*
-import java.text.ParseException
 
 /**
  * Created by Centaury on 10/7/2019.
@@ -34,25 +32,25 @@ class MovieAdapter(
         holder.bind(movies[position], genres, callback)
     }
 
-    class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        private val title = view.txt_title_movie_list
-        private val titleBackground = view.txt_title_background
-        private val poster = view.iv_movie_list
-        private val genreView = view.txt_genre_movie_list
-        private val overview = view.txt_desc_movie_list
-        private val dateView = view.txt_date_movie_list
+    class MovieViewHolder(private val binding: ItemMovieListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        private val title = binding.txtTitleMovieList
+        private val titleBackground = binding.txtTitleBackground
+        private val poster = binding.ivMovieList
+        private val genreView = binding.txtGenreMovieList
+        private val overview = binding.txtDescMovieList
+        private val dateView = binding.txtDateMovieList
 
         companion object {
             fun inflate(parent: ViewGroup): MovieViewHolder {
                 return MovieViewHolder(
-                    LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_movie_list, parent, false)
+                    ItemMovieListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 )
             }
         }
 
         fun bind(movie: Movie, genres: List<Genre>, callback: ItemClickCallback) {
-            val context = view.context
+            val context = binding.root.context
             title.text = movie.title
             titleBackground.text = movie.titleBackground
             if (movie.overview.isEmpty() || movie.overview == "") {
@@ -66,27 +64,12 @@ class MovieAdapter(
                 genreView.text = CommonUtils.getGenresString(genres, movie.genre)
             }
 
-            try {
-                val date = CommonUtils.inputDate().parse(movie.date)
-                var releaseDate: String
-                date.let {
-                    releaseDate = CommonUtils.outputDate().format(it)
-                }
-                dateView.text = releaseDate
-            } catch (e: ParseException) {
-                e.printStackTrace()
-            }
-
-            loadFromUrl(
-                poster,
-                movie.image,
-                R.drawable.ic_loading,
-                R.drawable.ic_error
-            )
+            dateView.text = CommonUtils.toDateString(movie.date)
+            loadFromUrl(poster, movie.image)
 
             ViewCompat.setTransitionName(poster, movie.title)
 
-            itemView.setOnClickListener {
+            binding.setClickListener {
                 callback.onItemClick(movie.id, poster, movie.title)
             }
         }

@@ -3,29 +3,30 @@ package com.centaury.cataloguemovie.ui.favorite
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.viewpager2.widget.ViewPager2
 import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.databinding.ActivityFavoriteBinding
 import com.centaury.cataloguemovie.ui.favorite.fragment.FavoriteMovieFragment
 import com.centaury.cataloguemovie.ui.favorite.fragment.FavoriteTVShowFragment
 import com.centaury.cataloguemovie.utils.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.activity_favorite.*
 
 class FavoriteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_favorite)
+        val binding = setContentView<ActivityFavoriteBinding>(this, R.layout.activity_favorite)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
             setDisplayShowTitleEnabled(false)
         }
 
-        setupViewPager(fav_view_pager)
-        TabLayoutMediator(fav_tabs, fav_view_pager) { tab, position ->
+        setupViewPager(binding.favViewPager)
+        TabLayoutMediator(binding.favTabs, binding.favViewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.title_movie)
                 1 -> tab.text = getString(R.string.title_tv_show)

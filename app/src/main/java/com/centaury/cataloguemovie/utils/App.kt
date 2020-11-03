@@ -12,10 +12,10 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import coil.load
 import com.centaury.cataloguemovie.BuildConfig
+import com.centaury.cataloguemovie.R
 
 /**
  * Created by Centaury on 3/26/2020.
@@ -57,15 +57,10 @@ fun Activity.showSystemUI() {
     }
 }
 
-fun loadFromUrl(
-    imageView: ImageView,
-    url: String,
-    @DrawableRes drawableResId: Int,
-    @DrawableRes drawableErrorResId: Int
-) {
+fun loadFromUrl(imageView: ImageView, url: String) {
     imageView.load(BuildConfig.IMAGE_URL + url) {
-        placeholder(drawableResId)
-        error(drawableErrorResId)
+        placeholder(R.drawable.ic_loading)
+        error(R.drawable.ic_error)
     }
 }
 

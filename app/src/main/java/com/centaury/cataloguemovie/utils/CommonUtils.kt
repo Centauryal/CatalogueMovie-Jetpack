@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.centaury.domain.genre.model.Genre
 import java.text.DateFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,6 +27,19 @@ object CommonUtils {
 
     fun outputDate(): DateFormat {
         return SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+    }
+
+    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+    fun toDateString(input: String): String {
+        val release: String
+
+        return try {
+            val date = inputDate().parse(input)
+            release = outputDate().format(date)
+            release
+        } catch (e: ParseException) {
+            e.printStackTrace().toString()
+        }
     }
 
     fun toggleEmptyState(size: Int, emptyState: View, recyclerView: RecyclerView) {

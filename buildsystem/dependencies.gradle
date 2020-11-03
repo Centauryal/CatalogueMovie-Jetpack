@@ -13,7 +13,7 @@ ext {
     androidLegacyVersion = '1.0.0'
     appCompatVersion = '1.1.0'
     constraintLayoutVersion = '2.0.0'
-    materialVersion = '1.1.0'
+    materialVersion = '1.2.1'
     cardViewVersion = '1.0.0'
     recyclerViewVersion = '1.1.0'
     roomVersion = '2.2.5'

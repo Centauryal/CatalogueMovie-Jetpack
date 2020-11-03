@@ -13,15 +13,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.R
+import com.centaury.cataloguemovie.databinding.FragmentFavoriteMovieBinding
 import com.centaury.cataloguemovie.di.component.DaggerFavoriteMovieComponent
 import com.centaury.cataloguemovie.ui.detail.DetailFavoriteMovieActivity
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteFragmentCallback
 import com.centaury.cataloguemovie.ui.favorite.adapter.FavoriteMovieAdapter
 import com.centaury.cataloguemovie.ui.favorite.viewmodel.FavoriteMovieViewModel
-import com.centaury.cataloguemovie.utils.*
+import com.centaury.cataloguemovie.utils.CommonUtils
+import com.centaury.cataloguemovie.utils.LoaderState
+import com.centaury.cataloguemovie.utils.showToast
 import com.centaury.domain.movies.model.MoviesEntity
-import kotlinx.android.synthetic.main.fragment_favorite_movie.*
-import kotlinx.android.synthetic.main.item_empty_state_placeholder.*
 import javax.inject.Inject
 
 /**
@@ -32,6 +33,8 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var favoriteMovieViewModel: FavoriteMovieViewModel
+
+    private lateinit var binding: FragmentFavoriteMovieBinding
 
     private var movieFavoriteData = arrayListOf<MoviesEntity>()
     private val favoriteMovieAdapter: FavoriteMovieAdapter by lazy {
@@ -46,40 +49,42 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_movie, container, false)
+        binding = FragmentFavoriteMovieBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initInjector()
-        initView()
+        initView(binding)
     }
 
-    private fun initView() {
+    private fun initView(binding: FragmentFavoriteMovieBinding) {
         favoriteMovieViewModel =
             ViewModelProvider(this, viewModelFactory)[FavoriteMovieViewModel::class.java]
 
-        with(rv_fav_movie) {
+        with(binding.rvFavMovie) {
             hasFixedSize()
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(CommonUtils.TopItemDecoration(55))
             adapter = favoriteMovieAdapter
         }
 
-        initObserver()
+        initObserver(binding)
 
     }
 
-    private fun initObserver() {
+    private fun initObserver(binding: FragmentFavoriteMovieBinding) {
         favoriteMovieViewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
-                    shimmer_view_container.startShimmer()
-                    shimmer_view_container.visible()
+                    binding.shimmerViewContainer.startShimmer()
+                    binding.hasFavoriteMovies = true
                 }
                 is LoaderState.HideLoading -> {
-                    shimmer_view_container.stopShimmer()
-                    shimmer_view_container.gone()
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.hasFavoriteMovies = false
                 }
             }
         })
@@ -87,7 +92,7 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
         favoriteMovieViewModel.result.observe(viewLifecycleOwner, { result ->
             movieFavoriteData.clear()
             movieFavoriteData.addAll(result)
-            CommonUtils.toggleEmptyState(result.size, empty_state, rv_fav_movie)
+            CommonUtils.toggleEmptyState(result.size, binding.emptyState, binding.rvFavMovie)
             favoriteMovieAdapter.notifyDataSetChanged()
         })
 
@@ -116,7 +121,7 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
 
     }
 
-    private fun showDialogDeleteFavorite(movieId: Int) {
+    private fun showDialogDeleteFavorite(movieId: Int, position: Int) {
         favoriteMovieViewModel.getFavoriteMovieByIdContract(movieId)
 
         val customDialog: AlertDialog.Builder? = context?.let { AlertDialog.Builder(it) }
@@ -131,6 +136,7 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
             setCancelable(false)
             setPositiveButton(R.string.btn_delete) { dialog, _ ->
                 movie?.let { favoriteMovieViewModel.getDeleteFavoriteMovieContract(context, it) }
+                favoriteMovieAdapter.notifyItemRemoved(position)
                 dialog.dismiss()
                 context.showToast(R.string.txt_movie_remove)
             }
@@ -157,16 +163,16 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
 
     override fun onResume() {
         super.onResume()
-        shimmer_view_container.startShimmer()
+        binding.shimmerViewContainer.startShimmer()
     }
 
     override fun onPause() {
-        shimmer_view_container.stopShimmer()
+        binding.shimmerViewContainer.stopShimmer()
         super.onPause()
     }
 
-    override fun onDeleteItemClick(movieId: Int) {
-        showDialogDeleteFavorite(movieId)
+    override fun onDeleteItemClick(movieId: Int, position: Int) {
+        showDialogDeleteFavorite(movieId, position)
     }
 
     override fun onItemClick(movieId: Int, image: ImageView, title: String) {
