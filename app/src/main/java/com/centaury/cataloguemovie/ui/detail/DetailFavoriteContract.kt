@@ -1,6 +1,5 @@
 package com.centaury.cataloguemovie.ui.detail
 
-import android.content.Context
 import com.centaury.domain.movies.model.MoviesEntity
 import com.centaury.domain.tvshow.model.TVShowsEntity
 
@@ -12,13 +11,13 @@ interface DetailFavoriteContract {
 
     fun getFavoriteMovieByIdContract(movieId: Int)
 
-    fun getInsertFavoriteMovieContract(context: Context, movie: MoviesEntity)
+    fun getInsertFavoriteMovieContract(movie: MoviesEntity)
 
-    fun getDeleteFavoriteMovieContract(context: Context, movie: MoviesEntity)
+    fun getDeleteFavoriteMovieContract(movie: MoviesEntity)
 
     fun getFavoriteTVShowByIdContract(tvShowId: Int)
 
-    fun getInsertFavoriteTVSHowContract(context: Context, tvShow: TVShowsEntity)
+    fun getInsertFavoriteTVSHowContract(tvShow: TVShowsEntity)
 
-    fun getDeleteFavoriteTVShowContract(context: Context, tvShow: TVShowsEntity)
+    fun getDeleteFavoriteTVShowContract(tvShow: TVShowsEntity)
 }

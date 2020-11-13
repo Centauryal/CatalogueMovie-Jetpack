@@ -1,12 +1,10 @@
 package com.centaury.cataloguemovie.ui.detail
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.utils.LoaderState
-import com.centaury.cataloguemovie.utils.showToast
+import com.centaury.cataloguemovie.utils.Status
 import com.centaury.domain.movies.interactor.GetDeleteFavoriteMovie
 import com.centaury.domain.movies.interactor.GetFavoriteMovieById
 import com.centaury.domain.movies.interactor.GetInsertFavoriteMovie
@@ -41,9 +39,17 @@ class DetailFavoriteMovieViewModel @Inject constructor(
     val errorMovieById: LiveData<String>
         get() = _errorMovieById
 
+    private val _resultInsertMovie = MutableLiveData<Status>()
+    val resultInsertMovie: LiveData<Status>
+        get() = _resultInsertMovie
+
     private val _errorInsertMovie = MutableLiveData<String>()
     val errorInsertMovie: LiveData<String>
         get() = _errorInsertMovie
+
+    private val _resultDeleteMovie = MutableLiveData<Status>()
+    val resultDeleteMovie: LiveData<Status>
+        get() = _resultDeleteMovie
 
     private val _errorDeleteMovie = MutableLiveData<String>()
     val errorDeleteMovie: LiveData<String>
@@ -57,9 +63,17 @@ class DetailFavoriteMovieViewModel @Inject constructor(
     val errorTVShowById: LiveData<String>
         get() = _errorTVShowById
 
+    private val _resultInsertTVShow = MutableLiveData<Status>()
+    val resultInsertTVShow: LiveData<Status>
+        get() = _resultInsertTVShow
+
     private val _errorInsertTVShow = MutableLiveData<String>()
     val errorInsertTVShow: LiveData<String>
         get() = _errorInsertTVShow
+
+    private val _resultDeleteTVShow = MutableLiveData<Status>()
+    val resultDeleteTVShow: LiveData<Status>
+        get() = _resultDeleteTVShow
 
     private val _errorDeleteTVShow = MutableLiveData<String>()
     val errorDeleteTVShow: LiveData<String>
@@ -76,17 +90,17 @@ class DetailFavoriteMovieViewModel @Inject constructor(
         })
     }
 
-    override fun getInsertFavoriteMovieContract(context: Context, movie: MoviesEntity) {
+    override fun getInsertFavoriteMovieContract(movie: MoviesEntity) {
         getInsertFavoriteMovie.execute(movie, onSuccess = {
-            context.showToast(R.string.txt_movie_add)
+            _resultInsertMovie.value = Status.SUCCESS
         }, onError = {
             _errorInsertMovie.postValue(it.message)
         })
     }
 
-    override fun getDeleteFavoriteMovieContract(context: Context, movie: MoviesEntity) {
+    override fun getDeleteFavoriteMovieContract(movie: MoviesEntity) {
         getDeleteFavoriteMovie.execute(movie, onSuccess = {
-            context.showToast(R.string.txt_movie_remove)
+            _resultDeleteMovie.value = Status.SUCCESS
         }, onError = {
             _errorDeleteMovie.postValue(it.message)
         })
@@ -103,17 +117,17 @@ class DetailFavoriteMovieViewModel @Inject constructor(
         })
     }
 
-    override fun getInsertFavoriteTVSHowContract(context: Context, tvShow: TVShowsEntity) {
+    override fun getInsertFavoriteTVSHowContract(tvShow: TVShowsEntity) {
         getInsertFavoriteTVShow.execute(tvShow, onSuccess = {
-            context.showToast(R.string.txt_movie_add)
+            _resultInsertTVShow.value = Status.SUCCESS
         }, onError = {
             _errorInsertTVShow.postValue(it.message)
         })
     }
 
-    override fun getDeleteFavoriteTVShowContract(context: Context, tvShow: TVShowsEntity) {
+    override fun getDeleteFavoriteTVShowContract(tvShow: TVShowsEntity) {
         getDeleteFavoriteTVShow.execute(tvShow, onSuccess = {
-            context.showToast(R.string.txt_movie_remove)
+            _resultDeleteTVShow.value = Status.SUCCESS
         }, onError = {
             _errorDeleteTVShow.postValue(it.message)
         })

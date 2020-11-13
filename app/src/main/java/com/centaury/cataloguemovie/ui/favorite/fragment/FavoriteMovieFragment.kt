@@ -108,6 +108,10 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
             context?.showToast(errorMovieById)
         })
 
+        favoriteMovieViewModel.resultDeleteMovie.observe(viewLifecycleOwner, {
+            context?.showToast(R.string.txt_movie_remove)
+        })
+
         favoriteMovieViewModel.errorDeleteMovie.observe(viewLifecycleOwner, { errorDeleteMovie ->
             context?.showToast(errorDeleteMovie)
         })
@@ -135,7 +139,7 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
             setView(view)
             setCancelable(false)
             setPositiveButton(R.string.btn_delete) { dialog, _ ->
-                movie?.let { favoriteMovieViewModel.getDeleteFavoriteMovieContract(context, it) }
+                movie?.let { favoriteMovieViewModel.getDeleteFavoriteMovieContract(it) }
                 favoriteMovieAdapter.notifyItemRemoved(position)
                 dialog.dismiss()
                 context.showToast(R.string.txt_movie_remove)

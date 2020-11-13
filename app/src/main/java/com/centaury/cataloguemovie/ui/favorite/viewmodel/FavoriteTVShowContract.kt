@@ -1,6 +1,5 @@
 package com.centaury.cataloguemovie.ui.favorite.viewmodel
 
-import android.content.Context
 import com.centaury.domain.tvshow.model.TVShowsEntity
 
 /**
@@ -13,5 +12,5 @@ interface FavoriteTVShowContract {
 
     fun getFavoriteTVShowByIdContract(tvShowId: Int)
 
-    fun getDeleteFavoriteTVShowContract(context: Context, tvShow: TVShowsEntity)
+    fun getDeleteFavoriteTVShowContract(tvShow: TVShowsEntity)
 }

@@ -119,16 +119,32 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
             showToast(errorTVShowById)
         })
 
+        detailFavoriteMovieViewModel.resultInsertMovie.observe(this, {
+            showToast(R.string.txt_movie_add)
+        })
+
         detailFavoriteMovieViewModel.errorInsertMovie.observe(this, { errorInsertMovie ->
             showToast(errorInsertMovie)
+        })
+
+        detailFavoriteMovieViewModel.resultInsertTVShow.observe(this, {
+            showToast(R.string.txt_movie_add)
         })
 
         detailFavoriteMovieViewModel.errorInsertTVShow.observe(this, { errorInsertTVShow ->
             showToast(errorInsertTVShow)
         })
 
+        detailFavoriteMovieViewModel.resultDeleteMovie.observe(this, {
+            showToast(R.string.txt_movie_remove)
+        })
+
         detailFavoriteMovieViewModel.errorDeleteMovie.observe(this, { errorDeleteMovie ->
             showToast(errorDeleteMovie)
+        })
+
+        detailFavoriteMovieViewModel.resultDeleteTVShow.observe(this, {
+            showToast(R.string.txt_movie_remove)
         })
 
         detailFavoriteMovieViewModel.errorDeleteTVShow.observe(this, { errorDeleteTVShow ->
@@ -225,7 +241,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
                     it.date,
                     it.overview
                 )
-                detailFavoriteMovieViewModel.getInsertFavoriteMovieContract(this, movieEntity)
+                detailFavoriteMovieViewModel.getInsertFavoriteMovieContract(movieEntity)
             }
         } else {
             detailFavorite.let {
@@ -240,7 +256,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
                     it.date,
                     it.overview
                 )
-                detailFavoriteMovieViewModel.getInsertFavoriteTVSHowContract(this, tvShowEntity)
+                detailFavoriteMovieViewModel.getInsertFavoriteTVSHowContract(tvShowEntity)
             }
         }
     }
@@ -248,11 +264,11 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
     private fun removeFavorite(movie: MoviesEntity? = null, tvShow: TVShowsEntity? = null) {
         if (movieId != 0) {
             movie?.let {
-                detailFavoriteMovieViewModel.getDeleteFavoriteMovieContract(this, it)
+                detailFavoriteMovieViewModel.getDeleteFavoriteMovieContract(it)
             }
         } else {
             tvShow?.let {
-                detailFavoriteMovieViewModel.getDeleteFavoriteTVShowContract(this, it)
+                detailFavoriteMovieViewModel.getDeleteFavoriteTVShowContract(it)
             }
         }
     }

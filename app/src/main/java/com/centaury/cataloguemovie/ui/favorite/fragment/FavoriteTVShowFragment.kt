@@ -107,6 +107,10 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
             context?.showToast(errorTVShowById)
         })
 
+        favoriteTVShowViewModel.resultDeleteTVShow.observe(viewLifecycleOwner, {
+            context?.showToast(R.string.txt_movie_remove)
+        })
+
         favoriteTVShowViewModel.errorDeleteTVShow.observe(viewLifecycleOwner, { errorDeleteTVShow ->
             context?.showToast(errorDeleteTVShow)
         })
@@ -133,7 +137,7 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
             setView(view)
             setCancelable(false)
             setPositiveButton(R.string.btn_delete) { dialog, _ ->
-                tvShow?.let { favoriteTVShowViewModel.getDeleteFavoriteTVShowContract(context, it) }
+                tvShow?.let { favoriteTVShowViewModel.getDeleteFavoriteTVShowContract(it) }
                 favoriteTVShowAdapter.notifyItemRemoved(position)
                 dialog.dismiss()
                 context.showToast(R.string.txt_movie_remove)

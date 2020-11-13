@@ -1,12 +1,10 @@
 package com.centaury.cataloguemovie.ui.favorite.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.utils.LoaderState
-import com.centaury.cataloguemovie.utils.showToast
+import com.centaury.cataloguemovie.utils.Status
 import com.centaury.domain.FlowableUseCase
 import com.centaury.domain.tvshow.interactor.GetAllFavoriteTVShow
 import com.centaury.domain.tvshow.interactor.GetDeleteFavoriteTVShow
@@ -43,6 +41,10 @@ class FavoriteTVShowViewModel @Inject constructor(
     val errorTVShowById: LiveData<String>
         get() = _errorTVShowById
 
+    private val _resultDeleteTVShow = MutableLiveData<Status>()
+    val resultDeleteTVShow: LiveData<Status>
+        get() = _resultDeleteTVShow
+
     private val _errorDeleteTVShow = MutableLiveData<String>()
     val errorDeleteTVShow: LiveData<String>
         get() = _errorDeleteTVShow
@@ -70,9 +72,9 @@ class FavoriteTVShowViewModel @Inject constructor(
         })
     }
 
-    override fun getDeleteFavoriteTVShowContract(context: Context, tvShow: TVShowsEntity) {
+    override fun getDeleteFavoriteTVShowContract(tvShow: TVShowsEntity) {
         getDeleteFavoriteTVShow.execute(tvShow, onSuccess = {
-            context.showToast(R.string.txt_movie_remove)
+            _resultDeleteTVShow.value = Status.SUCCESS
         }, onError = {
             _errorDeleteTVShow.postValue(it.message)
         })

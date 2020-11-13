@@ -1,12 +1,10 @@
 package com.centaury.cataloguemovie.ui.favorite.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.utils.LoaderState
-import com.centaury.cataloguemovie.utils.showToast
+import com.centaury.cataloguemovie.utils.Status
 import com.centaury.domain.FlowableUseCase
 import com.centaury.domain.movies.interactor.GetAllFavoriteMovie
 import com.centaury.domain.movies.interactor.GetDeleteFavoriteMovie
@@ -43,6 +41,10 @@ class FavoriteMovieViewModel @Inject constructor(
     val errorMovieById: LiveData<String>
         get() = _errorMovieById
 
+    private val _resultDeleteMovie = MutableLiveData<Status>()
+    val resultDeleteMovie: LiveData<Status>
+        get() = _resultDeleteMovie
+
     private val _errorDeleteMovie = MutableLiveData<String>()
     val errorDeleteMovie: LiveData<String>
         get() = _errorDeleteMovie
@@ -70,9 +72,9 @@ class FavoriteMovieViewModel @Inject constructor(
         })
     }
 
-    override fun getDeleteFavoriteMovieContract(context: Context, movie: MoviesEntity) {
+    override fun getDeleteFavoriteMovieContract(movie: MoviesEntity) {
         getDeleteFavoriteMovie.execute(movie, onSuccess = {
-            context.showToast(R.string.txt_movie_remove)
+            _resultDeleteMovie.value = Status.SUCCESS
         }, onError = {
             _errorDeleteMovie.postValue(it.message)
         })

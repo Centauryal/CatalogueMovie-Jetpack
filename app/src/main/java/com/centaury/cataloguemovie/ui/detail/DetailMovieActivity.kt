@@ -138,16 +138,32 @@ class DetailMovieActivity : AppCompatActivity() {
             showToast(errorTVShowById)
         })
 
+        detailMovieViewModel.resultInsertMovie.observe(this, {
+            showToast(R.string.txt_movie_add)
+        })
+
         detailMovieViewModel.errorInsertMovie.observe(this, { errorInsertMovie ->
             showToast(errorInsertMovie)
+        })
+
+        detailMovieViewModel.resultInsertTVShow.observe(this, {
+            showToast(R.string.txt_movie_add)
         })
 
         detailMovieViewModel.errorInsertTVShow.observe(this, { errorInsertTVShow ->
             showToast(errorInsertTVShow)
         })
 
+        detailMovieViewModel.resultDeleteMovie.observe(this, {
+            showToast(R.string.txt_movie_remove)
+        })
+
         detailMovieViewModel.errorDeleteMovie.observe(this, { errorDeleteMovie ->
             showToast(errorDeleteMovie)
+        })
+
+        detailMovieViewModel.resultDeleteTVShow.observe(this, {
+            showToast(R.string.txt_movie_remove)
         })
 
         detailMovieViewModel.errorDeleteTVShow.observe(this, { errorDeleteTVShow ->
@@ -237,7 +253,7 @@ class DetailMovieActivity : AppCompatActivity() {
                     it.date,
                     it.overview
                 )
-                detailMovieViewModel.getInsertFavoriteMovieContract(this, movieEntity)
+                detailMovieViewModel.getInsertFavoriteMovieContract(movieEntity)
             }
         } else {
             detailFavorite.let {
@@ -252,7 +268,7 @@ class DetailMovieActivity : AppCompatActivity() {
                     it.date,
                     it.overview
                 )
-                detailMovieViewModel.getInsertFavoriteTVSHowContract(this, tvShowEntity)
+                detailMovieViewModel.getInsertFavoriteTVSHowContract(tvShowEntity)
             }
         }
     }
@@ -260,11 +276,11 @@ class DetailMovieActivity : AppCompatActivity() {
     private fun removeFavorite(movie: MoviesEntity? = null, tvShow: TVShowsEntity? = null) {
         if (movieId != 0) {
             movie?.let {
-                detailMovieViewModel.getDeleteFavoriteMovieContract(this, it)
+                detailMovieViewModel.getDeleteFavoriteMovieContract(it)
             }
         } else {
             tvShow?.let {
-                detailMovieViewModel.getDeleteFavoriteTVShowContract(this, it)
+                detailMovieViewModel.getDeleteFavoriteTVShowContract(it)
             }
         }
 
