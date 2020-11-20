@@ -2,7 +2,7 @@ Movie Catalogue
 =================
 
 Movie catalog application that illustrates best practices for developing Android.
-This repository contains detailed application examples that implement Clean Architecture with MVVM patterns using Modularization
+This repository contains detailed application examples that implement Clean Architecture with MVVM patterns using Modularization, Kotlin DSL,
 Material Design, Night Mode, Data Binding, Retrofit2, Moshi, RxJava2, Dagger2, and Room. Classes have been designed in such a way that it could be inherited and maximize the code reuse.
 
 Getting Started
