@@ -8,7 +8,7 @@ object Dependencies {
 
     // Version
     const val GRADLE_VERSION = "4.1.1"
-    const val KOTLIN_VERSION = "1.4.10"
+    const val KOTLIN_VERSION = "1.4.20"
 
     // Android Core
     const val ANDROID_COMPILE_SDK_VERSION = 30
@@ -32,7 +32,7 @@ object Dependencies {
     const val RECYCLER_VIEW_VERSION = "1.1.0"
     const val ROOM_VERSION = "2.2.5"
     const val LIFECYCLE_VERSION = "2.2.0"
-    const val PAGING_VERSION = "2.1.2"
+    const val PAGING_VERSION = "3.0.0-alpha07"
 
     // Network Libraries
     const val RETROFIT_VERSION = "2.9.0"
