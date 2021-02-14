@@ -1,7 +1,7 @@
 package com.centaury.data.movies.mapper
 
 import com.centaury.data.movies.repository.source.local.entity.MovieEntity
-import com.centaury.domain.movies.model.MoviesEntity
+import com.centaury.domain.movies.model.MoviesDB
 import javax.inject.Inject
 
 /**
@@ -10,10 +10,12 @@ import javax.inject.Inject
  */
 class MoviesEntityMapper @Inject constructor() {
 
-    fun transformEntityMovie(movieEntity: List<MovieEntity>): List<MoviesEntity> =
+    fun transformEntityMovie(movieEntity: List<MovieEntity>): List<MoviesDB> =
         movieEntity.map { it.toMovies() }
 
-    private fun MovieEntity.toMovies() = MoviesEntity(
+    fun transformEntityMovieById(movieEntity: MovieEntity): MoviesDB = movieEntity.toMovies()
+
+    private fun MovieEntity.toMovies() = MoviesDB(
         id = this.id,
         title = this.title,
         titleBackground = this.titleBackground,
@@ -25,22 +27,8 @@ class MoviesEntityMapper @Inject constructor() {
         overview = this.overview
     )
 
-    fun transformEntityMovieById(movieEntity: MovieEntity): MoviesEntity {
-        return MoviesEntity(
-            movieEntity.id,
-            movieEntity.title,
-            movieEntity.titleBackground,
-            movieEntity.image,
-            movieEntity.imageBackground,
-            movieEntity.genre,
-            movieEntity.vote,
-            movieEntity.date,
-            movieEntity.overview
-        )
-    }
-
-    fun transformMovieToEntity(movie: MoviesEntity): MovieEntity {
-        return MovieEntity(
+    fun transformMovieToEntity(movie: MoviesDB): MovieEntity =
+        MovieEntity(
             movie.id,
             movie.title,
             movie.titleBackground,
@@ -51,5 +39,4 @@ class MoviesEntityMapper @Inject constructor() {
             movie.date,
             movie.overview
         )
-    }
 }

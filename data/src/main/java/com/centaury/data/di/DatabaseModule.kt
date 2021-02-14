@@ -25,13 +25,11 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideMovieDao(catalogueDatabase: CatalogueDatabase): MovieDao {
-        return catalogueDatabase.movieDao()
-    }
+    fun provideMovieDao(catalogueDatabase: CatalogueDatabase): MovieDao =
+        catalogueDatabase.movieDao()
 
     @Provides
     @Singleton
-    fun provideTVShowDao(catalogueDatabase: CatalogueDatabase): TVShowDao {
-        return catalogueDatabase.tvShowDao()
-    }
+    fun provideTVShowDao(catalogueDatabase: CatalogueDatabase): TVShowDao =
+        catalogueDatabase.tvShowDao()
 }

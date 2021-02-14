@@ -22,6 +22,7 @@ android {
         testInstrumentationRunner = Dependencies.ANDROID_TEST_INSTRUMENTATION
         vectorDrawables.useSupportLibrary = true
     }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
@@ -39,6 +40,10 @@ android {
         }
     }
 
+    bundle {
+        language.enableSplit = false
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -47,6 +52,8 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    dynamicFeatures = mutableSetOf(":favorite")
 }
 
 dependencies {

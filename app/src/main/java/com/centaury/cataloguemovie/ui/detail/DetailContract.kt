@@ -1,7 +1,7 @@
 package com.centaury.cataloguemovie.ui.detail
 
-import com.centaury.domain.movies.model.MoviesEntity
-import com.centaury.domain.tvshow.model.TVShowsEntity
+import com.centaury.domain.movies.model.MoviesDB
+import com.centaury.domain.tvshow.model.TVShowsDB
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)
@@ -15,13 +15,13 @@ interface DetailContract {
 
     fun getFavoriteMovieByIdContract(movieId: Int)
 
-    fun getInsertFavoriteMovieContract(movie: MoviesEntity)
+    fun getInsertFavoriteMovieContract(movie: MoviesDB)
 
-    fun getDeleteFavoriteMovieContract(movie: MoviesEntity)
+    fun getDeleteFavoriteMovieContract(movie: MoviesDB)
 
     fun getFavoriteTVShowByIdContract(tvShowId: Int)
 
-    fun getInsertFavoriteTVSHowContract(tvShow: TVShowsEntity)
+    fun getInsertFavoriteTVSHowContract(tvShow: TVShowsDB)
 
-    fun getDeleteFavoriteTVShowContract(tvShow: TVShowsEntity)
+    fun getDeleteFavoriteTVShowContract(tvShow: TVShowsDB)
 }

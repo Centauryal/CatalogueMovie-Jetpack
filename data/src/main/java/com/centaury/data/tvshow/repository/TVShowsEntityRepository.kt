@@ -6,7 +6,7 @@ import com.centaury.data.tvshow.mapper.TVShowResultMapper
 import com.centaury.data.tvshow.repository.source.TVShowsDataFactory
 import com.centaury.domain.tvshow.TVShowsRepository
 import com.centaury.domain.tvshow.model.TVShow
-import com.centaury.domain.tvshow.model.TVShowsEntity
+import com.centaury.domain.tvshow.model.TVShowsDB
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -25,26 +25,22 @@ class TVShowsEntityRepository @Inject constructor(
     override fun getDiscoveryTVShows(): Observable<List<TVShow>> =
         createTVShowData().discoveryTVShows().map { tvShowResultMapper.transformTVShow(it) }
 
-    override fun getAllFavoriteTVShow(): Flowable<List<TVShowsEntity>> =
+    override fun getAllFavoriteTVShow(): Flowable<List<TVShowsDB>> =
         createEntityTVShowData().getAllFavoriteTVShow()
             .map { tvShowEntityMapper.transformEntityTVShow(it) }
 
-    override fun getFavoriteTVShowById(id: Int): Flowable<TVShowsEntity> =
+    override fun getFavoriteTVShowById(id: Int): Flowable<TVShowsDB> =
         createEntityTVShowData().getFavoriteTVShowById(id)
             .map { tvShowEntityMapper.transformEntityTVShowById(it) }
 
-    override fun insertFavoriteTVShow(tvShow: TVShowsEntity): Completable =
+    override fun insertFavoriteTVShow(tvShow: TVShowsDB): Completable =
         createEntityTVShowData().insertFavoriteTVShow(
-            tvShowEntityMapper.transformTVShowToEntity(
-                tvShow
-            )
+            tvShowEntityMapper.transformTVShowToEntity(tvShow)
         )
 
-    override fun deleteFavoriteTVShow(tvShow: TVShowsEntity): Completable =
+    override fun deleteFavoriteTVShow(tvShow: TVShowsDB): Completable =
         createEntityTVShowData().deleteFavoriteTVShow(
-            tvShowEntityMapper.transformTVShowToEntity(
-                tvShow
-            )
+            tvShowEntityMapper.transformTVShowToEntity(tvShow)
         )
 
     private fun createTVShowData(): TVShowsEntityData =

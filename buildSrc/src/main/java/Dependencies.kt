@@ -7,12 +7,12 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 object Dependencies {
 
     // Version
-    const val GRADLE_VERSION = "4.1.1"
-    const val KOTLIN_VERSION = "1.4.10"
+    const val GRADLE_VERSION = "4.1.2"
+    const val KOTLIN_VERSION = "1.4.30"
 
     // Android Core
     const val ANDROID_COMPILE_SDK_VERSION = 30
-    const val ANDROID_BUILD_TOOLS_VERSION = "30.0.2"
+    const val ANDROID_BUILD_TOOLS_VERSION = "30.0.3"
     const val ANDROID_MIN_SDK_VERSION = 23
     const val ANDROID_TARGET_SDK_VERSION = 30
     const val ANDROID_VERSION_CODE = 4
@@ -30,16 +30,16 @@ object Dependencies {
     const val MATERIAL_VERSION = "1.2.1"
     const val CARD_VIEW_VERSION = "1.0.0"
     const val RECYCLER_VIEW_VERSION = "1.1.0"
-    const val ROOM_VERSION = "2.2.5"
-    const val LIFECYCLE_VERSION = "2.2.0"
-    const val PAGING_VERSION = "2.1.2"
+    const val ROOM_VERSION = "2.2.6"
+    const val ACTIVITY_KTX_VERSION = "1.1.0"
+    const val FRAGMENT_KTX_VERSION = "1.2.5"
 
     // Network Libraries
     const val RETROFIT_VERSION = "2.9.0"
-    const val OKHTTP_VERSION = "4.9.0"
+    const val LOGGING_INTERCEPTOR_VERSION = "4.9.0"
 
     // DI Libraries
-    const val DAGGER2_VERSION = "2.29.1"
+    const val DAGGER2_VERSION = "2.31.2"
     const val JAVAX_VERSION = "1"
 
     // ReactiveX Libraries
@@ -50,7 +50,7 @@ object Dependencies {
     const val COIL_VERSION = "1.0.0"
     const val TIMBER_VERSION = "4.7.1"
     const val SHIMMER_VERSION = "0.5.0"
-    const val LOTTIE_VERSION = "3.5.0"
+    const val LOTTIE_VERSION = "3.6.0"
     const val INTUIT_VERSION = "1.0.6"
 
     //Testing Libraries
@@ -86,9 +86,8 @@ object AndroidLibs {
     const val ROOM_RUNTIME = "androidx.room:room-runtime:${Dependencies.ROOM_VERSION}"
     const val ROOM_COMPILER = "androidx.room:room-compiler:${Dependencies.ROOM_VERSION}"
     const val ROOM_RX_JAVA = "androidx.room:room-rxjava2:${Dependencies.ROOM_VERSION}"
-    const val LIFECYCLE_VIEW_MODEL =
-        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Dependencies.LIFECYCLE_VERSION}"
-    const val PAGING_RUNTIME = "androidx.paging:paging-runtime:${Dependencies.PAGING_VERSION}"
+    const val ACTIVITY_KTX = "androidx.activity:activity-ktx:${Dependencies.ACTIVITY_KTX_VERSION}"
+    const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Dependencies.FRAGMENT_KTX_VERSION}"
 }
 
 object NetworkLibs {
@@ -97,17 +96,13 @@ object NetworkLibs {
         "com.squareup.retrofit2:adapter-rxjava2:${Dependencies.RETROFIT_VERSION}"
     const val RETROFIT_CONVERTER =
         "com.squareup.retrofit2:converter-moshi:${Dependencies.RETROFIT_VERSION}"
-    const val OKHTTP = "com.squareup.okhttp3:logging-interceptor:${Dependencies.OKHTTP_VERSION}"
+    const val LOGGING_INTERCEPTOR =
+        "com.squareup.okhttp3:logging-interceptor:${Dependencies.LOGGING_INTERCEPTOR_VERSION}"
 }
 
 object DependencyInjectionLibs {
     const val DAGGER_CORE = "com.google.dagger:dagger:${Dependencies.DAGGER2_VERSION}"
-    const val DAGGER_ANDROID = "com.google.dagger:dagger-android:${Dependencies.DAGGER2_VERSION}"
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${Dependencies.DAGGER2_VERSION}"
-    const val DAGGER_PROCESSOR =
-        "com.google.dagger:dagger-android-processor:${Dependencies.DAGGER2_VERSION}"
-    const val DAGGER_SUPPORT =
-        "com.google.dagger:dagger-android-support:${Dependencies.DAGGER2_VERSION}"
     const val JAVAX = "javax.inject:javax.inject:${Dependencies.JAVAX_VERSION}"
 }
 
@@ -157,9 +152,9 @@ object AppDependencies {
         add(AndroidLibs.RECYCLER_VIEW)
         add(AndroidLibs.ANNOTATION)
         add(AndroidLibs.LEGACY_SUPPORT)
+        add(AndroidLibs.ACTIVITY_KTX)
+        add(AndroidLibs.FRAGMENT_KTX)
         add(DependencyInjectionLibs.DAGGER_CORE)
-        add(DependencyInjectionLibs.DAGGER_ANDROID)
-        add(DependencyInjectionLibs.DAGGER_SUPPORT)
         add(DependencyInjectionLibs.JAVAX)
         add(ReactiveXLibs.RX_JAVA)
         add(ReactiveXLibs.RX_ANDROID)
@@ -173,7 +168,6 @@ object AppDependencies {
 
     val kaptAppDependencies = arrayListOf<String>().apply {
         add(DependencyInjectionLibs.DAGGER_COMPILER)
-        add(DependencyInjectionLibs.DAGGER_PROCESSOR)
     }
 
     val androidTestAppDependencies = arrayListOf<String>().apply {
@@ -186,15 +180,12 @@ object AppDependencies {
 
     val dataDependencies = arrayListOf<String>().apply {
         add(DependencyInjectionLibs.DAGGER_CORE)
-        add(DependencyInjectionLibs.DAGGER_ANDROID)
-        add(DependencyInjectionLibs.DAGGER_SUPPORT)
         add(DependencyInjectionLibs.JAVAX)
         add(ReactiveXLibs.RX_JAVA)
     }
 
     val kaptDataDependencies = arrayListOf<String>().apply {
         add(DependencyInjectionLibs.DAGGER_COMPILER)
-        add(DependencyInjectionLibs.DAGGER_PROCESSOR)
         add(AndroidLibs.ROOM_COMPILER)
     }
 
@@ -204,7 +195,7 @@ object AppDependencies {
         add(NetworkLibs.RETROFIT)
         add(NetworkLibs.RETROFIT_ADAPTER)
         add(NetworkLibs.RETROFIT_CONVERTER)
-        add(NetworkLibs.OKHTTP)
+        add(NetworkLibs.LOGGING_INTERCEPTOR)
     }
 
     val domainDependencies = arrayListOf<String>().apply {

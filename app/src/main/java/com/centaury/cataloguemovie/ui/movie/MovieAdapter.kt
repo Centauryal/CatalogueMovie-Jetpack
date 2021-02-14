@@ -22,15 +22,13 @@ class MovieAdapter(
     private val callback: ItemClickCallback
 ) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        return MovieViewHolder.inflate(parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
+        MovieViewHolder.inflate(parent)
+
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) =
+        holder.bind(movies[position], genres, callback)
 
     override fun getItemCount(): Int = movies.size
-
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(movies[position], genres, callback)
-    }
 
     class MovieViewHolder(private val binding: ItemMovieListBinding) :
         RecyclerView.ViewHolder(binding.root) {

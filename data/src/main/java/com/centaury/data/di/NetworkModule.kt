@@ -39,16 +39,14 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().apply {
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
+        HttpLoggingInterceptor().apply {
             level = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor.Level.BODY
             } else {
                 HttpLoggingInterceptor.Level.NONE
             }
-
         }
-    }
 
     @Provides
     @Singleton
@@ -78,19 +76,16 @@ class NetworkModule {
         return it.proceed(request)
     }
 
-    private fun languageTag(): String {
-        return Locale.getDefault().toLanguageTag()
-    }
+    private fun languageTag(): String = Locale.getDefault().toLanguageTag()
 
     @Provides
     @Singleton
-    fun provideRetrofitBuilder(moshi: Moshi, okHttpClient: OkHttpClient): Retrofit.Builder {
-        return Retrofit.Builder()
+    fun provideRetrofitBuilder(moshi: Moshi, okHttpClient: OkHttpClient): Retrofit.Builder =
+        Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(okHttpClient)
-    }
 
     companion object {
         private const val DEFAULT_CACHE_FILE_NAME = "okHttp-cache"

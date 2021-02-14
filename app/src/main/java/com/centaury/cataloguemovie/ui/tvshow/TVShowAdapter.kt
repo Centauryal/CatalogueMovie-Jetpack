@@ -22,15 +22,13 @@ class TVShowAdapter(
     private val callback: ItemClickCallback
 ) : RecyclerView.Adapter<TVShowAdapter.TVShowViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVShowViewHolder {
-        return TVShowViewHolder.inflate(parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVShowViewHolder =
+        TVShowViewHolder.inflate(parent)
+
+    override fun onBindViewHolder(holder: TVShowViewHolder, position: Int) =
+        holder.bind(tvShows[position], genres, callback)
 
     override fun getItemCount(): Int = tvShows.size
-
-    override fun onBindViewHolder(holder: TVShowViewHolder, position: Int) {
-        holder.bind(tvShows[position], genres, callback)
-    }
 
     class TVShowViewHolder(private val binding: ItemMovieListBinding) :
         RecyclerView.ViewHolder(binding.root) {

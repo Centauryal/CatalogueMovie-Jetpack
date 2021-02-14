@@ -11,11 +11,11 @@ import com.centaury.domain.detail.model.Detail
 import com.centaury.domain.movies.interactor.GetDeleteFavoriteMovie
 import com.centaury.domain.movies.interactor.GetFavoriteMovieById
 import com.centaury.domain.movies.interactor.GetInsertFavoriteMovie
-import com.centaury.domain.movies.model.MoviesEntity
+import com.centaury.domain.movies.model.MoviesDB
 import com.centaury.domain.tvshow.interactor.GetDeleteFavoriteTVShow
 import com.centaury.domain.tvshow.interactor.GetFavoriteTVShowById
 import com.centaury.domain.tvshow.interactor.GetInsertFavoriteTVShow
-import com.centaury.domain.tvshow.model.TVShowsEntity
+import com.centaury.domain.tvshow.model.TVShowsDB
 import javax.inject.Inject
 
 /**
@@ -52,8 +52,8 @@ class DetailMovieViewModel @Inject constructor(
     val errorTVShow: LiveData<String>
         get() = _errorTVShow
 
-    private val _resultMovieById = MutableLiveData<MoviesEntity>()
-    val resultMovieById: LiveData<MoviesEntity>
+    private val _resultMovieById = MutableLiveData<MoviesDB>()
+    val resultMovieById: LiveData<MoviesDB>
         get() = _resultMovieById
 
     private val _errorMovieById = MutableLiveData<String>()
@@ -76,8 +76,8 @@ class DetailMovieViewModel @Inject constructor(
     val errorDeleteMovie: LiveData<String>
         get() = _errorDeleteMovie
 
-    private val _resultTVShowById = MutableLiveData<TVShowsEntity>()
-    val resultTVShowById: LiveData<TVShowsEntity>
+    private val _resultTVShowById = MutableLiveData<TVShowsDB>()
+    val resultTVShowById: LiveData<TVShowsDB>
         get() = _resultTVShowById
 
     private val _errorTVShowById = MutableLiveData<String>()
@@ -122,52 +122,46 @@ class DetailMovieViewModel @Inject constructor(
         })
     }
 
-    override fun getFavoriteMovieByIdContract(movieId: Int) {
+    override fun getFavoriteMovieByIdContract(movieId: Int) =
         getFavoriteMovieById.execute(GetFavoriteMovieById.Params(movieId), onSuccess = {
             _resultMovieById.postValue(it)
         }, onError = {
             _errorMovieById.postValue(it.message)
         })
-    }
 
-    override fun getInsertFavoriteMovieContract(movie: MoviesEntity) {
+    override fun getInsertFavoriteMovieContract(movie: MoviesDB) =
         getInsertFavoriteMovie.execute(movie, onSuccess = {
             _resultInsertMovie.value = Status.SUCCESS
         }, onError = {
             _errorInsertMovie.postValue(it.message)
         })
-    }
 
-    override fun getDeleteFavoriteMovieContract(movie: MoviesEntity) {
+    override fun getDeleteFavoriteMovieContract(movie: MoviesDB) =
         getDeleteFavoriteMovie.execute(movie, onSuccess = {
             _resultDeleteMovie.value = Status.SUCCESS
         }, onError = {
             _errorDeleteMovie.postValue(it.message)
         })
-    }
 
-    override fun getFavoriteTVShowByIdContract(tvShowId: Int) {
+    override fun getFavoriteTVShowByIdContract(tvShowId: Int) =
         getFavoriteTVShowById.execute(GetFavoriteTVShowById.Params(tvShowId), onSuccess = {
             _resultTVShowById.postValue(it)
         }, onError = {
             _errorTVShowById.postValue(it.message)
         })
-    }
 
-    override fun getInsertFavoriteTVSHowContract(tvShow: TVShowsEntity) {
+    override fun getInsertFavoriteTVSHowContract(tvShow: TVShowsDB) =
         getInsertFavoriteTVShow.execute(tvShow, onSuccess = {
             _resultInsertTVShow.value = Status.SUCCESS
         }, onError = {
             _errorInsertTVShow.postValue(it.message)
         })
-    }
 
-    override fun getDeleteFavoriteTVShowContract(tvShow: TVShowsEntity) {
+    override fun getDeleteFavoriteTVShowContract(tvShow: TVShowsDB) =
         getDeleteFavoriteTVShow.execute(tvShow, onSuccess = {
             _resultDeleteTVShow.value = Status.SUCCESS
         }, onError = {
             _errorDeleteTVShow.postValue(it.message)
         })
-    }
 
 }

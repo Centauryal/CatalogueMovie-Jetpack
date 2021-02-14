@@ -21,11 +21,11 @@ import java.util.*
  */
 object CommonUtils {
 
-    fun inputDate(): DateFormat {
+    private fun inputDate(): DateFormat {
         return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     }
 
-    fun outputDate(): DateFormat {
+    private fun outputDate(): DateFormat {
         return SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
     }
 
@@ -113,6 +113,5 @@ object CommonUtils {
                 outRect.top = spacing
             }
         }
-
     }
 }

@@ -19,8 +19,6 @@
     <string name="txt_no_genre">No Genre</string>
     <string name="txt_no_internet">Not connected to internet</string>
     <string name="txt_title_delete_dialog">Are you sure to delete this favorite?</string>
-    <string name="txt_load_more">Loading data…</string>
-    <string name="txt_loading">Please wait! This may take a moment.</string>
 
     <string name="content_desc_image_detail">image on detail</string>
     <string name="content_desc_image_favorite">image on favorite</string>
@@ -28,7 +26,6 @@
     <string name="content_desc_cover_image_detail">cover image on detail</string>
     <string name="content_desc_empty_state">image if the data is empty</string>
 
-    <string name="content_desc_btn_back">back button</string>
     <string name="content_desc_btn_favorite">favorite button</string>
     <string name="content_desc_btn_delete">delete button</string>
 

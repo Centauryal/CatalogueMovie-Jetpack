@@ -16,6 +16,7 @@ import androidx.annotation.StringRes
 import coil.load
 import com.centaury.cataloguemovie.BuildConfig
 import com.centaury.cataloguemovie.R
+import timber.log.Timber
 
 /**
  * Created by Centaury on 3/26/2020.
@@ -33,8 +34,8 @@ fun Context.showToast(@StringRes res: Int, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, this.getText(res), duration).show()
 }
 
-fun Context.showToast(res: String, duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(this, res, duration).show()
+fun timberE(message: String) {
+    Timber.e(message)
 }
 
 fun ViewGroup.inflate(layoutRes: Int): View {

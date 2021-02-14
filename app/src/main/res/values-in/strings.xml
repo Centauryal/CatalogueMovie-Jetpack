@@ -20,8 +20,6 @@
     <string name="txt_no_genre">Tidak Ada Genre</string>
     <string name="txt_no_internet">Tidak terhubung ke internet</string>
     <string name="txt_title_delete_dialog">Apakah Anda yakin menghapus favorit ini?</string>
-    <string name="txt_load_more">Tunggu sebentar…</string>
-    <string name="txt_loading">Tunggu sebentar! Ini mungkin memerlukan waktu.</string>
 
     <string name="content_desc_image_detail">gambar di detail</string>
     <string name="content_desc_image_favorite">gambar di favorit</string>
@@ -29,7 +27,6 @@
     <string name="content_desc_cover_image_detail">gambar sampul pada detail</string>
     <string name="content_desc_empty_state">gambar jika data kosong</string>
 
-    <string name="content_desc_btn_back">Tombol kembali</string>
     <string name="content_desc_btn_favorite">Tombok favorit</string>
     <string name="content_desc_btn_delete">Tombol hapus</string>
 

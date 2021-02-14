@@ -13,8 +13,8 @@ import javax.inject.Inject
  */
 class DetailResultMapper @Inject constructor() {
 
-    fun transformDetailMovie(detailMovieResponse: DetailMovieResponse): Detail {
-        return Detail(
+    fun transformDetailMovie(detailMovieResponse: DetailMovieResponse): Detail =
+        Detail(
             detailMovieResponse.id,
             detailMovieResponse.title,
             detailMovieResponse.originalTitle,
@@ -26,10 +26,9 @@ class DetailResultMapper @Inject constructor() {
             detailMovieResponse.releaseDate,
             detailMovieResponse.overview
         )
-    }
 
-    fun transformDetailTVShow(detailTVShowResponse: DetailTVShowResponse): Detail {
-        return Detail(
+    fun transformDetailTVShow(detailTVShowResponse: DetailTVShowResponse): Detail =
+        Detail(
             detailTVShowResponse.id,
             detailTVShowResponse.name,
             detailTVShowResponse.originalName,
@@ -41,7 +40,6 @@ class DetailResultMapper @Inject constructor() {
             detailTVShowResponse.firstAirDate,
             detailTVShowResponse.overview
         )
-    }
 
     private fun listGenre(itemList: List<MovieGenresItem>): List<String> {
         val genre: MutableList<String> = ArrayList()

@@ -3,6 +3,7 @@ package com.centaury.cataloguemovie.ui.detail
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.ViewModelProvider
@@ -12,8 +13,8 @@ import com.centaury.cataloguemovie.databinding.ActivityDetailMovieBinding
 import com.centaury.cataloguemovie.di.component.DaggerDetailComponent
 import com.centaury.cataloguemovie.utils.*
 import com.centaury.domain.detail.model.Detail
-import com.centaury.domain.movies.model.MoviesEntity
-import com.centaury.domain.tvshow.model.TVShowsEntity
+import com.centaury.domain.movies.model.MoviesDB
+import com.centaury.domain.tvshow.model.TVShowsDB
 import javax.inject.Inject
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -21,18 +22,22 @@ class DetailMovieActivity : AppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var detailMovieViewModel: DetailMovieViewModel
+
+    private val detailMovieViewModel: DetailMovieViewModel by viewModels {
+        viewModelFactory
+    }
 
     private lateinit var binding: ActivityDetailMovieBinding
 
-    private var movie: MoviesEntity? = null
-    private var tvShow: TVShowsEntity? = null
+    private var movie: MoviesDB? = null
+    private var tvShow: TVShowsDB? = null
     private var detailFavorite: Detail? = null
     private var isFavorite: Boolean = false
     private var movieId: Int? = null
     private var tvShowId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initInjector()
         super.onCreate(savedInstanceState)
         binding = setContentView(this, R.layout.activity_detail_movie)
         showSystemUI()
@@ -42,7 +47,7 @@ class DetailMovieActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.navigationBarDividerColor = getColor(R.color.colorPrimary)
+            window.navigationBarDividerColor = getColorFromAttr(R.attr.colorPrimary)
         }
 
         setSupportActionBar(binding.toolbar)
@@ -52,15 +57,11 @@ class DetailMovieActivity : AppCompatActivity() {
             setDisplayShowTitleEnabled(false)
         }
 
-        initInjector()
         initClick()
         initView(binding)
     }
 
     private fun initView(binding: ActivityDetailMovieBinding) {
-        detailMovieViewModel =
-            ViewModelProvider(this, viewModelFactory)[DetailMovieViewModel::class.java]
-
         initParam()
         initObserver(binding)
 
@@ -106,7 +107,7 @@ class DetailMovieActivity : AppCompatActivity() {
         })
 
         detailMovieViewModel.errorMovie.observe(this, { errorMovie ->
-            showToast(errorMovie)
+            timberE(errorMovie)
         })
 
         detailMovieViewModel.resultTVShow.observe(this, { resultTVShow ->
@@ -117,7 +118,7 @@ class DetailMovieActivity : AppCompatActivity() {
         })
 
         detailMovieViewModel.errorTVShow.observe(this, { errorTVShow ->
-            showToast(errorTVShow)
+            timberE(errorTVShow)
         })
 
         detailMovieViewModel.resultMovieById.observe(this, { movieById ->
@@ -126,7 +127,7 @@ class DetailMovieActivity : AppCompatActivity() {
         })
 
         detailMovieViewModel.errorMovieById.observe(this, { errorMovieById ->
-            showToast(errorMovieById)
+            timberE(errorMovieById)
         })
 
         detailMovieViewModel.resultTVShowById.observe(this, { tvShowById ->
@@ -135,7 +136,7 @@ class DetailMovieActivity : AppCompatActivity() {
         })
 
         detailMovieViewModel.errorTVShowById.observe(this, { errorTVShowById ->
-            showToast(errorTVShowById)
+            timberE(errorTVShowById)
         })
 
         detailMovieViewModel.resultInsertMovie.observe(this, {
@@ -143,7 +144,7 @@ class DetailMovieActivity : AppCompatActivity() {
         })
 
         detailMovieViewModel.errorInsertMovie.observe(this, { errorInsertMovie ->
-            showToast(errorInsertMovie)
+            timberE(errorInsertMovie)
         })
 
         detailMovieViewModel.resultInsertTVShow.observe(this, {
@@ -151,7 +152,7 @@ class DetailMovieActivity : AppCompatActivity() {
         })
 
         detailMovieViewModel.errorInsertTVShow.observe(this, { errorInsertTVShow ->
-            showToast(errorInsertTVShow)
+            timberE(errorInsertTVShow)
         })
 
         detailMovieViewModel.resultDeleteMovie.observe(this, {
@@ -159,7 +160,7 @@ class DetailMovieActivity : AppCompatActivity() {
         })
 
         detailMovieViewModel.errorDeleteMovie.observe(this, { errorDeleteMovie ->
-            showToast(errorDeleteMovie)
+            timberE(errorDeleteMovie)
         })
 
         detailMovieViewModel.resultDeleteTVShow.observe(this, {
@@ -167,7 +168,7 @@ class DetailMovieActivity : AppCompatActivity() {
         })
 
         detailMovieViewModel.errorDeleteTVShow.observe(this, { errorDeleteTVShow ->
-            showToast(errorDeleteTVShow)
+            timberE(errorDeleteTVShow)
         })
     }
 
@@ -242,7 +243,7 @@ class DetailMovieActivity : AppCompatActivity() {
     private fun addFavorite(detailFavorite: Detail) {
         if (movieId != 0) {
             detailFavorite.let {
-                val movieEntity = MoviesEntity(
+                val movieEntity = MoviesDB(
                     it.id,
                     it.title,
                     it.originalTitle,
@@ -257,7 +258,7 @@ class DetailMovieActivity : AppCompatActivity() {
             }
         } else {
             detailFavorite.let {
-                val tvShowEntity = TVShowsEntity(
+                val tvShowEntity = TVShowsDB(
                     it.id,
                     it.title,
                     it.originalTitle,
@@ -273,7 +274,7 @@ class DetailMovieActivity : AppCompatActivity() {
         }
     }
 
-    private fun removeFavorite(movie: MoviesEntity? = null, tvShow: TVShowsEntity? = null) {
+    private fun removeFavorite(movie: MoviesDB? = null, tvShow: TVShowsDB? = null) {
         if (movieId != 0) {
             movie?.let {
                 detailMovieViewModel.getDeleteFavoriteMovieContract(it)

@@ -20,8 +20,6 @@ class MoviesDataFactory @Inject constructor(
     fun createData(source: Source): MoviesEntityData =
         when (source) {
             Source.LOCAL -> LocalMoviesEntityData(catalogueDatabase)
-            Source.NETWORK -> NetworkMoviesEntityData(
-                moviesApi
-            )
+            Source.NETWORK -> NetworkMoviesEntityData(moviesApi)
         }
 }

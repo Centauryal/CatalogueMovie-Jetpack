@@ -1,5 +1,6 @@
 package com.centaury.cataloguemovie.ui.tvshow
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.MovieCatalogueApp
@@ -16,7 +18,7 @@ import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
 import com.centaury.cataloguemovie.ui.main.ItemClickCallback
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.LoaderState
-import com.centaury.cataloguemovie.utils.showToast
+import com.centaury.cataloguemovie.utils.timberE
 import com.centaury.domain.genre.model.Genre
 import com.centaury.domain.tvshow.model.TVShow
 import javax.inject.Inject
@@ -28,7 +30,10 @@ class TVShowFragment : Fragment(), ItemClickCallback {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var tvShowViewModel: TVShowViewModel
+
+    private val tvShowViewModel: TVShowViewModel by viewModels {
+        viewModelFactory
+    }
 
     private lateinit var binding: FragmentTvshowBinding
 
@@ -41,22 +46,30 @@ class TVShowFragment : Fragment(), ItemClickCallback {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentTvshowBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initInjector()
         initView(binding)
     }
 
-    private fun initView(binding: FragmentTvshowBinding) {
-        tvShowViewModel = ViewModelProvider(this, viewModelFactory)[TVShowViewModel::class.java]
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        initInjector()
+    }
 
+    private fun initInjector() {
+        DaggerDiscoverTVShowComponent.builder()
+            .appComponent((requireActivity().application as MovieCatalogueApp).appComponent)
+            .build()
+            .inject(this)
+    }
+
+    private fun initView(binding: FragmentTvshowBinding) {
         with(binding.rvTvShow) {
             hasFixedSize()
             layoutManager = LinearLayoutManager(context)
@@ -88,7 +101,7 @@ class TVShowFragment : Fragment(), ItemClickCallback {
         })
 
         tvShowViewModel.error.observe(viewLifecycleOwner, { error ->
-            context?.showToast(error)
+            timberE(error)
         })
 
         tvShowViewModel.resultGenre.observe(viewLifecycleOwner, { resultGenre ->
@@ -98,16 +111,9 @@ class TVShowFragment : Fragment(), ItemClickCallback {
         })
 
         tvShowViewModel.errorGenre.observe(viewLifecycleOwner, { errorGenre ->
-            context?.showToast(errorGenre)
+            timberE(errorGenre)
         })
 
-    }
-
-    private fun initInjector() {
-        DaggerDiscoverTVShowComponent.builder()
-            .appComponent((activity?.application as MovieCatalogueApp).appComponent)
-            .build()
-            .inject(this)
     }
 
     override fun onResume() {

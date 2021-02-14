@@ -24,9 +24,4 @@ abstract class DetailMovieViewModelModule {
     @IntoMap
     @ViewModelKey(DetailMovieViewModel::class)
     internal abstract fun bindViewModel(viewModel: DetailMovieViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(DetailFavoriteMovieViewModel::class)
-    internal abstract fun bindFavoriteViewModel(favoriteViewModel: DetailFavoriteMovieViewModel): ViewModel
 }

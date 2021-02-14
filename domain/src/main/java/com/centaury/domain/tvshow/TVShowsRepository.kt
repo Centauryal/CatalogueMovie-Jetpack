@@ -1,7 +1,7 @@
 package com.centaury.domain.tvshow
 
 import com.centaury.domain.tvshow.model.TVShow
-import com.centaury.domain.tvshow.model.TVShowsEntity
+import com.centaury.domain.tvshow.model.TVShowsDB
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -14,11 +14,11 @@ interface TVShowsRepository {
 
     fun getDiscoveryTVShows(): Observable<List<TVShow>>
 
-    fun getAllFavoriteTVShow(): Flowable<List<TVShowsEntity>>
+    fun getAllFavoriteTVShow(): Flowable<List<TVShowsDB>>
 
-    fun getFavoriteTVShowById(id: Int): Flowable<TVShowsEntity>
+    fun getFavoriteTVShowById(id: Int): Flowable<TVShowsDB>
 
-    fun insertFavoriteTVShow(tvShow: TVShowsEntity): Completable
+    fun insertFavoriteTVShow(tvShow: TVShowsDB): Completable
 
-    fun deleteFavoriteTVShow(tvShow: TVShowsEntity): Completable
+    fun deleteFavoriteTVShow(tvShow: TVShowsDB): Completable
 }

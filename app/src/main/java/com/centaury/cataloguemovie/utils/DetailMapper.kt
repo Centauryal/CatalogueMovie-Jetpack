@@ -1,8 +1,8 @@
 package com.centaury.cataloguemovie.utils
 
 import com.centaury.domain.detail.model.Detail
-import com.centaury.domain.movies.model.MoviesEntity
-import com.centaury.domain.tvshow.model.TVShowsEntity
+import com.centaury.domain.movies.model.MoviesDB
+import com.centaury.domain.tvshow.model.TVShowsDB
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)
@@ -10,8 +10,8 @@ import com.centaury.domain.tvshow.model.TVShowsEntity
  */
 object DetailMapper {
 
-    fun mapperMovieToDetail(movie: MoviesEntity): Detail {
-        return Detail(
+    fun mapperMovieToDetail(movie: MoviesDB): Detail =
+        Detail(
             movie.id,
             movie.title,
             movie.titleBackground,
@@ -23,10 +23,9 @@ object DetailMapper {
             movie.date,
             movie.overview
         )
-    }
 
-    fun mapperTVShowToDetail(tvShow: TVShowsEntity): Detail {
-        return Detail(
+    fun mapperTVShowToDetail(tvShow: TVShowsDB): Detail =
+        Detail(
             tvShow.id,
             tvShow.title,
             tvShow.titleBackground,
@@ -38,5 +37,4 @@ object DetailMapper {
             tvShow.date,
             tvShow.overview
         )
-    }
 }

@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil.setContentView
 import androidx.viewpager2.widget.ViewPager2
 import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.databinding.ActivityMainBinding
-import com.centaury.cataloguemovie.ui.favorite.FavoriteActivity
 import com.centaury.cataloguemovie.ui.movie.MovieFragment
 import com.centaury.cataloguemovie.ui.tvshow.TVShowFragment
 import com.centaury.cataloguemovie.utils.ViewPagerAdapter
@@ -20,7 +19,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        window.statusBarColor = getColor(R.color.colorPrimaryVariant)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -49,7 +47,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_favorite) {
-            startActivity(Intent(this, FavoriteActivity::class.java))
+            startActivity(
+                Intent(
+                    this,
+                    Class.forName("com.centaury.cataloguemovie.favorite.FavoriteActivity")
+                )
+            )
         }
         return super.onOptionsItemSelected(item)
     }

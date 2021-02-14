@@ -6,7 +6,7 @@ import com.centaury.data.movies.mapper.MoviesResultMapper
 import com.centaury.data.movies.repository.source.MoviesDataFactory
 import com.centaury.domain.movies.MoviesRepository
 import com.centaury.domain.movies.model.Movie
-import com.centaury.domain.movies.model.MoviesEntity
+import com.centaury.domain.movies.model.MoviesDB
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -25,18 +25,18 @@ class MoviesEntityRepository @Inject constructor(
     override fun getDiscoveryMovies(): Observable<List<Movie>> =
         createMovieData().discoveryMovies().map { moviesResultMapper.transformMovie(it) }
 
-    override fun getAllFavoriteMovie(): Flowable<List<MoviesEntity>> =
+    override fun getAllFavoriteMovie(): Flowable<List<MoviesDB>> =
         createEntityMovieData().getAllFavoriteMovie()
             .map { moviesEntityMapper.transformEntityMovie(it) }
 
-    override fun getFavoriteMovieById(id: Int): Flowable<MoviesEntity> =
+    override fun getFavoriteMovieById(id: Int): Flowable<MoviesDB> =
         createEntityMovieData().getFavoriteMovieById(id)
             .map { moviesEntityMapper.transformEntityMovieById(it) }
 
-    override fun insertFavoriteMovie(movie: MoviesEntity): Completable =
+    override fun insertFavoriteMovie(movie: MoviesDB): Completable =
         createEntityMovieData().insertFavoriteMovie(moviesEntityMapper.transformMovieToEntity(movie))
 
-    override fun deleteFavoriteMovie(movie: MoviesEntity): Completable =
+    override fun deleteFavoriteMovie(movie: MoviesDB): Completable =
         createEntityMovieData().deleteFavoriteMovie(moviesEntityMapper.transformMovieToEntity(movie))
 
     private fun createMovieData(): MoviesEntityData =

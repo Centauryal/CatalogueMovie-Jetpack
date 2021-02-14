@@ -1,5 +1,6 @@
 package com.centaury.cataloguemovie.ui.movie
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.MovieCatalogueApp
@@ -16,7 +18,7 @@ import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
 import com.centaury.cataloguemovie.ui.main.ItemClickCallback
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.LoaderState
-import com.centaury.cataloguemovie.utils.showToast
+import com.centaury.cataloguemovie.utils.timberE
 import com.centaury.domain.genre.model.Genre
 import com.centaury.domain.movies.model.Movie
 import javax.inject.Inject
@@ -28,7 +30,10 @@ class MovieFragment : Fragment(), ItemClickCallback {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var movieViewModel: MovieViewModel
+
+    private val movieViewModel: MovieViewModel by viewModels {
+        viewModelFactory
+    }
 
     private lateinit var binding: FragmentMovieBinding
 
@@ -41,7 +46,7 @@ class MovieFragment : Fragment(), ItemClickCallback {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentMovieBinding.inflate(inflater, container, false)
         return binding.root
@@ -49,13 +54,22 @@ class MovieFragment : Fragment(), ItemClickCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initInjector()
         initView(binding)
     }
 
-    private fun initView(binding: FragmentMovieBinding) {
-        movieViewModel = ViewModelProvider(this, viewModelFactory)[MovieViewModel::class.java]
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        initInjector()
+    }
 
+    private fun initInjector() {
+        DaggerDiscoverMovieComponent.builder()
+            .appComponent((requireActivity().application as MovieCatalogueApp).appComponent)
+            .build()
+            .inject(this)
+    }
+
+    private fun initView(binding: FragmentMovieBinding) {
         with(binding.rvMovie) {
             hasFixedSize()
             layoutManager = LinearLayoutManager(context)
@@ -87,7 +101,7 @@ class MovieFragment : Fragment(), ItemClickCallback {
         })
 
         movieViewModel.error.observe(viewLifecycleOwner, { error ->
-            context?.showToast(error)
+            timberE(error)
         })
 
         movieViewModel.resultGenre.observe(viewLifecycleOwner, { resultGenre ->
@@ -97,15 +111,8 @@ class MovieFragment : Fragment(), ItemClickCallback {
         })
 
         movieViewModel.errorGenre.observe(viewLifecycleOwner, { errorGenre ->
-            context?.showToast(errorGenre)
+            timberE(errorGenre)
         })
-    }
-
-    private fun initInjector() {
-        DaggerDiscoverMovieComponent.builder()
-            .appComponent((activity?.application as MovieCatalogueApp).appComponent)
-            .build()
-            .inject(this)
     }
 
     override fun onResume() {

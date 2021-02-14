@@ -12,18 +12,12 @@ import javax.inject.Inject
 class GenreResultMapper @Inject constructor() {
 
     fun transformGenreMovie(genreResponse: GenreResponse): List<Genre> =
-        genreResponse.genres.map { it.toGenreMovie() }
-
-    private fun GenresItem.toGenreMovie() =
-        Genre(
-            id = this.id,
-            name = this.name
-        )
+        genreResponse.genres.map { it.toGenre() }
 
     fun transformGenreTVShow(genreResponse: GenreResponse): List<Genre> =
-        genreResponse.genres.map { it.toGenreTVShow() }
+        genreResponse.genres.map { it.toGenre() }
 
-    private fun GenresItem.toGenreTVShow() =
+    private fun GenresItem.toGenre() =
         Genre(
             id = this.id,
             name = this.name

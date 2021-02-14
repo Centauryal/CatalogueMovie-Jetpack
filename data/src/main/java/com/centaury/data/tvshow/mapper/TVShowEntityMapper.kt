@@ -1,7 +1,7 @@
 package com.centaury.data.tvshow.mapper
 
 import com.centaury.data.tvshow.repository.source.local.entity.TVShowEntity
-import com.centaury.domain.tvshow.model.TVShowsEntity
+import com.centaury.domain.tvshow.model.TVShowsDB
 import javax.inject.Inject
 
 /**
@@ -10,10 +10,12 @@ import javax.inject.Inject
  */
 class TVShowEntityMapper @Inject constructor() {
 
-    fun transformEntityTVShow(tvShowEntity: List<TVShowEntity>): List<TVShowsEntity> =
+    fun transformEntityTVShow(tvShowEntity: List<TVShowEntity>): List<TVShowsDB> =
         tvShowEntity.map { it.toTVShow() }
 
-    private fun TVShowEntity.toTVShow() = TVShowsEntity(
+    fun transformEntityTVShowById(tvShowEntity: TVShowEntity): TVShowsDB = tvShowEntity.toTVShow()
+
+    private fun TVShowEntity.toTVShow() = TVShowsDB(
         id = this.id,
         title = this.title,
         titleBackground = this.titleBackground,
@@ -25,22 +27,8 @@ class TVShowEntityMapper @Inject constructor() {
         overview = this.overview
     )
 
-    fun transformEntityTVShowById(tvShowEntity: TVShowEntity): TVShowsEntity {
-        return TVShowsEntity(
-            tvShowEntity.id,
-            tvShowEntity.title,
-            tvShowEntity.titleBackground,
-            tvShowEntity.image,
-            tvShowEntity.imageBackground,
-            tvShowEntity.genre,
-            tvShowEntity.vote,
-            tvShowEntity.date,
-            tvShowEntity.overview
-        )
-    }
-
-    fun transformTVShowToEntity(tvShow: TVShowsEntity): TVShowEntity {
-        return TVShowEntity(
+    fun transformTVShowToEntity(tvShow: TVShowsDB): TVShowEntity =
+        TVShowEntity(
             tvShow.id,
             tvShow.title,
             tvShow.titleBackground,
@@ -51,5 +39,4 @@ class TVShowEntityMapper @Inject constructor() {
             tvShow.date,
             tvShow.overview
         )
-    }
 }

@@ -2,7 +2,7 @@ package com.centaury.domain.movies.interactor
 
 import com.centaury.domain.CompletableUseCase
 import com.centaury.domain.movies.MoviesRepository
-import com.centaury.domain.movies.model.MoviesEntity
+import com.centaury.domain.movies.model.MoviesDB
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -12,9 +12,9 @@ import javax.inject.Inject
  */
 class GetDeleteFavoriteMovie @Inject constructor(
     private val moviesRepository: MoviesRepository
-) : CompletableUseCase<CompletableUseCase.None, MoviesEntity>() {
+) : CompletableUseCase<CompletableUseCase.None, MoviesDB>() {
 
-    override fun buildUseCase(params: MoviesEntity): Completable =
+    override fun buildUseCase(params: MoviesDB): Completable =
         moviesRepository.deleteFavoriteMovie(params)
 
 

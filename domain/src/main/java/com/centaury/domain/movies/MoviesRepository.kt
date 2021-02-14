@@ -1,7 +1,7 @@
 package com.centaury.domain.movies
 
 import com.centaury.domain.movies.model.Movie
-import com.centaury.domain.movies.model.MoviesEntity
+import com.centaury.domain.movies.model.MoviesDB
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -14,11 +14,11 @@ interface MoviesRepository {
 
     fun getDiscoveryMovies(): Observable<List<Movie>>
 
-    fun getAllFavoriteMovie(): Flowable<List<MoviesEntity>>
+    fun getAllFavoriteMovie(): Flowable<List<MoviesDB>>
 
-    fun getFavoriteMovieById(id: Int): Flowable<MoviesEntity>
+    fun getFavoriteMovieById(id: Int): Flowable<MoviesDB>
 
-    fun insertFavoriteMovie(movie: MoviesEntity): Completable
+    fun insertFavoriteMovie(movie: MoviesDB): Completable
 
-    fun deleteFavoriteMovie(movie: MoviesEntity): Completable
+    fun deleteFavoriteMovie(movie: MoviesDB): Completable
 }
