@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.ui.main.MainActivity
 import com.centaury.cataloguemovie.utils.getColorFromAttr
-import com.centaury.cataloguemovie.utils.showSystemUI
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)
@@ -17,7 +16,6 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.statusBarColor = getColorFromAttr(R.attr.colorSurface)
-        showSystemUI()
 
         startActivity(Intent(this, MainActivity::class.java))
         finish()

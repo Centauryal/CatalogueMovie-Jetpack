@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.centaury.cataloguemovie">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -14,13 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".ui.detail.DetailMovieActivity"
-            android:parentActivityName=".ui.main.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.centaury.cataloguemovie.ui.main.MainActivity" />
-        </activity>
+        <activity android:name=".ui.detail.DetailMovieActivity" />
         <activity
             android:name=".ui.main.MainActivity"
             android:label="@string/app_name" />

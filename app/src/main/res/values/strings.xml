@@ -11,9 +11,12 @@
     <string name="title_movie">Movie</string>
     <string name="title_tv_show">TV Show</string>
     <string name="title_favorite">Favorite</string>
+    <string name="title_search">Search</string>
 
     <string name="txt_movie_add">Favorite movie added</string>
     <string name="txt_movie_remove">Favorite movie deleted</string>
+    <string name="txt_movie_hint">Find movie…</string>
+
     <string name="txt_error_state">No movies were found</string>
     <string name="txt_no_desc">No description</string>
     <string name="txt_no_genre">No Genre</string>
@@ -31,4 +34,5 @@
 
     <string name="btn_delete">Delete</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="btn_ok">OK</string>
 </resources>

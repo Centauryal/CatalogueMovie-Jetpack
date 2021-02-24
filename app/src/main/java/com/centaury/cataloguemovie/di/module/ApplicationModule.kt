@@ -5,10 +5,12 @@ import android.content.Context
 import com.centaury.data.detail.repository.DetailEntityRepository
 import com.centaury.data.genre.repository.GenreEntityRepository
 import com.centaury.data.movies.repository.MoviesEntityRepository
+import com.centaury.data.search.repository.SearchEntityRepository
 import com.centaury.data.tvshow.repository.TVShowsEntityRepository
 import com.centaury.domain.detail.DetailRepository
 import com.centaury.domain.genre.GenreRepository
 import com.centaury.domain.movies.MoviesRepository
+import com.centaury.domain.search.SearchRepository
 import com.centaury.domain.tvshow.TVShowsRepository
 import dagger.Module
 import dagger.Provides
@@ -47,4 +49,9 @@ class ApplicationModule(private val application: Application) {
     @Singleton
     fun provideDetailRepository(detailEntityRepository: DetailEntityRepository): DetailRepository =
         detailEntityRepository
+
+    @Provides
+    @Singleton
+    fun provideSearchRepository(searchEntityRepository: SearchEntityRepository): SearchRepository =
+        searchEntityRepository
 }

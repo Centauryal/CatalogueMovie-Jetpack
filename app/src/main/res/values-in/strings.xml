@@ -12,9 +12,12 @@
     <string name="title_movie">Film</string>
     <string name="title_tv_show">Acara TV</string>
     <string name="title_favorite">Favorit</string>
+    <string name="title_search">Pencarian</string>
 
     <string name="txt_movie_add">Film favorit ditambahkan</string>
     <string name="txt_movie_remove">Film favorit dihapus</string>
+    <string name="txt_movie_hint">Cari film…</string>
+
     <string name="txt_error_state">Tidak ada film yang ditemukan</string>
     <string name="txt_no_desc">Tidak ada deskripsi</string>
     <string name="txt_no_genre">Tidak Ada Genre</string>
@@ -32,4 +35,5 @@
 
     <string name="btn_delete">Hapus</string>
     <string name="btn_cancel">Batal</string>
+    <string name="btn_ok">OK</string>
 </resources>

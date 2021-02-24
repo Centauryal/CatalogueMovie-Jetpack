@@ -2,6 +2,7 @@ package com.centaury.cataloguemovie.ui.detail
 
 import android.os.Build
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -53,10 +54,11 @@ class DetailMovieActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+            setHomeAsUpIndicator(R.drawable.ic_arrow)
             setDisplayShowTitleEnabled(false)
         }
 
+        checkConnection(this)
         initClick()
         initView(binding)
     }
@@ -230,8 +232,16 @@ class DetailMovieActivity : AppCompatActivity() {
             .inject(this)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     public override fun onResume() {
         super.onResume()
+        checkConnection(this)
         binding.shimmerViewContainer.startShimmer()
     }
 

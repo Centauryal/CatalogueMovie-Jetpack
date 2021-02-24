@@ -97,6 +97,7 @@ class TVShowFragment : Fragment(), ItemClickCallback {
         tvShowViewModel.result.observe(viewLifecycleOwner, { result ->
             tvShowData.clear()
             tvShowData.addAll(result)
+            CommonUtils.toggleEmptyState(result.size, binding.emptyState, binding.rvTvShow)
             tvShowAdapter.notifyDataSetChanged()
         })
 

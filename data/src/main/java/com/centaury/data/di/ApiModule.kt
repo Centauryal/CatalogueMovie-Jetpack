@@ -3,6 +3,7 @@ package com.centaury.data.di
 import com.centaury.data.detail.repository.source.network.DetailApi
 import com.centaury.data.genre.repository.source.network.GenreApi
 import com.centaury.data.movies.repository.source.network.MoviesApi
+import com.centaury.data.search.repository.source.network.SearchApi
 import com.centaury.data.tvshow.repository.source.network.TVShowApi
 import dagger.Module
 import dagger.Provides
@@ -43,4 +44,11 @@ class ApiModule {
         builder
             .build()
             .create(DetailApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSearchApi(builder: Retrofit.Builder): SearchApi =
+        builder
+            .build()
+            .create(SearchApi::class.java)
 }

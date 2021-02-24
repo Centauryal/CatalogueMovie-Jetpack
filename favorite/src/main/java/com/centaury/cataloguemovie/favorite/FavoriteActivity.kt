@@ -11,6 +11,7 @@ import com.centaury.cataloguemovie.favorite.databinding.ActivityFavoriteBinding
 import com.centaury.cataloguemovie.favorite.fragment.FavoriteMovieFragment
 import com.centaury.cataloguemovie.favorite.fragment.FavoriteTVShowFragment
 import com.centaury.cataloguemovie.utils.ViewPagerAdapter
+import com.centaury.cataloguemovie.utils.checkConnection
 import com.google.android.material.tabs.TabLayoutMediator
 
 class FavoriteActivity : AppCompatActivity() {
@@ -22,9 +23,11 @@ class FavoriteActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+            setHomeAsUpIndicator(R.drawable.ic_arrow)
             setDisplayShowTitleEnabled(false)
         }
+
+        checkConnection(this)
 
         setupViewPager(binding.favViewPager)
         TabLayoutMediator(binding.favTabs, binding.favViewPager) { tab, position ->
@@ -48,5 +51,10 @@ class FavoriteActivity : AppCompatActivity() {
             onBackPressed()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkConnection(this)
     }
 }

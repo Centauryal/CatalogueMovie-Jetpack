@@ -56,7 +56,7 @@
                 android:focusable="true"
                 android:onClick="@{clickDeleteListener}"
                 android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_delete_black_24dp" />
+                android:src="@drawable/ic_delete" />
 
         </RelativeLayout>
 

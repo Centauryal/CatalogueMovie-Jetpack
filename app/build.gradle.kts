@@ -53,7 +53,7 @@ android {
         jvmTarget = "1.8"
     }
 
-    dynamicFeatures = mutableSetOf(":favorite")
+    dynamicFeatures = mutableSetOf(":favorite", ":search")
 }
 
 dependencies {

@@ -97,6 +97,7 @@ class MovieFragment : Fragment(), ItemClickCallback {
         movieViewModel.result.observe(viewLifecycleOwner, { result ->
             movieData.clear()
             movieData.addAll(result)
+            CommonUtils.toggleEmptyState(result.size, binding.emptyState, binding.rvMovie)
             movieAdapter.notifyDataSetChanged()
         })
 

@@ -12,16 +12,21 @@ import com.centaury.cataloguemovie.databinding.ActivityMainBinding
 import com.centaury.cataloguemovie.ui.movie.MovieFragment
 import com.centaury.cataloguemovie.ui.tvshow.TVShowFragment
 import com.centaury.cataloguemovie.utils.ViewPagerAdapter
+import com.centaury.cataloguemovie.utils.checkConnection
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding = setContentView(this, R.layout.activity_main)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        checkConnection(this)
 
         setupViewPager(binding.viewPager)
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
@@ -46,8 +51,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_favorite) {
-            startActivity(
+        when (item.itemId) {
+            R.id.action_search -> {
+                when (binding.tabs.selectedTabPosition) {
+                    0 -> startActivity(
+                        Intent(
+                            this,
+                            Class.forName("com.centaury.cataloguemovie.search.SearchActivity")
+                        ).apply {
+                            putExtra(SEARCH_MOVIE, 1)
+                        }
+                    )
+                    1 -> startActivity(
+                        Intent(
+                            this,
+                            Class.forName("com.centaury.cataloguemovie.search.SearchActivity")
+                        ).apply {
+                            putExtra(SEARCH_MOVIE, 2)
+                        }
+                    )
+                }
+            }
+            R.id.action_favorite -> startActivity(
                 Intent(
                     this,
                     Class.forName("com.centaury.cataloguemovie.favorite.FavoriteActivity")
@@ -57,7 +82,16 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkConnection(this)
+    }
+
     override fun onBackPressed() {
         finish()
+    }
+
+    companion object {
+        const val SEARCH_MOVIE = "search_movie"
     }
 }

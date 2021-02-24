@@ -52,5 +52,9 @@
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 
+        <include
+            android:id="@+id/empty_state"
+            layout="@layout/item_empty_state_placeholder" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

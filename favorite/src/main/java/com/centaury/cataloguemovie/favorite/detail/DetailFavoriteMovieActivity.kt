@@ -55,10 +55,11 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+            setHomeAsUpIndicator(R.drawable.ic_arrow)
             setDisplayShowTitleEnabled(false)
         }
 
+        checkConnection(this)
         initClick()
         initView(binding)
     }
@@ -221,6 +222,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
     public override fun onResume() {
         super.onResume()
+        checkConnection(this)
         binding.shimmerViewContainer.startShimmer()
     }
 
