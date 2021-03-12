@@ -144,8 +144,8 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
             setPositiveButton(R.string.btn_delete) { dialog, _ ->
                 tvShow?.let { favoriteTVShowViewModel.getDeleteFavoriteTVShowContract(it) }
                 favoriteTVShowAdapter.notifyItemRemoved(position)
-                dialog.dismiss()
                 context.showToast(R.string.txt_movie_remove)
+                dialog.dismiss()
             }
             setNegativeButton(R.string.btn_cancel) { dialog, _ ->
                 dialog.dismiss()

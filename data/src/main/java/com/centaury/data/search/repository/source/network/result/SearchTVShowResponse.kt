@@ -1,10 +1,10 @@
-package com.centaury.data.movies.repository.source.network.result
+package com.centaury.data.search.repository.source.network.result
 
 import androidx.annotation.Keep
 import com.squareup.moshi.Json
 
 @Keep
-data class MovieResponse(
+data class SearchTVShowResponse(
 
     @field:Json(name = "page")
     val page: Int,
@@ -13,7 +13,7 @@ data class MovieResponse(
     val totalPages: Int,
 
     @field:Json(name = "results")
-    val results: List<ResultsItem>,
+    val results: List<SearchTVShowsItem>,
 
     @field:Json(name = "total_results")
     val totalResults: Int

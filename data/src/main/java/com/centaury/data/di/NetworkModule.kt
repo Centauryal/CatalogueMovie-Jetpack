@@ -5,10 +5,7 @@ import com.centaury.data.BuildConfig
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
-import okhttp3.Cache
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Response
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -53,14 +50,22 @@ class NetworkModule {
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         cache: Cache
-    ): OkHttpClient =
-        OkHttpClient.Builder()
+    ): OkHttpClient {
+        val hostname = BuildConfig.HOSTNAME
+        val certificatePinner = CertificatePinner.Builder()
+            .add(hostname, "sha256/+vqZVAzTqUP8BGkfl88yU7SQ3C8J2uNEa55B7RZjEg0=")
+            .build()
+
+        return OkHttpClient.Builder()
             .connectTimeout(DEFAULT_CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
             .readTimeout(DEFAULT_READ_TIME_OUT, TimeUnit.MILLISECONDS)
             .cache(cache)
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor { addQueryParam(it) }
+            .certificatePinner(certificatePinner)
             .build()
+    }
+
 
     private fun addQueryParam(it: Interceptor.Chain): Response {
         var request = it.request()

@@ -145,8 +145,8 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
             setPositiveButton(R.string.btn_delete) { dialog, _ ->
                 movie?.let { favoriteMovieViewModel.getDeleteFavoriteMovieContract(it) }
                 favoriteMovieAdapter.notifyItemRemoved(position)
-                dialog.dismiss()
                 context.showToast(R.string.txt_movie_remove)
+                dialog.dismiss()
             }
             setNegativeButton(R.string.btn_cancel) { dialog, _ ->
                 dialog.dismiss()

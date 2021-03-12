@@ -52,6 +52,7 @@ object Dependencies {
     const val SHIMMER_VERSION = "0.5.0"
     const val LOTTIE_VERSION = "3.6.0"
     const val INTUIT_VERSION = "1.0.6"
+    const val SQL_CIPHER_VERSION = "4.4.2"
 
     //Testing Libraries
     const val ANDROIDX_TEST_VERSION = "1.3.0"
@@ -61,6 +62,7 @@ object Dependencies {
     const val MOCKITO_VERSION = "3.6.0"
     const val MOCKITO_KOTLIN_VERSION = "2.2.0"
     const val ESPRESSO_VERSION = "3.2.0"
+    const val LEAK_CANARY_VERSION = "2.6"
 }
 
 object BuildPlugins {
@@ -124,6 +126,8 @@ object OtherLibs {
     const val LOTTIE = "com.airbnb.android:lottie:${Dependencies.LOTTIE_VERSION}"
     const val SDP_ANDROID = "com.intuit.sdp:sdp-android:${Dependencies.INTUIT_VERSION}"
     const val SSP_ANDROID = "com.intuit.ssp:ssp-android:${Dependencies.INTUIT_VERSION}"
+    const val SQL_CIPHER =
+        "net.zetetic:android-database-sqlcipher:${Dependencies.SQL_CIPHER_VERSION}"
 }
 
 object TestLibs {
@@ -140,6 +144,8 @@ object TestLibs {
         "androidx.test.espresso:espresso-core:${Dependencies.ESPRESSO_VERSION}"
     const val ESPRESSO_CONTRIB =
         "androidx.test.espresso:espresso-contrib:${Dependencies.ESPRESSO_VERSION}"
+    const val LEAK_CANARY =
+        "com.squareup.leakcanary:leakcanary-android:${Dependencies.LEAK_CANARY_VERSION}"
 }
 
 object AppDependencies {
@@ -178,10 +184,15 @@ object AppDependencies {
         add(TestLibs.ESPRESSO_CONTRIB)
     }
 
+    val debugAppDependencies = arrayListOf<String>().apply {
+        add(TestLibs.LEAK_CANARY)
+    }
+
     val dataDependencies = arrayListOf<String>().apply {
         add(DependencyInjectionLibs.DAGGER_CORE)
         add(DependencyInjectionLibs.JAVAX)
         add(ReactiveXLibs.RX_JAVA)
+        add(OtherLibs.SQL_CIPHER)
     }
 
     val kaptDataDependencies = arrayListOf<String>().apply {
@@ -241,5 +252,11 @@ fun DependencyHandler.androidTestImplementation(list: List<String>) {
 fun DependencyHandler.testImplementation(list: List<String>) {
     list.forEach { dependency ->
         add("testImplementation", dependency)
+    }
+}
+
+fun DependencyHandler.debugImplementation(list: List<String>) {
+    list.forEach { dependency ->
+        add("debugImplementation", dependency)
     }
 }

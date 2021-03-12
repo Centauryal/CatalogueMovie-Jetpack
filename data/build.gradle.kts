@@ -18,20 +18,28 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
         getByName("debug") {
             isDebuggable = true
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
         }
 
         val apiKey = project.properties["API_KEY"] as String
         val baseUrl = project.properties["BASE_URL"] as String
+        val passPhrase = project.properties["PASS_PHRASE"] as String
+        val hostname = project.properties["HOSTNAME"] as String
         buildTypes.forEach { buildType ->
             buildType.buildConfigField("String", "API_KEY", apiKey)
             buildType.buildConfigField("String", "BASE_URL", baseUrl)
+            buildType.buildConfigField("String", "PASS_PHRASE", passPhrase)
+            buildType.buildConfigField("String", "HOSTNAME", hostname)
         }
     }
 

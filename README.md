@@ -3,7 +3,7 @@ Movie Catalogue
 
 Movie catalog application that illustrates best practices for developing Android.
 This repository contains detailed application examples that implement Clean Architecture with MVVM patterns using Modularization, Dynamic Features, Kotlin DSL,
-Material Design, Night Mode, Data Binding, Retrofit2, Moshi, RxJava2, Dagger2, and Room. Classes have been designed in such a way that it could be inherited and maximize the code reuse.
+Material Design, Night Mode, Data Binding, Retrofit2, Moshi, RxJava2, Dagger2, Room, SQLCipher, and ProGuard. Classes have been designed in such a way that it could be inherited and maximize the code reuse.
 
 Getting Started
 ---------------
@@ -60,6 +60,7 @@ Libraries Used
 * [Intuit Sdp][14] - An android SDK that provides a new size unit - sdp (scalable dp). This size unit scales with the screen size. It can help Android developers with supporting multiple screens.
 * [Intuit Ssp][15] - An android SDK that provides a new size unit - ssp (scalable sp). This size unit scales with the screen size based on the sp size unit (for texts). It can help Android developers with supporting multiple screens.
 * [Timber][16] - This is a logger with a small, extensible API which provides utility on top of Android's normal Log class.
+* [SQLCipher][17] - Android SQLite API based on SQLCipher.
 
 [0]: https://developer.android.com/topic/libraries/support-library/packages#v7-appcompat
 [1]: https://developer.android.com/kotlin/ktx
@@ -78,6 +79,7 @@ Libraries Used
 [14]: https://github.com/intuit/sdp
 [15]: https://github.com/intuit/ssp
 [16]: https://github.com/JakeWharton/timber
+[17]: https://github.com/sqlcipher/android-database-sqlcipher
 
 Additional resources
 --------------------

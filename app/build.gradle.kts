@@ -25,13 +25,17 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
         getByName("debug") {
             isDebuggable = true
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
         }
 
         val imageUrl = project.properties["IMAGE_URL"] as String
@@ -62,4 +66,5 @@ dependencies {
     implementation(AppDependencies.appDependencies)
     kapt(AppDependencies.kaptAppDependencies)
     androidTestImplementation(AppDependencies.androidTestAppDependencies)
+    debugImplementation(AppDependencies.debugAppDependencies)
 }

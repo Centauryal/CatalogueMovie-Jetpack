@@ -1,10 +1,10 @@
-package com.centaury.data.movies.repository.source.network.result
+package com.centaury.data.search.repository.source.network.result
 
 import androidx.annotation.Keep
 import com.squareup.moshi.Json
 
 @Keep
-data class ResultsItem(
+data class SearchMoviesItem(
 
     @field:Json(name = "overview")
     val overview: String,
@@ -28,7 +28,7 @@ data class ResultsItem(
     val posterPath: String,
 
     @field:Json(name = "backdrop_path")
-    val backdropPath: String,
+    val backdropPath: Any,
 
     @field:Json(name = "release_date")
     val releaseDate: String,

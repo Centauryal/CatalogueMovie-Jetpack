@@ -104,8 +104,8 @@ private fun showNoInternetDialog(context: Context) {
     customDialog.apply {
         setView(view)
         setPositiveButton(R.string.btn_ok) { dialog, _ ->
-            dialog.dismiss()
             if (!isNetworkConnected(context)) showNoInternetDialog(context)
+            dialog.dismiss()
         }
     }
 
