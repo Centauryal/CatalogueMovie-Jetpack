@@ -1,5 +1,6 @@
 Movie Catalogue
 =================
+[![Centauryal](https://circleci.com/gh/Centauryal/CatalogueMovie-Jetpack.svg?style=shield)](https://circleci.com/gh/Centauryal/CatalogueMovie-Jetpack)
 
 Movie catalog application that illustrates best practices for developing Android.
 This repository contains detailed application examples that implement Clean Architecture with MVVM patterns using Modularization, Dynamic Features, Kotlin DSL,
