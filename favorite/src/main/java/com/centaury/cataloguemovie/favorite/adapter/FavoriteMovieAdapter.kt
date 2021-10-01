@@ -8,7 +8,7 @@ import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.favorite.databinding.ItemFavoriteMovielistBinding
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
-import com.centaury.domain.movies.model.MoviesDB
+import com.centaury.domain.model.MoviesDB
 
 /**
  * Created by Centaury on 11/23/2019.
@@ -64,8 +64,13 @@ class FavoriteMovieAdapter(
                 genreView.text = movie.genre
             }
 
-            dateView.text = CommonUtils.toDateString(movie.date)
-            loadFromUrl(poster, movie.image)
+            if (movie.date == context.getString(R.string.txt_no_date)) {
+                dateView.text = context.getString(R.string.txt_no_date)
+            } else {
+                dateView.text = CommonUtils.toDateString(movie.date)
+            }
+
+            poster.loadFromUrl(movie.image)
 
             ViewCompat.setTransitionName(poster, movie.title)
 

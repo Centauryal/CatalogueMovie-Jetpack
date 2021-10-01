@@ -30,7 +30,7 @@ abstract class UseCase<T, Params>(
             )
     }
 
-    private fun dispose() {
+    fun dispose() {
         disposable?.dispose()
     }
 

@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(Dependencies.ANDROID_COMPILE_SDK_VERSION)
-    buildToolsVersion(Dependencies.ANDROID_BUILD_TOOLS_VERSION)
+    compileSdk = Dependencies.ANDROID_COMPILE_SDK_VERSION
+    buildToolsVersion = Dependencies.ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
-        minSdkVersion(Dependencies.ANDROID_MIN_SDK_VERSION)
-        targetSdkVersion(Dependencies.ANDROID_TARGET_SDK_VERSION)
+        minSdk = Dependencies.ANDROID_MIN_SDK_VERSION
+        targetSdk = Dependencies.ANDROID_TARGET_SDK_VERSION
 
         testInstrumentationRunner = Dependencies.ANDROID_TEST_INSTRUMENTATION
         consumerProguardFiles(Dependencies.PROGUARD_CONSUMER_RULES)
@@ -24,7 +24,7 @@ android {
             )
         }
         getByName("debug") {
-            isDebuggable = true
+            isJniDebuggable = true
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
@@ -44,17 +44,17 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
 dependencies {
-    implementation(project(":domain"))
+    implementation(project(AppDependencies.projectDomain))
     implementation(AppDependencies.dataDependencies)
     kapt(AppDependencies.kaptDataDependencies)
     api(AppDependencies.apiDataDependencies)

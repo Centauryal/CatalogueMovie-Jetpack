@@ -1,5 +1,6 @@
 package com.centaury.cataloguemovie.search
 
+import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
@@ -26,8 +27,8 @@ import com.centaury.cataloguemovie.search.di.DaggerSearchComponent
 import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
 import com.centaury.cataloguemovie.ui.main.MainActivity
 import com.centaury.cataloguemovie.utils.*
-import com.centaury.domain.genre.model.Genre
-import com.centaury.domain.search.model.Search
+import com.centaury.domain.model.Genre
+import com.centaury.domain.model.Search
 import java.util.*
 import javax.inject.Inject
 
@@ -78,6 +79,7 @@ class SearchActivity : AppCompatActivity(), SearchCallback {
         initObserver(binding)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initObserver(binding: ActivitySearchBinding) {
         searchViewModel.state.observe(this, { state ->
             when (state) {
@@ -176,7 +178,7 @@ class SearchActivity : AppCompatActivity(), SearchCallback {
 
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
-                        val textSearch = query?.toLowerCase(Locale.getDefault())
+                        val textSearch = query?.lowercase(Locale.getDefault())
                         when (searchId) {
                             1 -> {
                                 searchViewModel.getAllSearchMoviesContract(textSearch.toString())
@@ -191,7 +193,7 @@ class SearchActivity : AppCompatActivity(), SearchCallback {
                     }
 
                     override fun onQueryTextChange(newText: String?): Boolean {
-                        val textSearch = newText?.toLowerCase(Locale.getDefault())
+                        val textSearch = newText?.lowercase(Locale.getDefault())
                         when (searchId) {
                             1 -> {
                                 searchViewModel.getAllSearchMoviesContract(textSearch.toString())

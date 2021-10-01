@@ -2,13 +2,13 @@
 <resources>
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryVariant">#00675b</color>
-    <color name="colorSecondary">#e91e63</color>
-    <color name="colorSecondaryVariant">#b0003a</color>
+    <color name="colorSecondary">#ff7961</color>
+    <color name="colorSecondaryVariant">#ba000d</color>
 
     <color name="aquamarine">#64FFDA</color>
     <color name="java">#14CBA8</color>
-    <color name="violet_red">#FF4081</color>
-    <color name="lipstick">#C60055</color>
+    <color name="violet_red">#ffcccb</color>
+    <color name="lipstick">#ba6b6c</color>
     <color name="cod_gray">#121212</color>
     <color name="mine_shaft">#272727</color>
 

@@ -1,5 +1,6 @@
 package com.centaury.cataloguemovie.favorite.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -25,7 +26,7 @@ import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.LoaderState
 import com.centaury.cataloguemovie.utils.showToast
 import com.centaury.cataloguemovie.utils.timberE
-import com.centaury.domain.movies.model.MoviesDB
+import com.centaury.domain.model.MoviesDB
 import javax.inject.Inject
 
 /**
@@ -47,7 +48,6 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
         FavoriteMovieAdapter(movieFavoriteData, this)
     }
 
-    private lateinit var titleDialog: TextView
     private var movie: MoviesDB? = null
 
     override fun onCreateView(
@@ -88,6 +88,7 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
         initObserver(binding)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initObserver(binding: FragmentFavoriteMovieBinding) {
         favoriteMovieViewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
@@ -111,6 +112,7 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
 
         favoriteMovieViewModel.error.observe(viewLifecycleOwner, { error ->
             timberE(error)
+            context?.showToast(error)
         })
 
         favoriteMovieViewModel.resultMovieById.observe(viewLifecycleOwner, { resultMovieById ->
@@ -119,6 +121,7 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
 
         favoriteMovieViewModel.errorMovieById.observe(viewLifecycleOwner, { errorMovieById ->
             timberE(errorMovieById)
+            context?.showToast(errorMovieById)
         })
 
         favoriteMovieViewModel.resultDeleteMovie.observe(viewLifecycleOwner, {
@@ -127,16 +130,17 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
 
         favoriteMovieViewModel.errorDeleteMovie.observe(viewLifecycleOwner, { errorDeleteMovie ->
             timberE(errorDeleteMovie)
+            context?.showToast(errorDeleteMovie)
         })
     }
 
     private fun showDialogDeleteFavorite(movieId: Int, position: Int) {
         favoriteMovieViewModel.getFavoriteMovieByIdContract(movieId)
 
-        val customDialog = context?.let { AlertDialog.Builder(it) }
-        val view = LayoutInflater.from(context).inflate(R.layout.item_alert_dialog, null)
+        val customDialog = activity?.let { AlertDialog.Builder(it) }
+        val view = LayoutInflater.from(activity).inflate(R.layout.item_alert_dialog, null)
 
-        titleDialog = view.findViewById(R.id.alert_title)
+        val titleDialog = view.findViewById(R.id.alert_title) as TextView
         titleDialog.text = context?.getString(R.string.txt_title_delete_dialog)
 
         customDialog?.apply {
@@ -145,8 +149,8 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
             setPositiveButton(R.string.btn_delete) { dialog, _ ->
                 movie?.let { favoriteMovieViewModel.getDeleteFavoriteMovieContract(it) }
                 favoriteMovieAdapter.notifyItemRemoved(position)
-                context.showToast(R.string.txt_movie_remove)
                 dialog.dismiss()
+                context.showToast(R.string.txt_movie_remove)
             }
             setNegativeButton(R.string.btn_cancel) { dialog, _ ->
                 dialog.dismiss()

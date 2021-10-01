@@ -5,12 +5,11 @@ import android.graphics.Rect
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import com.centaury.domain.genre.model.Genre
+import com.centaury.domain.model.Genre
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -60,15 +59,6 @@ object CommonUtils {
         val pairImage = Pair<View, String>(image, title)
 
         return ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairImage)
-    }
-
-    fun getGenresString(genreData: List<String>, txtGenre: TextView) {
-        if (genreData.size == 1) {
-            txtGenre.text = TextUtils.join(", ", genreData)
-        } else {
-            val strings = genreData.subList(0, 2)
-            txtGenre.text = TextUtils.join(", ", strings)
-        }
     }
 
     fun getGenresString(itemList: List<Genre>, genreList: List<Int>): String {

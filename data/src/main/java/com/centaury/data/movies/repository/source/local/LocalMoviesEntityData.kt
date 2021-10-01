@@ -3,7 +3,10 @@ package com.centaury.data.movies.repository.source.local
 import com.centaury.data.db.CatalogueDatabase
 import com.centaury.data.movies.repository.MoviesEntityData
 import com.centaury.data.movies.repository.source.local.entity.MovieEntity
+import com.centaury.data.movies.repository.source.network.result.DetailMovieResponse
+import com.centaury.data.movies.repository.source.network.result.GenreMovieResponse
 import com.centaury.data.movies.repository.source.network.result.MovieResponse
+import com.centaury.data.movies.repository.source.network.result.SearchMovieResponse
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -17,6 +20,18 @@ class LocalMoviesEntityData @Inject constructor(
     private val catalogueDatabase: CatalogueDatabase
 ) : MoviesEntityData {
     override fun discoveryMovies(): Observable<MovieResponse> {
+        TODO("Not yet implemented")
+    }
+
+    override fun detailMovie(movieId: Int): Observable<DetailMovieResponse> {
+        TODO("Not yet implemented")
+    }
+
+    override fun genreMovies(): Observable<GenreMovieResponse> {
+        TODO("Not yet implemented")
+    }
+
+    override fun searchMoviesAll(query: String): Observable<SearchMovieResponse> {
         TODO("Not yet implemented")
     }
 

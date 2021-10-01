@@ -4,9 +4,8 @@ import com.centaury.data.common.Source
 import com.centaury.data.tvshow.mapper.TVShowEntityMapper
 import com.centaury.data.tvshow.mapper.TVShowResultMapper
 import com.centaury.data.tvshow.repository.source.TVShowsDataFactory
+import com.centaury.domain.model.*
 import com.centaury.domain.tvshow.TVShowsRepository
-import com.centaury.domain.tvshow.model.TVShow
-import com.centaury.domain.tvshow.model.TVShowsDB
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -24,6 +23,17 @@ class TVShowsEntityRepository @Inject constructor(
 
     override fun getDiscoveryTVShows(): Observable<List<TVShow>> =
         createTVShowData().discoveryTVShows().map { tvShowResultMapper.transformTVShow(it) }
+
+    override fun getDetailTVShow(tvShowId: Int): Observable<Detail> =
+        createTVShowData().detailTVShow(tvShowId)
+            .map { tvShowResultMapper.transformDetailTVShow(it) }
+
+    override fun getGenreTVShows(): Observable<List<Genre>> =
+        createTVShowData().genreTVShows().map { tvShowResultMapper.transformGenreTVShow(it) }
+
+    override fun getSearchTVShowsAll(query: String): Observable<List<Search>> =
+        createTVShowData().searchTVShowsAll(query)
+            .map { tvShowResultMapper.transformSearchTVShow(it) }
 
     override fun getAllFavoriteTVShow(): Flowable<List<TVShowsDB>> =
         createEntityTVShowData().getAllFavoriteTVShow()

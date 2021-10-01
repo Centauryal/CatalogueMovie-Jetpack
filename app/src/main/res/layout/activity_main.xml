@@ -37,7 +37,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorOnBackground"
-                app:tabSelectedTextColor="@android:color/white"
+                app:tabIndicatorColor="?attr/colorSecondary"
+                app:tabSelectedTextColor="?attr/colorSecondary"
                 app:tabTextAppearance="@style/Widget.MovieCatalogue.TabLayout.Button" />
         </com.google.android.material.appbar.AppBarLayout>
 

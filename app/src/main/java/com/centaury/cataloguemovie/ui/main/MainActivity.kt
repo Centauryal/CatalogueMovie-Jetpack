@@ -53,24 +53,15 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_search -> {
-                when (binding.tabs.selectedTabPosition) {
-                    0 -> startActivity(
-                        Intent(
-                            this,
-                            Class.forName("com.centaury.cataloguemovie.search.SearchActivity")
-                        ).apply {
-                            putExtra(SEARCH_MOVIE, 1)
-                        }
-                    )
-                    1 -> startActivity(
-                        Intent(
-                            this,
-                            Class.forName("com.centaury.cataloguemovie.search.SearchActivity")
-                        ).apply {
-                            putExtra(SEARCH_MOVIE, 2)
-                        }
-                    )
-                }
+                val selected = binding.tabs.selectedTabPosition + 1
+                startActivity(
+                    Intent(
+                        this,
+                        Class.forName("com.centaury.cataloguemovie.search.SearchActivity")
+                    ).apply {
+                        putExtra(SEARCH_MOVIE, selected)
+                    }
+                )
             }
             R.id.action_favorite -> startActivity(
                 Intent(

@@ -1,8 +1,8 @@
 package com.centaury.domain.movies.interactor
 
 import com.centaury.domain.FlowableUseCase
+import com.centaury.domain.model.MoviesDB
 import com.centaury.domain.movies.MoviesRepository
-import com.centaury.domain.movies.model.MoviesDB
 import io.reactivex.Flowable
 import javax.inject.Inject
 

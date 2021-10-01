@@ -1,8 +1,10 @@
 package com.centaury.data.movies.mapper
 
-import com.centaury.data.movies.repository.source.network.result.MovieResponse
-import com.centaury.data.movies.repository.source.network.result.ResultsItem
-import com.centaury.domain.movies.model.Movie
+import com.centaury.data.movies.repository.source.network.result.*
+import com.centaury.domain.model.Detail
+import com.centaury.domain.model.Genre
+import com.centaury.domain.model.Movie
+import com.centaury.domain.model.Search
 import javax.inject.Inject
 
 /**
@@ -15,6 +17,51 @@ class MoviesResultMapper @Inject constructor() {
         movieResponse.results.map { it.toMovies() }
 
     private fun ResultsItem.toMovies() = Movie(
+        id = this.id,
+        title = this.title,
+        titleBackground = this.originalTitle,
+        image = this.posterPath,
+        genre = this.genreIds,
+        overview = this.overview,
+        date = this.releaseDate
+    )
+
+    fun transformDetailMovie(detailMovieResponse: DetailMovieResponse): Detail =
+        Detail(
+            detailMovieResponse.id,
+            detailMovieResponse.title,
+            detailMovieResponse.originalTitle,
+            detailMovieResponse.posterPath,
+            detailMovieResponse.backdropPath,
+            listGenre(detailMovieResponse.genres),
+            detailMovieResponse.voteAverage,
+            detailMovieResponse.voteAverage,
+            detailMovieResponse.releaseDate,
+            detailMovieResponse.overview
+        )
+
+    private fun listGenre(itemList: List<MovieGenresItem>): List<String> {
+        val genre: MutableList<String> = ArrayList()
+
+        for (genreItem in itemList) {
+            genre.add(genreItem.name)
+        }
+        return genre
+    }
+
+    fun transformGenreMovie(genreMovieResponse: GenreMovieResponse): List<Genre> =
+        genreMovieResponse.genres.map { it.toGenre() }
+
+    private fun MovieGenresItem.toGenre() =
+        Genre(
+            id = this.id,
+            name = this.name
+        )
+
+    fun transformSearchMovie(searchMovieResponse: SearchMovieResponse): List<Search> =
+        searchMovieResponse.results.map { it.toSearchMovie() }
+
+    private fun SearchMoviesItem.toSearchMovie() = Search(
         id = this.id,
         title = this.title,
         titleBackground = this.originalTitle,

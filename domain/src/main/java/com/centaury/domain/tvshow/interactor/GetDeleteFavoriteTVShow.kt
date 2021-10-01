@@ -1,8 +1,8 @@
 package com.centaury.domain.tvshow.interactor
 
 import com.centaury.domain.CompletableUseCase
+import com.centaury.domain.model.TVShowsDB
 import com.centaury.domain.tvshow.TVShowsRepository
-import com.centaury.domain.tvshow.model.TVShowsDB
 import io.reactivex.Completable
 import javax.inject.Inject
 

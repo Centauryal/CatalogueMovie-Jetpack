@@ -1,5 +1,6 @@
 package com.centaury.cataloguemovie.favorite.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -25,7 +26,7 @@ import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.LoaderState
 import com.centaury.cataloguemovie.utils.showToast
 import com.centaury.cataloguemovie.utils.timberE
-import com.centaury.domain.tvshow.model.TVShowsDB
+import com.centaury.domain.model.TVShowsDB
 import javax.inject.Inject
 
 /**
@@ -47,7 +48,6 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
         FavoriteTVShowAdapter(tvShowFavoriteData, this)
     }
 
-    private lateinit var titleDialog: TextView
     private var tvShow: TVShowsDB? = null
 
     override fun onCreateView(
@@ -87,6 +87,7 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
         initObserver(binding)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initObserver(binding: FragmentFavoriteTvshowBinding) {
         favoriteTVShowViewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
@@ -110,6 +111,7 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
 
         favoriteTVShowViewModel.error.observe(viewLifecycleOwner, { error ->
             timberE(error)
+            context?.showToast(error)
         })
 
         favoriteTVShowViewModel.resultTVShowById.observe(viewLifecycleOwner, { resultTVShowById ->
@@ -118,6 +120,7 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
 
         favoriteTVShowViewModel.errorTVShowById.observe(viewLifecycleOwner, { errorTVShowById ->
             timberE(errorTVShowById)
+            context?.showToast(errorTVShowById)
         })
 
         favoriteTVShowViewModel.resultDeleteTVShow.observe(viewLifecycleOwner, {
@@ -126,16 +129,17 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
 
         favoriteTVShowViewModel.errorDeleteTVShow.observe(viewLifecycleOwner, { errorDeleteTVShow ->
             timberE(errorDeleteTVShow)
+            context?.showToast(errorDeleteTVShow)
         })
     }
 
     private fun showDialogDeleteFavorite(tvShowId: Int, position: Int) {
         favoriteTVShowViewModel.getFavoriteTVShowByIdContract(tvShowId)
 
-        val customDialog = context?.let { AlertDialog.Builder(it) }
-        val view = LayoutInflater.from(context).inflate(R.layout.item_alert_dialog, null)
+        val customDialog = activity?.let { AlertDialog.Builder(it) }
+        val view = LayoutInflater.from(activity).inflate(R.layout.item_alert_dialog, null)
 
-        titleDialog = view.findViewById(R.id.alert_title)
+        val titleDialog = view.findViewById(R.id.alert_title) as TextView
         titleDialog.text = context?.getString(R.string.txt_title_delete_dialog)
 
         customDialog?.apply {
@@ -144,8 +148,8 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
             setPositiveButton(R.string.btn_delete) { dialog, _ ->
                 tvShow?.let { favoriteTVShowViewModel.getDeleteFavoriteTVShowContract(it) }
                 favoriteTVShowAdapter.notifyItemRemoved(position)
-                context.showToast(R.string.txt_movie_remove)
                 dialog.dismiss()
+                context.showToast(R.string.txt_movie_remove)
             }
             setNegativeButton(R.string.btn_cancel) { dialog, _ ->
                 dialog.dismiss()
@@ -157,7 +161,7 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
     }
 
     private fun showTransitionImage(movieId: Int, image: ImageView, title: String) {
-        val intent = Intent(context, DetailFavoriteMovieActivity::class.java).apply {
+        val intent = Intent(activity, DetailFavoriteMovieActivity::class.java).apply {
             putExtra(DetailFavoriteMovieActivity.DETAIL_EXTRA_FAV_TV_SHOW, movieId)
         }
         activity?.let {

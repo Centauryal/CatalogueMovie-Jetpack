@@ -1,7 +1,6 @@
 package com.centaury.domain.movies
 
-import com.centaury.domain.movies.model.Movie
-import com.centaury.domain.movies.model.MoviesDB
+import com.centaury.domain.model.*
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -13,6 +12,12 @@ import io.reactivex.Observable
 interface MoviesRepository {
 
     fun getDiscoveryMovies(): Observable<List<Movie>>
+
+    fun getDetailMovie(movieId: Int): Observable<Detail>
+
+    fun getGenreMovies(): Observable<List<Genre>>
+
+    fun getSearchMoviesAll(query: String): Observable<List<Search>>
 
     fun getAllFavoriteMovie(): Flowable<List<MoviesDB>>
 

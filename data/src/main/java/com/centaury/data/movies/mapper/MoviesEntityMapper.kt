@@ -1,7 +1,7 @@
 package com.centaury.data.movies.mapper
 
 import com.centaury.data.movies.repository.source.local.entity.MovieEntity
-import com.centaury.domain.movies.model.MoviesDB
+import com.centaury.domain.model.MoviesDB
 import javax.inject.Inject
 
 /**

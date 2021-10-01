@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.centaury.cataloguemovie.utils.LoaderState
 import com.centaury.cataloguemovie.utils.Status
 import com.centaury.domain.FlowableUseCase
+import com.centaury.domain.model.TVShowsDB
 import com.centaury.domain.tvshow.interactor.GetAllFavoriteTVShow
 import com.centaury.domain.tvshow.interactor.GetDeleteFavoriteTVShow
 import com.centaury.domain.tvshow.interactor.GetFavoriteTVShowById
-import com.centaury.domain.tvshow.model.TVShowsDB
 import javax.inject.Inject
 
 /**
@@ -78,4 +78,10 @@ class FavoriteTVShowViewModel @Inject constructor(
             _errorDeleteTVShow.postValue(it.message)
         })
 
+    override fun onCleared() {
+        super.onCleared()
+        getFavoriteTVShowById.dispose()
+        getAllFavoriteTVShow.dispose()
+        getDeleteFavoriteTVShow.dispose()
+    }
 }

@@ -7,62 +7,67 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 object Dependencies {
 
     // Version
-    const val GRADLE_VERSION = "4.1.2"
-    const val KOTLIN_VERSION = "1.4.30"
+    const val GRADLE_VERSION = "7.0.2"
+    const val KOTLIN_VERSION = "1.5.31"
+
+    // Project
+    const val PROJECT_APP = ":app"
+    const val PROJECT_DATA = ":data"
+    const val PROJECT_DOMAIN = ":domain"
 
     // Android Core
-    const val ANDROID_COMPILE_SDK_VERSION = 30
-    const val ANDROID_BUILD_TOOLS_VERSION = "30.0.3"
+    const val ANDROID_COMPILE_SDK_VERSION = 31
+    const val ANDROID_BUILD_TOOLS_VERSION = "31.0.0"
     const val ANDROID_MIN_SDK_VERSION = 23
-    const val ANDROID_TARGET_SDK_VERSION = 30
-    const val ANDROID_VERSION_CODE = 4
+    const val ANDROID_TARGET_SDK_VERSION = 31
+    const val ANDROID_VERSION_CODE = 5
     const val ANDROID_VERSION_NAME = "2.0"
 
     const val ANDROID_TEST_INSTRUMENTATION = "androidx.test.runner.AndroidJUnitRunner"
     const val PROGUARD_CONSUMER_RULES = "consumer-rules.pro"
 
     // Android Libraries
-    const val CORE_KTX_VERSION = "1.3.2"
-    const val ANDROID_ANNOTATIONS_VERSION = "1.1.0"
+    const val CORE_KTX_VERSION = "1.6.0"
+    const val ANDROID_ANNOTATIONS_VERSION = "1.2.0"
     const val ANDROID_LEGACY_VERSION = "1.0.0"
-    const val APP_COMPAT_VERSION = "1.1.0"
-    const val CONSTRAINT_LAYOUT_VERSION = "2.0.4"
-    const val MATERIAL_VERSION = "1.2.1"
+    const val APP_COMPAT_VERSION = "1.3.1"
+    const val CONSTRAINT_LAYOUT_VERSION = "2.1.0"
+    const val MATERIAL_VERSION = "1.4.0"
     const val CARD_VIEW_VERSION = "1.0.0"
-    const val RECYCLER_VIEW_VERSION = "1.1.0"
-    const val ROOM_VERSION = "2.2.6"
-    const val ACTIVITY_KTX_VERSION = "1.1.0"
-    const val FRAGMENT_KTX_VERSION = "1.2.5"
+    const val RECYCLER_VIEW_VERSION = "1.2.1"
+    const val ROOM_VERSION = "2.3.0"
+    const val ACTIVITY_KTX_VERSION = "1.3.1"
+    const val FRAGMENT_KTX_VERSION = "1.3.6"
 
     // Network Libraries
     const val RETROFIT_VERSION = "2.9.0"
-    const val LOGGING_INTERCEPTOR_VERSION = "4.9.0"
+    const val LOGGING_INTERCEPTOR_VERSION = "4.9.1"
 
     // DI Libraries
-    const val DAGGER2_VERSION = "2.31.2"
+    const val DAGGER2_VERSION = "2.38.1"
     const val JAVAX_VERSION = "1"
 
     // ReactiveX Libraries
-    const val RX_JAVA_VERSION = "2.2.20"
+    const val RX_JAVA_VERSION = "2.2.2`"
     const val RX_ANDROID_VERSION = "2.1.1"
 
     // Other Libraries
-    const val COIL_VERSION = "1.0.0"
-    const val TIMBER_VERSION = "4.7.1"
+    const val COIL_VERSION = "1.3.2"
+    const val TIMBER_VERSION = "5.0.1"
     const val SHIMMER_VERSION = "0.5.0"
-    const val LOTTIE_VERSION = "3.6.0"
+    const val LOTTIE_VERSION = "4.1.0"
     const val INTUIT_VERSION = "1.0.6"
-    const val SQL_CIPHER_VERSION = "4.4.2"
+    const val SQL_CIPHER_VERSION = "4.4.3"
 
     //Testing Libraries
-    const val ANDROIDX_TEST_VERSION = "1.3.0"
-    const val ANDROIDX_JUNIT_VERSION = "1.1.1"
+    const val ANDROIDX_TEST_VERSION = "1.4.0"
+    const val ANDROIDX_JUNIT_VERSION = "1.1.3"
     const val ARCH_LIFECYCLE_TEST_VERSION = "2.1.0"
-    const val JUNIT_VERSION = "4.13.1"
-    const val MOCKITO_VERSION = "3.6.0"
+    const val JUNIT_VERSION = "4.13.2"
+    const val MOCKITO_VERSION = "3.12.4"
     const val MOCKITO_KOTLIN_VERSION = "2.2.0"
-    const val ESPRESSO_VERSION = "3.2.0"
-    const val LEAK_CANARY_VERSION = "2.6"
+    const val ESPRESSO_VERSION = "3.4.0"
+    const val LEAK_CANARY_VERSION = "2.7"
 }
 
 object BuildPlugins {
@@ -149,6 +154,10 @@ object TestLibs {
 }
 
 object AppDependencies {
+    const val projectApp = Dependencies.PROJECT_APP
+    const val projectData = Dependencies.PROJECT_DATA
+    const val projectDomain = Dependencies.PROJECT_DOMAIN
+
     val appDependencies = arrayListOf<String>().apply {
         add(AndroidLibs.ANDROID_CORE)
         add(AndroidLibs.APP_COMPACT)

@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.centaury.cataloguemovie.utils.LoaderState
 import com.centaury.domain.UseCase
-import com.centaury.domain.genre.interactor.GetGenreTVShow
-import com.centaury.domain.genre.model.Genre
+import com.centaury.domain.model.Genre
+import com.centaury.domain.model.TVShow
 import com.centaury.domain.tvshow.interactor.GetDiscoveryTVShow
-import com.centaury.domain.tvshow.model.TVShow
+import com.centaury.domain.tvshow.interactor.GetGenreTVShow
 import javax.inject.Inject
 
 /**
@@ -66,4 +66,9 @@ class TVShowViewModel @Inject constructor(
         })
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        getDiscoveryTVShow.dispose()
+        getGenreTVShow.dispose()
+    }
 }

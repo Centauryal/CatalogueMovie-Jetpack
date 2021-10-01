@@ -5,8 +5,8 @@ plugins {
 }
 
 android {
-    compileSdkVersion(Dependencies.ANDROID_COMPILE_SDK_VERSION)
-    buildToolsVersion(Dependencies.ANDROID_BUILD_TOOLS_VERSION)
+    compileSdk = Dependencies.ANDROID_COMPILE_SDK_VERSION
+    buildToolsVersion = Dependencies.ANDROID_BUILD_TOOLS_VERSION
 
     buildFeatures {
         dataBinding = true
@@ -14,10 +14,10 @@ android {
 
     defaultConfig {
         applicationId = "com.centaury.cataloguemovie"
-        minSdkVersion(Dependencies.ANDROID_MIN_SDK_VERSION)
-        targetSdkVersion(Dependencies.ANDROID_TARGET_SDK_VERSION)
-        versionCode(Dependencies.ANDROID_VERSION_CODE)
-        versionName(Dependencies.ANDROID_VERSION_NAME)
+        minSdk = Dependencies.ANDROID_MIN_SDK_VERSION
+        targetSdk = Dependencies.ANDROID_TARGET_SDK_VERSION
+        versionCode = Dependencies.ANDROID_VERSION_CODE
+        versionName = Dependencies.ANDROID_VERSION_NAME
 
         testInstrumentationRunner = Dependencies.ANDROID_TEST_INSTRUMENTATION
         vectorDrawables.useSupportLibrary = true
@@ -49,20 +49,20 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 
-    dynamicFeatures = mutableSetOf(":favorite", ":search")
+    setDynamicFeatures(mutableSetOf(":favorite", ":search"))
 }
 
 dependencies {
-    implementation(project(":data"))
-    implementation(project(":domain"))
+    implementation(project(AppDependencies.projectData))
+    implementation(project(AppDependencies.projectDomain))
     implementation(AppDependencies.appDependencies)
     kapt(AppDependencies.kaptAppDependencies)
     androidTestImplementation(AppDependencies.androidTestAppDependencies)

@@ -1,5 +1,6 @@
 package com.centaury.cataloguemovie.ui.movie
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -18,9 +19,10 @@ import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
 import com.centaury.cataloguemovie.ui.main.ItemClickCallback
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.LoaderState
+import com.centaury.cataloguemovie.utils.showToast
 import com.centaury.cataloguemovie.utils.timberE
-import com.centaury.domain.genre.model.Genre
-import com.centaury.domain.movies.model.Movie
+import com.centaury.domain.model.Genre
+import com.centaury.domain.model.Movie
 import javax.inject.Inject
 
 /**
@@ -80,6 +82,7 @@ class MovieFragment : Fragment(), ItemClickCallback {
         initObserver(binding)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initObserver(binding: FragmentMovieBinding) {
         movieViewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
@@ -103,6 +106,7 @@ class MovieFragment : Fragment(), ItemClickCallback {
 
         movieViewModel.error.observe(viewLifecycleOwner, { error ->
             timberE(error)
+            context?.showToast(error)
         })
 
         movieViewModel.resultGenre.observe(viewLifecycleOwner, { resultGenre ->
@@ -113,6 +117,7 @@ class MovieFragment : Fragment(), ItemClickCallback {
 
         movieViewModel.errorGenre.observe(viewLifecycleOwner, { errorGenre ->
             timberE(errorGenre)
+            context?.showToast(errorGenre)
         })
     }
 

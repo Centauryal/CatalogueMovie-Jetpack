@@ -1,7 +1,6 @@
 package com.centaury.domain.tvshow
 
-import com.centaury.domain.tvshow.model.TVShow
-import com.centaury.domain.tvshow.model.TVShowsDB
+import com.centaury.domain.model.*
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -13,6 +12,12 @@ import io.reactivex.Observable
 interface TVShowsRepository {
 
     fun getDiscoveryTVShows(): Observable<List<TVShow>>
+
+    fun getDetailTVShow(tvShowId: Int): Observable<Detail>
+
+    fun getGenreTVShows(): Observable<List<Genre>>
+
+    fun getSearchTVShowsAll(query: String): Observable<List<Search>>
 
     fun getAllFavoriteTVShow(): Flowable<List<TVShowsDB>>
 

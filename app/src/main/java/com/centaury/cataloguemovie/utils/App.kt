@@ -34,16 +34,30 @@ fun View.gone() {
     visibility = View.GONE
 }
 
+fun ViewGroup.inflate(layoutRes: Int): View {
+    return LayoutInflater.from(context).inflate(layoutRes, this, false)
+}
+
 fun Context.showToast(@StringRes res: Int, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, this.getText(res), duration).show()
 }
 
-fun timberE(message: String) {
-    Timber.e(message)
+fun Context.showToast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this, text, duration).show()
 }
 
-fun ViewGroup.inflate(layoutRes: Int): View {
-    return LayoutInflater.from(context).inflate(layoutRes, this, false)
+@ColorInt
+fun Context.getColorFromAttr(
+    @AttrRes attrColor: Int,
+    typedValue: TypedValue = TypedValue(),
+    resolveRefs: Boolean = true
+): Int {
+    theme.resolveAttribute(attrColor, typedValue, resolveRefs)
+    return typedValue.data
+}
+
+fun timberE(message: String) {
+    Timber.e(message)
 }
 
 fun Activity.showSystemUI() {
@@ -64,21 +78,15 @@ fun Activity.showSystemUI() {
     }
 }
 
-fun loadFromUrl(imageView: ImageView, url: String) {
-    imageView.load(BuildConfig.IMAGE_URL + url) {
+fun ImageView.loadFromUrl(url: String) {
+    this.load(BuildConfig.IMAGE_URL + url) {
         placeholder(R.drawable.ic_loading)
         error(R.drawable.ic_error)
     }
 }
 
-@ColorInt
-fun Context.getColorFromAttr(
-    @AttrRes attrColor: Int,
-    typedValue: TypedValue = TypedValue(),
-    resolveRefs: Boolean = true
-): Int {
-    theme.resolveAttribute(attrColor, typedValue, resolveRefs)
-    return typedValue.data
+fun TextView.getGenresString(genreData: List<String>) {
+    this.text = genreData.take(2).joinToString(", ")
 }
 
 private fun isNetworkConnected(context: Context): Boolean {

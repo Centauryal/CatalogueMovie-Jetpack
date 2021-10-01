@@ -8,8 +8,8 @@ import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.databinding.ItemMovieListBinding
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
-import com.centaury.domain.genre.model.Genre
-import com.centaury.domain.search.model.Search
+import com.centaury.domain.model.Genre
+import com.centaury.domain.model.Search
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)
@@ -61,8 +61,13 @@ class SearchAdapter(
                 genreView.text = CommonUtils.getGenresString(genres, search.genre)
             }
 
-            dateView.text = CommonUtils.toDateString(search.date)
-            loadFromUrl(poster, search.image)
+            if (search.date.isEmpty()) {
+                dateView.text = context.getString(R.string.txt_no_date)
+            } else {
+                dateView.text = CommonUtils.toDateString(search.date)
+            }
+
+            poster.loadFromUrl(search.image)
 
             ViewCompat.setTransitionName(poster, search.title)
 

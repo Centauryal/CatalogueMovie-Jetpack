@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.centaury.cataloguemovie.utils.LoaderState
 import com.centaury.domain.UseCase
-import com.centaury.domain.genre.interactor.GetGenreMovie
-import com.centaury.domain.genre.model.Genre
+import com.centaury.domain.model.Genre
+import com.centaury.domain.model.Movie
 import com.centaury.domain.movies.interactor.GetDiscoveryMovie
-import com.centaury.domain.movies.model.Movie
+import com.centaury.domain.movies.interactor.GetGenreMovie
 import javax.inject.Inject
 
 /**
@@ -64,5 +64,11 @@ class MovieViewModel @Inject constructor(
             _state.value = LoaderState.HideLoading
             _errorGenre.postValue(it.message)
         })
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        getDiscoveryMovie.dispose()
+        getGenreMovie.dispose()
     }
 }

@@ -9,8 +9,8 @@ import com.centaury.cataloguemovie.databinding.ItemMovieListBinding
 import com.centaury.cataloguemovie.ui.main.ItemClickCallback
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
-import com.centaury.domain.genre.model.Genre
-import com.centaury.domain.tvshow.model.TVShow
+import com.centaury.domain.model.Genre
+import com.centaury.domain.model.TVShow
 
 /**
  * Created by Centaury on 10/7/2019.
@@ -62,8 +62,13 @@ class TVShowAdapter(
                 genreView.text = CommonUtils.getGenresString(genres, tvShow.genre)
             }
 
-            dateView.text = CommonUtils.toDateString(tvShow.date)
-            loadFromUrl(poster, tvShow.image)
+            if (tvShow.date.isEmpty()) {
+                dateView.text = context.getString(R.string.txt_no_date)
+            } else {
+                dateView.text = CommonUtils.toDateString(tvShow.date)
+            }
+
+            poster.loadFromUrl(tvShow.image)
 
             ViewCompat.setTransitionName(poster, tvShow.title)
 

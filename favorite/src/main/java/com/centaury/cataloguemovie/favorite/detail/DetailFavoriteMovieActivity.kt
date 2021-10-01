@@ -14,9 +14,9 @@ import com.centaury.cataloguemovie.favorite.R.layout
 import com.centaury.cataloguemovie.favorite.databinding.ActivityDetailFavoriteMovieBinding
 import com.centaury.cataloguemovie.favorite.di.component.DaggerDetailFavoriteComponent
 import com.centaury.cataloguemovie.utils.*
-import com.centaury.domain.detail.model.Detail
-import com.centaury.domain.movies.model.MoviesDB
-import com.centaury.domain.tvshow.model.TVShowsDB
+import com.centaury.domain.model.Detail
+import com.centaury.domain.model.MoviesDB
+import com.centaury.domain.model.TVShowsDB
 import javax.inject.Inject
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -107,6 +107,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
         detailFavoriteMovieViewModel.errorMovieById.observe(this, { errorMovieById ->
             timberE(errorMovieById)
+            showToast(errorMovieById)
         })
 
         detailFavoriteMovieViewModel.resultTVShowById.observe(this, { tvShowById ->
@@ -120,6 +121,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
         detailFavoriteMovieViewModel.errorTVShowById.observe(this, { errorTVShowById ->
             timberE(errorTVShowById)
+            showToast(errorTVShowById)
         })
 
         detailFavoriteMovieViewModel.resultInsertMovie.observe(this, {
@@ -128,6 +130,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
         detailFavoriteMovieViewModel.errorInsertMovie.observe(this, { errorInsertMovie ->
             timberE(errorInsertMovie)
+            showToast(errorInsertMovie)
         })
 
         detailFavoriteMovieViewModel.resultInsertTVShow.observe(this, {
@@ -136,6 +139,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
         detailFavoriteMovieViewModel.errorInsertTVShow.observe(this, { errorInsertTVShow ->
             timberE(errorInsertTVShow)
+            showToast(errorInsertTVShow)
         })
 
         detailFavoriteMovieViewModel.resultDeleteMovie.observe(this, {
@@ -144,6 +148,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
         detailFavoriteMovieViewModel.errorDeleteMovie.observe(this, { errorDeleteMovie ->
             timberE(errorDeleteMovie)
+            showToast(errorDeleteMovie)
         })
 
         detailFavoriteMovieViewModel.resultDeleteTVShow.observe(this, {
@@ -152,6 +157,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
 
         detailFavoriteMovieViewModel.errorDeleteTVShow.observe(this, { errorDeleteTVShow ->
             timberE(errorDeleteTVShow)
+            showToast(errorDeleteTVShow)
         })
     }
 
@@ -186,7 +192,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
         if (detail.genre.isEmpty()) {
             binding.txtGenreFavDetail.text = getString(R.string.txt_no_genre)
         } else {
-            CommonUtils.getGenresString(detail.genre, binding.txtGenreFavDetail)
+            binding.txtGenreFavDetail.getGenresString(detail.genre)
         }
 
         if (detail.overview.isEmpty() || detail.overview == "") {
@@ -195,15 +201,19 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
             binding.txtDescFavDetail.text = detail.overview
         }
 
-        loadFromUrl(binding.ivImgFavDetail, detail.image)
+        binding.ivImgFavDetail.loadFromUrl(detail.image)
 
         if (detail.imageBackground != "null") {
-            loadFromUrl(binding.ivCoverFavDetail, detail.imageBackground)
+            binding.ivCoverFavDetail.loadFromUrl(detail.imageBackground)
         } else {
-            loadFromUrl(binding.ivCoverFavDetail, detail.image)
+            binding.ivCoverFavDetail.loadFromUrl(detail.image)
         }
 
-        binding.txtDateFavDetail.text = CommonUtils.toDateString(detail.date)
+        if (detail.date == getString(R.string.txt_no_date)) {
+            binding.txtDateFavDetail.text = getString(R.string.txt_no_date)
+        } else {
+            binding.txtDateFavDetail.text = CommonUtils.toDateString(detail.date.toString())
+        }
     }
 
     private fun initInjector() {
@@ -242,7 +252,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
                     it.imageBackground,
                     binding.txtGenreFavDetail.text.toString(),
                     binding.txtRateFavMovie.text.toString(),
-                    it.date,
+                    it.date ?: binding.txtDateFavDetail.text.toString(),
                     it.overview
                 )
                 detailFavoriteMovieViewModel.getInsertFavoriteMovieContract(movieEntity)
@@ -257,7 +267,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
                     it.imageBackground,
                     binding.txtGenreFavDetail.text.toString(),
                     binding.txtRateFavMovie.text.toString(),
-                    it.date,
+                    it.date ?: binding.txtDateFavDetail.text.toString(),
                     it.overview
                 )
                 detailFavoriteMovieViewModel.getInsertFavoriteTVSHowContract(tvShowEntity)

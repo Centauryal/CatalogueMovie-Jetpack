@@ -13,9 +13,9 @@ import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.databinding.ActivityDetailMovieBinding
 import com.centaury.cataloguemovie.di.component.DaggerDetailComponent
 import com.centaury.cataloguemovie.utils.*
-import com.centaury.domain.detail.model.Detail
-import com.centaury.domain.movies.model.MoviesDB
-import com.centaury.domain.tvshow.model.TVShowsDB
+import com.centaury.domain.model.Detail
+import com.centaury.domain.model.MoviesDB
+import com.centaury.domain.model.TVShowsDB
 import javax.inject.Inject
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -110,6 +110,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
         detailMovieViewModel.errorMovie.observe(this, { errorMovie ->
             timberE(errorMovie)
+            showToast(errorMovie)
         })
 
         detailMovieViewModel.resultTVShow.observe(this, { resultTVShow ->
@@ -121,6 +122,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
         detailMovieViewModel.errorTVShow.observe(this, { errorTVShow ->
             timberE(errorTVShow)
+            showToast(errorTVShow)
         })
 
         detailMovieViewModel.resultMovieById.observe(this, { movieById ->
@@ -130,6 +132,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
         detailMovieViewModel.errorMovieById.observe(this, { errorMovieById ->
             timberE(errorMovieById)
+            showToast(errorMovieById)
         })
 
         detailMovieViewModel.resultTVShowById.observe(this, { tvShowById ->
@@ -139,6 +142,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
         detailMovieViewModel.errorTVShowById.observe(this, { errorTVShowById ->
             timberE(errorTVShowById)
+            showToast(errorTVShowById)
         })
 
         detailMovieViewModel.resultInsertMovie.observe(this, {
@@ -147,6 +151,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
         detailMovieViewModel.errorInsertMovie.observe(this, { errorInsertMovie ->
             timberE(errorInsertMovie)
+            showToast(errorInsertMovie)
         })
 
         detailMovieViewModel.resultInsertTVShow.observe(this, {
@@ -155,6 +160,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
         detailMovieViewModel.errorInsertTVShow.observe(this, { errorInsertTVShow ->
             timberE(errorInsertTVShow)
+            showToast(errorInsertTVShow)
         })
 
         detailMovieViewModel.resultDeleteMovie.observe(this, {
@@ -163,6 +169,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
         detailMovieViewModel.errorDeleteMovie.observe(this, { errorDeleteMovie ->
             timberE(errorDeleteMovie)
+            showToast(errorDeleteMovie)
         })
 
         detailMovieViewModel.resultDeleteTVShow.observe(this, {
@@ -171,6 +178,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
         detailMovieViewModel.errorDeleteTVShow.observe(this, { errorDeleteTVShow ->
             timberE(errorDeleteTVShow)
+            showToast(errorDeleteTVShow)
         })
     }
 
@@ -205,7 +213,7 @@ class DetailMovieActivity : AppCompatActivity() {
         if (detail.genre.isEmpty()) {
             binding.txtGenreDetail.text = getString(R.string.txt_no_genre)
         } else {
-            CommonUtils.getGenresString(detail.genre, binding.txtGenreDetail)
+            binding.txtGenreDetail.getGenresString(detail.genre)
         }
 
         if (detail.overview.isEmpty() || detail.overview == "") {
@@ -214,15 +222,19 @@ class DetailMovieActivity : AppCompatActivity() {
             binding.txtDescDetail.text = detail.overview
         }
 
-        loadFromUrl(binding.ivImgDetail, detail.image)
+        binding.ivImgDetail.loadFromUrl(detail.image)
 
         if (detail.imageBackground != "null") {
-            loadFromUrl(binding.ivCoverDetail, detail.imageBackground)
+            binding.ivCoverDetail.loadFromUrl(detail.imageBackground)
         } else {
-            loadFromUrl(binding.ivCoverDetail, detail.image)
+            binding.ivCoverDetail.loadFromUrl(detail.image)
         }
 
-        binding.txtDateDetail.text = CommonUtils.toDateString(detail.date)
+        if (detail.date == null) {
+            binding.txtDateDetail.text = getString(R.string.txt_no_date)
+        } else {
+            binding.txtDateDetail.text = CommonUtils.toDateString(detail.date.toString())
+        }
     }
 
     private fun initInjector() {
@@ -261,7 +273,7 @@ class DetailMovieActivity : AppCompatActivity() {
                     it.imageBackground,
                     binding.txtGenreDetail.text.toString(),
                     binding.txtRateMovie.text.toString(),
-                    it.date,
+                    it.date ?: binding.txtDateDetail.text.toString(),
                     it.overview
                 )
                 detailMovieViewModel.getInsertFavoriteMovieContract(movieEntity)
@@ -276,7 +288,7 @@ class DetailMovieActivity : AppCompatActivity() {
                     it.imageBackground,
                     binding.txtGenreDetail.text.toString(),
                     binding.txtRateMovie.text.toString(),
-                    it.date,
+                    it.date ?: binding.txtDateDetail.text.toString(),
                     it.overview
                 )
                 detailMovieViewModel.getInsertFavoriteTVSHowContract(tvShowEntity)

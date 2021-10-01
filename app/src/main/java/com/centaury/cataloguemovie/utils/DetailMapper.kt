@@ -1,8 +1,8 @@
 package com.centaury.cataloguemovie.utils
 
-import com.centaury.domain.detail.model.Detail
-import com.centaury.domain.movies.model.MoviesDB
-import com.centaury.domain.tvshow.model.TVShowsDB
+import com.centaury.domain.model.Detail
+import com.centaury.domain.model.MoviesDB
+import com.centaury.domain.model.TVShowsDB
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)

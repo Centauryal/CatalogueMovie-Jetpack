@@ -1,8 +1,8 @@
 package com.centaury.domain.tvshow.interactor
 
 import com.centaury.domain.FlowableUseCase
+import com.centaury.domain.model.TVShowsDB
 import com.centaury.domain.tvshow.TVShowsRepository
-import com.centaury.domain.tvshow.model.TVShowsDB
 import io.reactivex.Flowable
 import javax.inject.Inject
 

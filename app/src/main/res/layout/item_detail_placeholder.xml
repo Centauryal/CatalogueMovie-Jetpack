@@ -6,7 +6,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_235sdp"
+        android:layout_height="@dimen/_160sdp"
         android:alpha="0.7"
         android:background="@drawable/shadow_image"
         android:importantForAccessibility="no" />
@@ -14,7 +14,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_160sdp"
+        android:layout_marginTop="@dimen/_90sdp"
         android:importantForAccessibility="no"
         android:src="@drawable/detail_background"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,16 +27,16 @@
     <View
         android:id="@+id/thumbnail"
         android:layout_width="@dimen/_130sdp"
-        android:layout_height="@dimen/_170sdp"
+        android:layout_height="@dimen/_200sdp"
         android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_90sdp"
+        android:layout_marginTop="@dimen/_60sdp"
         android:background="@color/placeholder_bg" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_120sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_150sdp"
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_toEndOf="@id/thumbnail"
         android:orientation="vertical">

@@ -1,8 +1,8 @@
 package com.centaury.domain.tvshow.interactor
 
 import com.centaury.domain.UseCase
+import com.centaury.domain.model.TVShow
 import com.centaury.domain.tvshow.TVShowsRepository
-import com.centaury.domain.tvshow.model.TVShow
 import io.reactivex.Observable
 import javax.inject.Inject
 

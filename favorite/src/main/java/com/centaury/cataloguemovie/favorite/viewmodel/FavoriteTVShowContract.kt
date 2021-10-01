@@ -1,6 +1,6 @@
 package com.centaury.cataloguemovie.favorite.viewmodel
 
-import com.centaury.domain.tvshow.model.TVShowsDB
+import com.centaury.domain.model.TVShowsDB
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)

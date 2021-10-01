@@ -5,17 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.centaury.cataloguemovie.utils.LoaderState
 import com.centaury.cataloguemovie.utils.Status
-import com.centaury.domain.detail.interactor.GetDetailMovie
-import com.centaury.domain.detail.interactor.GetDetailTVShow
-import com.centaury.domain.detail.model.Detail
+import com.centaury.domain.model.Detail
+import com.centaury.domain.model.MoviesDB
+import com.centaury.domain.model.TVShowsDB
 import com.centaury.domain.movies.interactor.GetDeleteFavoriteMovie
+import com.centaury.domain.movies.interactor.GetDetailMovie
 import com.centaury.domain.movies.interactor.GetFavoriteMovieById
 import com.centaury.domain.movies.interactor.GetInsertFavoriteMovie
-import com.centaury.domain.movies.model.MoviesDB
 import com.centaury.domain.tvshow.interactor.GetDeleteFavoriteTVShow
+import com.centaury.domain.tvshow.interactor.GetDetailTVShow
 import com.centaury.domain.tvshow.interactor.GetFavoriteTVShowById
 import com.centaury.domain.tvshow.interactor.GetInsertFavoriteTVShow
-import com.centaury.domain.tvshow.model.TVShowsDB
 import javax.inject.Inject
 
 /**
@@ -164,4 +164,15 @@ class DetailMovieViewModel @Inject constructor(
             _errorDeleteTVShow.postValue(it.message)
         })
 
+    override fun onCleared() {
+        super.onCleared()
+        getDetailMovie.dispose()
+        getDetailTVShow.dispose()
+        getFavoriteMovieById.dispose()
+        getInsertFavoriteMovie.dispose()
+        getDeleteFavoriteMovie.dispose()
+        getFavoriteTVShowById.dispose()
+        getInsertFavoriteTVShow.dispose()
+        getDeleteFavoriteTVShow.dispose()
+    }
 }

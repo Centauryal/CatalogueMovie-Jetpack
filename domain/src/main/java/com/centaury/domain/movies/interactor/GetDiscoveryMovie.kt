@@ -1,8 +1,8 @@
 package com.centaury.domain.movies.interactor
 
 import com.centaury.domain.UseCase
+import com.centaury.domain.model.Movie
 import com.centaury.domain.movies.MoviesRepository
-import com.centaury.domain.movies.model.Movie
 import io.reactivex.Observable
 import javax.inject.Inject
 

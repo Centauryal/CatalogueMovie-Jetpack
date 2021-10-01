@@ -19,7 +19,8 @@
 
     <string name="txt_error_state">No movies were found</string>
     <string name="txt_no_desc">No description</string>
-    <string name="txt_no_genre">No Genre</string>
+    <string name="txt_no_genre">No genre</string>
+    <string name="txt_no_date">No date yet</string>
     <string name="txt_no_internet">Not connected to internet</string>
     <string name="txt_title_delete_dialog">Are you sure to delete this favorite?</string>
 

@@ -8,7 +8,7 @@ import com.centaury.cataloguemovie.R
 import com.centaury.cataloguemovie.favorite.databinding.ItemFavoriteMovielistBinding
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
-import com.centaury.domain.tvshow.model.TVShowsDB
+import com.centaury.domain.model.TVShowsDB
 
 /**
  * Created by Centaury on 11/23/2019.
@@ -64,8 +64,13 @@ class FavoriteTVShowAdapter(
                 genreView.text = tvShow.genre
             }
 
-            dateView.text = CommonUtils.toDateString(tvShow.date)
-            loadFromUrl(poster, tvShow.image)
+            if (tvShow.date == context.getString(R.string.txt_no_date)) {
+                dateView.text = context.getString(R.string.txt_no_date)
+            } else {
+                dateView.text = CommonUtils.toDateString(tvShow.date)
+            }
+
+            poster.loadFromUrl(tvShow.image)
 
             ViewCompat.setTransitionName(poster, tvShow.title)
 

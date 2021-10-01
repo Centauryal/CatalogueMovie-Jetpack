@@ -29,7 +29,7 @@ abstract class FlowableUseCase<T, Params>(
             )
     }
 
-    private fun dispose() {
+    fun dispose() {
         disposable?.dispose()
     }
 

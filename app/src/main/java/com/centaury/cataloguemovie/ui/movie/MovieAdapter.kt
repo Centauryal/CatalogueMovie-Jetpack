@@ -9,8 +9,8 @@ import com.centaury.cataloguemovie.databinding.ItemMovieListBinding
 import com.centaury.cataloguemovie.ui.main.ItemClickCallback
 import com.centaury.cataloguemovie.utils.CommonUtils
 import com.centaury.cataloguemovie.utils.loadFromUrl
-import com.centaury.domain.genre.model.Genre
-import com.centaury.domain.movies.model.Movie
+import com.centaury.domain.model.Genre
+import com.centaury.domain.model.Movie
 
 /**
  * Created by Centaury on 10/7/2019.
@@ -62,8 +62,13 @@ class MovieAdapter(
                 genreView.text = CommonUtils.getGenresString(genres, movie.genre)
             }
 
-            dateView.text = CommonUtils.toDateString(movie.date)
-            loadFromUrl(poster, movie.image)
+            if (movie.date.isEmpty()) {
+                dateView.text = context.getString(R.string.txt_no_date)
+            } else {
+                dateView.text = CommonUtils.toDateString(movie.date)
+            }
+
+            poster.loadFromUrl(movie.image)
 
             ViewCompat.setTransitionName(poster, movie.title)
 

@@ -23,12 +23,15 @@ abstract class CompletableUseCase<T, Params>(
             .subscribeOn(jobScheduler)
             .observeOn(postScheduler)
             .subscribe(
-                { onSuccess() },
+                {
+                    onSuccess()
+                    dispose()
+                },
                 { onError(it) }
             )
     }
 
-    private fun dispose() {
+    fun dispose() {
         disposable?.dispose()
     }
 

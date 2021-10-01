@@ -38,7 +38,7 @@
                 <ImageView
                     android:id="@+id/iv_cover_fav_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_235sdp"
+                    android:layout_height="@dimen/_160sdp"
                     android:contentDescription="@string/content_desc_cover_image_detail"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -49,8 +49,8 @@
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_235sdp"
-                    android:alpha="0.7"
+                    android:layout_height="@dimen/_160sdp"
+                    android:alpha="0.6"
                     android:background="@drawable/shadow_image"
                     android:importantForAccessibility="no"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +61,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:layout_marginTop="@dimen/_22sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:background="@android:color/transparent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -69,11 +69,23 @@
                     app:layout_constraintVertical_bias="0.0"
                     app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/btn_favorite"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_70sdp"
+                    android:contentDescription="@string/content_desc_btn_favorite"
+                    android:onClick="@{clickFavoriteListener}"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="@id/toolbar"
+                    app:layout_constraintEnd_toEndOf="@id/toolbar"
+                    app:layout_constraintTop_toTopOf="@id/toolbar"
+                    app:lottie_fileName="heart.json" />
+
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_160sdp"
+                    android:layout_marginTop="@dimen/_90sdp"
                     android:importantForAccessibility="no"
                     android:src="@drawable/detail_background"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -82,43 +94,16 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
 
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="@dimen/_55sdp"
-                    android:layout_height="@dimen/_55sdp"
-                    android:contentDescription="@string/content_desc_btn_favorite"
-                    android:src="@drawable/favorite_background"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-                    app:layout_constraintEnd_toEndOf="@id/imageView2"
-                    app:layout_constraintHorizontal_bias="0.6"
-                    app:layout_constraintStart_toStartOf="@+id/guideline"
-                    app:layout_constraintTop_toTopOf="@+id/imageView2"
-                    app:layout_constraintVertical_bias="0.5" />
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/btn_favorite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_8sdp"
-                    android:onClick="@{clickFavoriteListener}"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView3"
-                    app:layout_constraintStart_toStartOf="@+id/imageView3"
-                    app:layout_constraintTop_toTopOf="@+id/imageView3"
-                    app:lottie_fileName="heart.json" />
-
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cv_image"
                     android:layout_width="@dimen/_130sdp"
-                    android:layout_height="@dimen/_170sdp"
+                    android:layout_height="@dimen/_200sdp"
                     android:layout_marginStart="@dimen/_16sdp"
-                    android:layout_marginTop="@dimen/_90sdp"
+                    android:layout_marginTop="@dimen/_40sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     app:cardElevation="2dp"
                     app:cardPreventCornerOverlap="false"
                     app:cardUseCompatPadding="true"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                     app:layout_constraintEnd_toStartOf="@+id/guideline"
                     app:layout_constraintStart_toStartOf="@+id/imageView"
                     app:layout_constraintTop_toTopOf="@+id/toolbar">
@@ -126,7 +111,7 @@
                     <ImageView
                         android:id="@+id/iv_img_fav_detail"
                         android:layout_width="@dimen/_130sdp"
-                        android:layout_height="@dimen/_170sdp"
+                        android:layout_height="@dimen/_200sdp"
                         android:contentDescription="@string/content_desc_image_detail"
                         android:scaleType="centerCrop"
                         tools:src="@tools:sample/backgrounds/scenic" />
@@ -138,27 +123,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="190dp" />
-
-                <TextView
-                    android:id="@+id/txt_title_fav_detail"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_40sdp"
-                    android:layout_marginEnd="@dimen/_16sdp"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/txt_genre_fav_detail"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView"
-                    app:layout_constraintStart_toStartOf="@+id/guideline"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/example_title" />
+                    app:layout_constraintGuide_begin="210dp" />
 
                 <TextView
                     android:id="@+id/txt_genre_fav_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_45sdp"
                     android:layout_marginEnd="@dimen/_16sdp"
                     android:layout_marginBottom="@dimen/_3sdp"
                     android:background="@drawable/genre_background"
@@ -170,12 +141,26 @@
                     android:textSize="@dimen/_10ssp"
                     android:textStyle="bold"
                     app:layout_constrainedWidth="true"
-                    app:layout_constraintBottom_toTopOf="@+id/rb_rating_fav_detail"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="@+id/guideline"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_title_fav_detail"
+                    app:layout_constraintTop_toTopOf="@+id/imageView2"
                     tools:text="@string/example_genre" />
+
+                <TextView
+                    android:id="@+id/txt_title_fav_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/rb_rating_fav_detail"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toBottomOf="@id/txt_genre_fav_detail"
+                    tools:text="@string/example_title" />
 
                 <RatingBar
                     android:id="@+id/rb_rating_fav_detail"
@@ -189,7 +174,7 @@
                     android:secondaryProgressTint="@android:color/transparent"
                     app:layout_constraintBottom_toTopOf="@+id/txt_date_fav_detail"
                     app:layout_constraintStart_toStartOf="@+id/guideline"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_genre_fav_detail"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_title_fav_detail"
                     tools:rating="3.5" />
 
                 <TextView
@@ -202,17 +187,16 @@
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/txt_date_fav_detail"
                     app:layout_constraintStart_toEndOf="@+id/rb_rating_fav_detail"
-                    app:layout_constraintTop_toBottomOf="@id/txt_genre_fav_detail"
+                    app:layout_constraintTop_toBottomOf="@id/txt_title_fav_detail"
                     tools:text="@string/example_rate" />
 
                 <TextView
                     android:id="@+id/txt_date_fav_detail"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_16sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
-                    android:textColor="@android:color/white"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintEnd_toEndOf="@+id/imageView"
                     app:layout_constraintHorizontal_bias="0.0"

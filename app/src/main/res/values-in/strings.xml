@@ -20,7 +20,8 @@
 
     <string name="txt_error_state">Tidak ada film yang ditemukan</string>
     <string name="txt_no_desc">Tidak ada deskripsi</string>
-    <string name="txt_no_genre">Tidak Ada Genre</string>
+    <string name="txt_no_genre">Tidak ada genre</string>
+    <string name="txt_no_date">Belum ada tanggal</string>
     <string name="txt_no_internet">Tidak terhubung ke internet</string>
     <string name="txt_title_delete_dialog">Apakah Anda yakin menghapus favorit ini?</string>
 

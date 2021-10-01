@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.centaury.cataloguemovie.utils.LoaderState
 import com.centaury.cataloguemovie.utils.Status
 import com.centaury.domain.FlowableUseCase
+import com.centaury.domain.model.MoviesDB
 import com.centaury.domain.movies.interactor.GetAllFavoriteMovie
 import com.centaury.domain.movies.interactor.GetDeleteFavoriteMovie
 import com.centaury.domain.movies.interactor.GetFavoriteMovieById
-import com.centaury.domain.movies.model.MoviesDB
 import javax.inject.Inject
 
 /**
@@ -77,5 +77,13 @@ class FavoriteMovieViewModel @Inject constructor(
         }, onError = {
             _errorDeleteMovie.postValue(it.message)
         })
+
+    override fun onCleared() {
+        super.onCleared()
+        getAllFavoriteMovie.dispose()
+        getDeleteFavoriteMovie.dispose()
+        getFavoriteMovieById.dispose()
+    }
+
 
 }
