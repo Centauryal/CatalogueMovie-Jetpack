@@ -29,6 +29,8 @@ API_KEY = <YourMovieDB access key>
 
 Screenshots
 -----------
+light and dark theme display
+<br>
 <p text-align="center">
   <img src="./screenshots/screenshots_main.png" alt="A list of movies" width="250">
   <img src="./screenshots/screenshots_delete.png" alt="Delete for certain movies" width="250">
