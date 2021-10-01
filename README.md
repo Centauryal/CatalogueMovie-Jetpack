@@ -29,15 +29,16 @@ API_KEY = <YourMovieDB access key>
 
 Screenshots
 -----------
-<p align="center">
+<p text-align="center">
   <img src="./screenshots/screenshots_main.png" alt="A list of movies" width="250">
   <img src="./screenshots/screenshots_delete.png" alt="Delete for certain movies" width="250">
   <img src="./screenshots/screenshots_favorite.png" alt="A list of favorite movies" width="250">
 </p>
 <br>
-<p align="center">
+<p text-align="center">
   <img src="./screenshots/screenshots_splash.png" alt="Initial display at application launch" width="250">
   <img src="./screenshots/screenshots_detail.png" alt="Details for a specific movie" width="250">
+  <img src="./screenshots/screenshots_search.png" alt="Movie search page" width="250">
 </p>
 <br>
 
