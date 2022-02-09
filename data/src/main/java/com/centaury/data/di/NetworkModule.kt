@@ -53,7 +53,7 @@ class NetworkModule {
     ): OkHttpClient {
         val hostname = BuildConfig.HOSTNAME
         val certificatePinner = CertificatePinner.Builder()
-            .add(hostname, "sha256/+vqZVAzTqUP8BGkfl88yU7SQ3C8J2uNEa55B7RZjEg0=")
+            .add(hostname, "sha256/oD/WAoRPvbez1Y2dfYfuo4yujAcYHXdv1Ivb2v2MOKk=")
             .build()
 
         return OkHttpClient.Builder()

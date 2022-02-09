@@ -19,14 +19,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.centaury.cataloguemovie.MovieCatalogueApp
 import com.centaury.cataloguemovie.R
-import com.centaury.cataloguemovie.search.R.*
+import com.centaury.cataloguemovie.search.R.id
+import com.centaury.cataloguemovie.search.R.layout
 import com.centaury.cataloguemovie.search.adapter.SearchAdapter
 import com.centaury.cataloguemovie.search.adapter.SearchCallback
 import com.centaury.cataloguemovie.search.databinding.ActivitySearchBinding
 import com.centaury.cataloguemovie.search.di.DaggerSearchComponent
 import com.centaury.cataloguemovie.ui.detail.DetailMovieActivity
 import com.centaury.cataloguemovie.ui.main.MainActivity
-import com.centaury.cataloguemovie.utils.*
+import com.centaury.cataloguemovie.utils.CommonUtils
+import com.centaury.cataloguemovie.utils.LoaderState
+import com.centaury.cataloguemovie.utils.checkConnection
+import com.centaury.cataloguemovie.utils.timberE
 import com.centaury.domain.model.Genre
 import com.centaury.domain.model.Search
 import java.util.*
@@ -81,7 +85,7 @@ class SearchActivity : AppCompatActivity(), SearchCallback {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initObserver(binding: ActivitySearchBinding) {
-        searchViewModel.state.observe(this, { state ->
+        searchViewModel.state.observe(this) { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
                     binding.shimmerViewContainer.startShimmer()
@@ -92,8 +96,8 @@ class SearchActivity : AppCompatActivity(), SearchCallback {
                     binding.hasSearch = false
                 }
             }
-        })
-        searchViewModel.resultSearchMovies.observe(this, { resultSearchMovie ->
+        }
+        searchViewModel.resultSearchMovies.observe(this) { resultSearchMovie ->
             searchData.clear()
             searchData.addAll(resultSearchMovie)
             CommonUtils.toggleEmptyState(
@@ -102,11 +106,11 @@ class SearchActivity : AppCompatActivity(), SearchCallback {
                 binding.rvSearch
             )
             searchAdapter.notifyDataSetChanged()
-        })
-        searchViewModel.errorSearchMovies.observe(this, { errorSearchMovie ->
+        }
+        searchViewModel.errorSearchMovies.observe(this) { errorSearchMovie ->
             timberE(errorSearchMovie)
-        })
-        searchViewModel.resultSearchTVShows.observe(this, { resultSearchTVShow ->
+        }
+        searchViewModel.resultSearchTVShows.observe(this) { resultSearchTVShow ->
             searchData.clear()
             searchData.addAll(resultSearchTVShow)
             CommonUtils.toggleEmptyState(
@@ -115,26 +119,26 @@ class SearchActivity : AppCompatActivity(), SearchCallback {
                 binding.rvSearch
             )
             searchAdapter.notifyDataSetChanged()
-        })
-        searchViewModel.errorSearchTVShows.observe(this, { errorSearchTVShow ->
+        }
+        searchViewModel.errorSearchTVShows.observe(this) { errorSearchTVShow ->
             timberE(errorSearchTVShow)
-        })
-        searchViewModel.resultGenreMovie.observe(this, { resultGenreMovie ->
+        }
+        searchViewModel.resultGenreMovie.observe(this) { resultGenreMovie ->
             genreData.clear()
             genreData.addAll(resultGenreMovie)
             searchAdapter.notifyDataSetChanged()
-        })
-        searchViewModel.errorGenreMovie.observe(this, { errorGenreMovie ->
+        }
+        searchViewModel.errorGenreMovie.observe(this) { errorGenreMovie ->
             timberE(errorGenreMovie)
-        })
-        searchViewModel.resultGenreTVShow.observe(this, { resultGenreTVShow ->
+        }
+        searchViewModel.resultGenreTVShow.observe(this) { resultGenreTVShow ->
             genreData.clear()
             genreData.addAll(resultGenreTVShow)
             searchAdapter.notifyDataSetChanged()
-        })
-        searchViewModel.errorGenreTVShow.observe(this, { errorGenreTVShow ->
+        }
+        searchViewModel.errorGenreTVShow.observe(this) { errorGenreTVShow ->
             timberE(errorGenreTVShow)
-        })
+        }
     }
 
     private fun initInjector() {
@@ -145,12 +149,12 @@ class SearchActivity : AppCompatActivity(), SearchCallback {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(com.centaury.cataloguemovie.search.R.menu.menu_search, menu)
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         searchManager.let {
-            val searchView = menu?.findItem(id.action_searchView)?.actionView as SearchView
+            val searchView = menu.findItem(id.action_searchView)?.actionView as SearchView
             searchView.apply {
                 setSearchableInfo(it.getSearchableInfo(componentName))
                 maxWidth = Integer.MAX_VALUE

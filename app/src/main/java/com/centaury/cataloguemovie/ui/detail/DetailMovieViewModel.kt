@@ -3,6 +3,7 @@ package com.centaury.cataloguemovie.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.centaury.cataloguemovie.utils.Event
 import com.centaury.cataloguemovie.utils.LoaderState
 import com.centaury.cataloguemovie.utils.Status
 import com.centaury.domain.model.Detail
@@ -60,16 +61,16 @@ class DetailMovieViewModel @Inject constructor(
     val errorMovieById: LiveData<String>
         get() = _errorMovieById
 
-    private val _resultInsertMovie = MutableLiveData<Status>()
-    val resultInsertMovie: LiveData<Status>
+    private val _resultInsertMovie = MutableLiveData<Event<Status>>()
+    val resultInsertMovie: LiveData<Event<Status>>
         get() = _resultInsertMovie
 
     private val _errorInsertMovie = MutableLiveData<String>()
     val errorInsertMovie: LiveData<String>
         get() = _errorInsertMovie
 
-    private val _resultDeleteMovie = MutableLiveData<Status>()
-    val resultDeleteMovie: LiveData<Status>
+    private val _resultDeleteMovie = MutableLiveData<Event<Status>>()
+    val resultDeleteMovie: LiveData<Event<Status>>
         get() = _resultDeleteMovie
 
     private val _errorDeleteMovie = MutableLiveData<String>()
@@ -84,16 +85,16 @@ class DetailMovieViewModel @Inject constructor(
     val errorTVShowById: LiveData<String>
         get() = _errorTVShowById
 
-    private val _resultInsertTVShow = MutableLiveData<Status>()
-    val resultInsertTVShow: LiveData<Status>
+    private val _resultInsertTVShow = MutableLiveData<Event<Status>>()
+    val resultInsertTVShow: LiveData<Event<Status>>
         get() = _resultInsertTVShow
 
     private val _errorInsertTVShow = MutableLiveData<String>()
     val errorInsertTVShow: LiveData<String>
         get() = _errorInsertTVShow
 
-    private val _resultDeleteTVShow = MutableLiveData<Status>()
-    val resultDeleteTVShow: LiveData<Status>
+    private val _resultDeleteTVShow = MutableLiveData<Event<Status>>()
+    val resultDeleteTVShow: LiveData<Event<Status>>
         get() = _resultDeleteTVShow
 
     private val _errorDeleteTVShow = MutableLiveData<String>()
@@ -131,14 +132,14 @@ class DetailMovieViewModel @Inject constructor(
 
     override fun getInsertFavoriteMovieContract(movie: MoviesDB) =
         getInsertFavoriteMovie.execute(movie, onSuccess = {
-            _resultInsertMovie.value = Status.SUCCESS
+            _resultInsertMovie.value = Event(Status.SUCCESS)
         }, onError = {
             _errorInsertMovie.postValue(it.message)
         })
 
     override fun getDeleteFavoriteMovieContract(movie: MoviesDB) =
         getDeleteFavoriteMovie.execute(movie, onSuccess = {
-            _resultDeleteMovie.value = Status.SUCCESS
+            _resultDeleteMovie.value = Event(Status.SUCCESS)
         }, onError = {
             _errorDeleteMovie.postValue(it.message)
         })
@@ -152,14 +153,14 @@ class DetailMovieViewModel @Inject constructor(
 
     override fun getInsertFavoriteTVSHowContract(tvShow: TVShowsDB) =
         getInsertFavoriteTVShow.execute(tvShow, onSuccess = {
-            _resultInsertTVShow.value = Status.SUCCESS
+            _resultInsertTVShow.value = Event(Status.SUCCESS)
         }, onError = {
             _errorInsertTVShow.postValue(it.message)
         })
 
     override fun getDeleteFavoriteTVShowContract(tvShow: TVShowsDB) =
         getDeleteFavoriteTVShow.execute(tvShow, onSuccess = {
-            _resultDeleteTVShow.value = Status.SUCCESS
+            _resultDeleteTVShow.value = Event(Status.SUCCESS)
         }, onError = {
             _errorDeleteTVShow.postValue(it.message)
         })

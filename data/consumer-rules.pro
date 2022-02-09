@@ -11,9 +11,12 @@
 # Retrofit does reflection on method and parameter annotations.
 -keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
 
+# Keep annotation default values (e.g., retrofit2.http.Field.encoded).
+-keepattributes AnnotationDefault
+
 # Retain service method parameters when optimizing.
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
-@retrofit2.http.* <methods>;
+    @retrofit2.http.* <methods>;
 }
 
 # Ignore annotation used for build tooling.
@@ -34,9 +37,17 @@
 -if interface * { @retrofit2.http.* <methods>; }
 -keep,allowobfuscation interface <1>
 
--dontwarn kotlinx.**
+# Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
+-keep,allowobfuscation,allowshrinking interface retrofit2.Call
+-keep,allowobfuscation,allowshrinking class retrofit2.Response
+
+# With R8 full mode generic signatures are stripped for classes that are not
+# kept. Suspend functions are wrapped in continuations where the type argument
+# is used.
+-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
 
 ##---------------Begin: proguard configuration for Moshi ----------
+# JSR 305 annotations are for embedding nullability information.
 # JSR 305 annotations are for embedding nullability information.
 -dontwarn javax.annotation.**
 
@@ -44,12 +55,12 @@
     @com.squareup.moshi.* <methods>;
 }
 
--keep @com.squareup.moshi.JsonQualifier interface *
+-keep @com.squareup.moshi.JsonQualifier @interface *
 
 # Enum field names are used by the integrated EnumJsonAdapter.
 # values() is synthesized by the Kotlin compiler and is used by EnumJsonAdapter indirectly
 # Annotate enums with @JsonClass(generateAdapter = false) to use them with Moshi.
--keepclassmembernames @com.squareup.moshi.JsonClass class * extends java.lang.Enum {
+-keepclassmembers @com.squareup.moshi.JsonClass class * extends java.lang.Enum {
     <fields>;
     **[] values();
 }
@@ -57,6 +68,12 @@
 # Keep helper method to avoid R8 optimisation that would keep all Kotlin Metadata when unwanted
 -keepclassmembers class com.squareup.moshi.internal.Util {
     private static java.lang.String getKotlinMetadataClassName();
+}
+
+# Keep ToJson/FromJson-annotated methods
+-keepclassmembers class * {
+  @com.squareup.moshi.FromJson <methods>;
+  @com.squareup.moshi.ToJson <methods>;
 }
 
 

@@ -3,6 +3,7 @@ package com.centaury.cataloguemovie.favorite.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.centaury.cataloguemovie.utils.Event
 import com.centaury.cataloguemovie.utils.LoaderState
 import com.centaury.cataloguemovie.utils.Status
 import com.centaury.domain.FlowableUseCase
@@ -41,8 +42,8 @@ class FavoriteTVShowViewModel @Inject constructor(
     val errorTVShowById: LiveData<String>
         get() = _errorTVShowById
 
-    private val _resultDeleteTVShow = MutableLiveData<Status>()
-    val resultDeleteTVShow: LiveData<Status>
+    private val _resultDeleteTVShow = MutableLiveData<Event<Status>>()
+    val resultDeleteTVShow: LiveData<Event<Status>>
         get() = _resultDeleteTVShow
 
     private val _errorDeleteTVShow = MutableLiveData<String>()
@@ -73,7 +74,7 @@ class FavoriteTVShowViewModel @Inject constructor(
 
     override fun getDeleteFavoriteTVShowContract(tvShow: TVShowsDB) =
         getDeleteFavoriteTVShow.execute(tvShow, onSuccess = {
-            _resultDeleteTVShow.value = Status.SUCCESS
+            _resultDeleteTVShow.value = Event(Status.SUCCESS)
         }, onError = {
             _errorDeleteTVShow.postValue(it.message)
         })

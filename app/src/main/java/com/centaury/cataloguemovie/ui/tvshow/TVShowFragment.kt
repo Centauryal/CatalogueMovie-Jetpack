@@ -84,7 +84,7 @@ class TVShowFragment : Fragment(), ItemClickCallback {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initObserver(binding: FragmentTvshowBinding) {
-        tvShowViewModel.state.observe(viewLifecycleOwner, { state ->
+        tvShowViewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
                     binding.shimmerViewContainer.startShimmer()
@@ -95,30 +95,30 @@ class TVShowFragment : Fragment(), ItemClickCallback {
                     binding.hasTVShows = false
                 }
             }
-        })
+        }
 
-        tvShowViewModel.result.observe(viewLifecycleOwner, { result ->
+        tvShowViewModel.result.observe(viewLifecycleOwner) { result ->
             tvShowData.clear()
             tvShowData.addAll(result)
             CommonUtils.toggleEmptyState(result.size, binding.emptyState, binding.rvTvShow)
             tvShowAdapter.notifyDataSetChanged()
-        })
+        }
 
-        tvShowViewModel.error.observe(viewLifecycleOwner, { error ->
+        tvShowViewModel.error.observe(viewLifecycleOwner) { error ->
             timberE(error)
             context?.showToast(error)
-        })
+        }
 
-        tvShowViewModel.resultGenre.observe(viewLifecycleOwner, { resultGenre ->
+        tvShowViewModel.resultGenre.observe(viewLifecycleOwner) { resultGenre ->
             genreData.clear()
             genreData.addAll(resultGenre)
             tvShowAdapter.notifyDataSetChanged()
-        })
+        }
 
-        tvShowViewModel.errorGenre.observe(viewLifecycleOwner, { errorGenre ->
+        tvShowViewModel.errorGenre.observe(viewLifecycleOwner) { errorGenre ->
             timberE(errorGenre)
             context?.showToast(errorGenre)
-        })
+        }
 
     }
 

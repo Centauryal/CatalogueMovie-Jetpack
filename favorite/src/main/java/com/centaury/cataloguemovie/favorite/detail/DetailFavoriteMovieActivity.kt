@@ -83,7 +83,7 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
     }
 
     private fun initObserver(binding: ActivityDetailFavoriteMovieBinding) {
-        detailFavoriteMovieViewModel.state.observe(this, { state ->
+        detailFavoriteMovieViewModel.state.observe(this) { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
                     binding.shimmerViewContainer.startShimmer()
@@ -94,71 +94,79 @@ class DetailFavoriteMovieActivity : AppCompatActivity() {
                     binding.hasDetailFavoriteMovies = false
                 }
             }
-        })
+        }
 
-        detailFavoriteMovieViewModel.resultMovieById.observe(this, { movieById ->
+        detailFavoriteMovieViewModel.resultMovieById.observe(this) { movieById ->
             movie = movieById
             binding.ivImgFavDetail.transitionName = movieById.title
             supportPostponeEnterTransition()
             showDetail(DetailMapper.mapperMovieToDetail(movieById))
             detailFavorite = DetailMapper.mapperMovieToDetail(movieById)
             stateFavorite()
-        })
+        }
 
-        detailFavoriteMovieViewModel.errorMovieById.observe(this, { errorMovieById ->
+        detailFavoriteMovieViewModel.errorMovieById.observe(this) { errorMovieById ->
             timberE(errorMovieById)
             showToast(errorMovieById)
-        })
+        }
 
-        detailFavoriteMovieViewModel.resultTVShowById.observe(this, { tvShowById ->
+        detailFavoriteMovieViewModel.resultTVShowById.observe(this) { tvShowById ->
             tvShow = tvShowById
             binding.ivImgFavDetail.transitionName = tvShowById.title
             supportPostponeEnterTransition()
             showDetail(DetailMapper.mapperTVShowToDetail(tvShowById))
             detailFavorite = DetailMapper.mapperTVShowToDetail(tvShowById)
             stateFavorite()
-        })
+        }
 
-        detailFavoriteMovieViewModel.errorTVShowById.observe(this, { errorTVShowById ->
+        detailFavoriteMovieViewModel.errorTVShowById.observe(this) { errorTVShowById ->
             timberE(errorTVShowById)
             showToast(errorTVShowById)
-        })
+        }
 
-        detailFavoriteMovieViewModel.resultInsertMovie.observe(this, {
-            showToast(R.string.txt_movie_add)
-        })
+        detailFavoriteMovieViewModel.resultInsertMovie.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                showToast(R.string.txt_movie_add)
+            }
+        }
 
-        detailFavoriteMovieViewModel.errorInsertMovie.observe(this, { errorInsertMovie ->
+        detailFavoriteMovieViewModel.errorInsertMovie.observe(this) { errorInsertMovie ->
             timberE(errorInsertMovie)
             showToast(errorInsertMovie)
-        })
+        }
 
-        detailFavoriteMovieViewModel.resultInsertTVShow.observe(this, {
-            showToast(R.string.txt_movie_add)
-        })
+        detailFavoriteMovieViewModel.resultInsertTVShow.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                showToast(R.string.txt_movie_add)
+            }
+        }
 
-        detailFavoriteMovieViewModel.errorInsertTVShow.observe(this, { errorInsertTVShow ->
+        detailFavoriteMovieViewModel.errorInsertTVShow.observe(this) { errorInsertTVShow ->
             timberE(errorInsertTVShow)
             showToast(errorInsertTVShow)
-        })
+        }
 
-        detailFavoriteMovieViewModel.resultDeleteMovie.observe(this, {
-            showToast(R.string.txt_movie_remove)
-        })
+        detailFavoriteMovieViewModel.resultDeleteMovie.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                showToast(R.string.txt_movie_remove)
+            }
+        }
 
-        detailFavoriteMovieViewModel.errorDeleteMovie.observe(this, { errorDeleteMovie ->
+        detailFavoriteMovieViewModel.errorDeleteMovie.observe(this) { errorDeleteMovie ->
             timberE(errorDeleteMovie)
             showToast(errorDeleteMovie)
-        })
+        }
 
-        detailFavoriteMovieViewModel.resultDeleteTVShow.observe(this, {
-            showToast(R.string.txt_movie_remove)
-        })
+        detailFavoriteMovieViewModel.resultDeleteTVShow.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                showToast(R.string.txt_movie_remove)
+            }
+        }
 
-        detailFavoriteMovieViewModel.errorDeleteTVShow.observe(this, { errorDeleteTVShow ->
+        detailFavoriteMovieViewModel.errorDeleteTVShow.observe(this) { errorDeleteTVShow ->
             timberE(errorDeleteTVShow)
             showToast(errorDeleteTVShow)
-        })
+        }
     }
 
     private fun initClick() {

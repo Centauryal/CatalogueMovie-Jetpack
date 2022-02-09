@@ -84,7 +84,7 @@ class MovieFragment : Fragment(), ItemClickCallback {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initObserver(binding: FragmentMovieBinding) {
-        movieViewModel.state.observe(viewLifecycleOwner, { state ->
+        movieViewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
                     binding.shimmerViewContainer.startShimmer()
@@ -95,30 +95,30 @@ class MovieFragment : Fragment(), ItemClickCallback {
                     binding.hasMovies = false
                 }
             }
-        })
+        }
 
-        movieViewModel.result.observe(viewLifecycleOwner, { result ->
+        movieViewModel.result.observe(viewLifecycleOwner) { result ->
             movieData.clear()
             movieData.addAll(result)
             CommonUtils.toggleEmptyState(result.size, binding.emptyState, binding.rvMovie)
             movieAdapter.notifyDataSetChanged()
-        })
+        }
 
-        movieViewModel.error.observe(viewLifecycleOwner, { error ->
+        movieViewModel.error.observe(viewLifecycleOwner) { error ->
             timberE(error)
             context?.showToast(error)
-        })
+        }
 
-        movieViewModel.resultGenre.observe(viewLifecycleOwner, { resultGenre ->
+        movieViewModel.resultGenre.observe(viewLifecycleOwner) { resultGenre ->
             genreData.clear()
             genreData.addAll(resultGenre)
             movieAdapter.notifyDataSetChanged()
-        })
+        }
 
-        movieViewModel.errorGenre.observe(viewLifecycleOwner, { errorGenre ->
+        movieViewModel.errorGenre.observe(viewLifecycleOwner) { errorGenre ->
             timberE(errorGenre)
             context?.showToast(errorGenre)
-        })
+        }
     }
 
     override fun onResume() {

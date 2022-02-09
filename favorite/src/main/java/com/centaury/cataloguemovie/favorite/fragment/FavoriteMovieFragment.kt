@@ -90,7 +90,7 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initObserver(binding: FragmentFavoriteMovieBinding) {
-        favoriteMovieViewModel.state.observe(viewLifecycleOwner, { state ->
+        favoriteMovieViewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
                     binding.shimmerViewContainer.startShimmer()
@@ -101,37 +101,39 @@ class FavoriteMovieFragment : Fragment(), FavoriteFragmentCallback {
                     binding.hasFavoriteMovies = false
                 }
             }
-        })
+        }
 
-        favoriteMovieViewModel.result.observe(viewLifecycleOwner, { result ->
+        favoriteMovieViewModel.result.observe(viewLifecycleOwner) { result ->
             movieFavoriteData.clear()
             movieFavoriteData.addAll(result)
             CommonUtils.toggleEmptyState(result.size, binding.emptyState, binding.rvFavMovie)
             favoriteMovieAdapter.notifyDataSetChanged()
-        })
+        }
 
-        favoriteMovieViewModel.error.observe(viewLifecycleOwner, { error ->
+        favoriteMovieViewModel.error.observe(viewLifecycleOwner) { error ->
             timberE(error)
             context?.showToast(error)
-        })
+        }
 
-        favoriteMovieViewModel.resultMovieById.observe(viewLifecycleOwner, { resultMovieById ->
+        favoriteMovieViewModel.resultMovieById.observe(viewLifecycleOwner) { resultMovieById ->
             movie = resultMovieById
-        })
+        }
 
-        favoriteMovieViewModel.errorMovieById.observe(viewLifecycleOwner, { errorMovieById ->
+        favoriteMovieViewModel.errorMovieById.observe(viewLifecycleOwner) { errorMovieById ->
             timberE(errorMovieById)
             context?.showToast(errorMovieById)
-        })
+        }
 
-        favoriteMovieViewModel.resultDeleteMovie.observe(viewLifecycleOwner, {
-            context?.showToast(R.string.txt_movie_remove)
-        })
+        favoriteMovieViewModel.resultDeleteMovie.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let {
+                context?.showToast(R.string.txt_movie_remove)
+            }
+        }
 
-        favoriteMovieViewModel.errorDeleteMovie.observe(viewLifecycleOwner, { errorDeleteMovie ->
+        favoriteMovieViewModel.errorDeleteMovie.observe(viewLifecycleOwner) { errorDeleteMovie ->
             timberE(errorDeleteMovie)
             context?.showToast(errorDeleteMovie)
-        })
+        }
     }
 
     private fun showDialogDeleteFavorite(movieId: Int, position: Int) {

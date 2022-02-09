@@ -89,7 +89,7 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initObserver(binding: FragmentFavoriteTvshowBinding) {
-        favoriteTVShowViewModel.state.observe(viewLifecycleOwner, { state ->
+        favoriteTVShowViewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is LoaderState.ShowLoading -> {
                     binding.shimmerViewContainer.startShimmer()
@@ -100,37 +100,39 @@ class FavoriteTVShowFragment : Fragment(), FavoriteFragmentCallback {
                     binding.hasFavoriteTVShows = false
                 }
             }
-        })
+        }
 
-        favoriteTVShowViewModel.result.observe(viewLifecycleOwner, { result ->
+        favoriteTVShowViewModel.result.observe(viewLifecycleOwner) { result ->
             tvShowFavoriteData.clear()
             tvShowFavoriteData.addAll(result)
             CommonUtils.toggleEmptyState(result.size, binding.emptyState, binding.rvFavTvShow)
             favoriteTVShowAdapter.notifyDataSetChanged()
-        })
+        }
 
-        favoriteTVShowViewModel.error.observe(viewLifecycleOwner, { error ->
+        favoriteTVShowViewModel.error.observe(viewLifecycleOwner) { error ->
             timberE(error)
             context?.showToast(error)
-        })
+        }
 
-        favoriteTVShowViewModel.resultTVShowById.observe(viewLifecycleOwner, { resultTVShowById ->
+        favoriteTVShowViewModel.resultTVShowById.observe(viewLifecycleOwner) { resultTVShowById ->
             tvShow = resultTVShowById
-        })
+        }
 
-        favoriteTVShowViewModel.errorTVShowById.observe(viewLifecycleOwner, { errorTVShowById ->
+        favoriteTVShowViewModel.errorTVShowById.observe(viewLifecycleOwner) { errorTVShowById ->
             timberE(errorTVShowById)
             context?.showToast(errorTVShowById)
-        })
+        }
 
-        favoriteTVShowViewModel.resultDeleteTVShow.observe(viewLifecycleOwner, {
-            context?.showToast(R.string.txt_movie_remove)
-        })
+        favoriteTVShowViewModel.resultDeleteTVShow.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let {
+                context?.showToast(R.string.txt_movie_remove)
+            }
+        }
 
-        favoriteTVShowViewModel.errorDeleteTVShow.observe(viewLifecycleOwner, { errorDeleteTVShow ->
+        favoriteTVShowViewModel.errorDeleteTVShow.observe(viewLifecycleOwner) { errorDeleteTVShow ->
             timberE(errorDeleteTVShow)
             context?.showToast(errorDeleteTVShow)
-        })
+        }
     }
 
     private fun showDialogDeleteFavorite(tvShowId: Int, position: Int) {
