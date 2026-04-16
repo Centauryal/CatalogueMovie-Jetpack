@@ -1,29 +1,40 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
-    compileSdk = Dependencies.ANDROID_COMPILE_SDK_VERSION
-    buildToolsVersion = Dependencies.ANDROID_BUILD_TOOLS_VERSION
+    namespace = "com.centaury.cataloguemovie"
+    compileSdk = AppConfig.ANDROID_COMPILE_SDK_VERSION
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
-        minSdk = Dependencies.ANDROID_MIN_SDK_VERSION
-        targetSdk = Dependencies.ANDROID_TARGET_SDK_VERSION
+        minSdk = AppConfig.ANDROID_MIN_SDK_VERSION
 
-        testInstrumentationRunner = Dependencies.ANDROID_TEST_INSTRUMENTATION
-        consumerProguardFiles(Dependencies.PROGUARD_CONSUMER_RULES)
+        testInstrumentationRunner = AppConfig.ANDROID_TEST_INSTRUMENTATION
+        consumerProguardFiles(AppConfig.PROGUARD_CONSUMER_RULES)
+    }
+
+    testOptions {
+        targetSdk = AppConfig.ANDROID_TARGET_SDK_VERSION
+    }
+
+    lint {
+        targetSdk = AppConfig.ANDROID_TARGET_SDK_VERSION
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
-        getByName("debug") {
+        debug {
             isJniDebuggable = true
             isMinifyEnabled = true
             proguardFiles(
@@ -47,16 +58,18 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+}
 
-    kotlinOptions {
-        jvmTarget = "11"
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
     }
 }
 
 dependencies {
-    implementation(project(AppDependencies.projectDomain))
-    implementation(AppDependencies.dataDependencies)
-    kapt(AppDependencies.kaptDataDependencies)
-    api(AppDependencies.apiDataDependencies)
-    testImplementation(AppDependencies.testImplementationDependencies)
+    implementation(project(AppConfig.PROJECT_DOMAIN))
+    implementation(libs.bundles.data)
+    ksp(libs.bundles.kspData)
+    api(libs.bundles.apiData)
+    testImplementation(libs.bundles.test)
 }

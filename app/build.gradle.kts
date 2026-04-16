@@ -1,36 +1,39 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
-    compileSdk = Dependencies.ANDROID_COMPILE_SDK_VERSION
-    buildToolsVersion = Dependencies.ANDROID_BUILD_TOOLS_VERSION
+    namespace = "com.centaury.cataloguemovie"
+    compileSdk = AppConfig.ANDROID_COMPILE_SDK_VERSION
 
     buildFeatures {
         dataBinding = true
+        compose = true
+        buildConfig = true
     }
 
     defaultConfig {
         applicationId = "com.centaury.cataloguemovie"
-        minSdk = Dependencies.ANDROID_MIN_SDK_VERSION
-        targetSdk = Dependencies.ANDROID_TARGET_SDK_VERSION
-        versionCode = Dependencies.ANDROID_VERSION_CODE
-        versionName = Dependencies.ANDROID_VERSION_NAME
+        minSdk = AppConfig.ANDROID_MIN_SDK_VERSION
+        targetSdk = AppConfig.ANDROID_TARGET_SDK_VERSION
+        versionCode = AppConfig.ANDROID_VERSION_CODE
+        versionName = AppConfig.ANDROID_VERSION_NAME
 
-        testInstrumentationRunner = Dependencies.ANDROID_TEST_INSTRUMENTATION
+        testInstrumentationRunner = AppConfig.ANDROID_TEST_INSTRUMENTATION
         vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
-        getByName("debug") {
+        debug {
             isDebuggable = true
             isMinifyEnabled = true
             proguardFiles(
@@ -53,18 +56,22 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-
     setDynamicFeatures(mutableSetOf(":favorite", ":search"))
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+    }
+}
+
 dependencies {
-    implementation(project(AppDependencies.projectData))
-    implementation(project(AppDependencies.projectDomain))
-    implementation(AppDependencies.appDependencies)
-    kapt(AppDependencies.kaptAppDependencies)
-    androidTestImplementation(AppDependencies.androidTestAppDependencies)
-    debugImplementation(AppDependencies.debugAppDependencies)
+    implementation(project(AppConfig.PROJECT_DATA))
+    implementation(project(AppConfig.PROJECT_DOMAIN))
+    implementation(libs.bundles.app)
+    implementation(platform(libs.androidx.compose.bom))
+    ksp(libs.bundles.kspApp)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.bundles.androidTestApp)
+    debugImplementation(libs.bundles.debugApp)
 }

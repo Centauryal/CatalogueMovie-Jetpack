@@ -1,24 +1,25 @@
 plugins {
-    id 'com.android.dynamic-feature'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
+    alias libs.plugins.android.dynamic.feature
+    alias libs.plugins.kotlin.android
+    alias libs.plugins.kotlin.ksp
 }
 android {
-    compileSdkVersion Dependencies.ANDROID_COMPILE_SDK_VERSION
-    buildToolsVersion Dependencies.ANDROID_BUILD_TOOLS_VERSION
+    namespace "com.centaury.cataloguemovie.search"
+    compileSdkVersion AppConfig.ANDROID_COMPILE_SDK_VERSION
 
     buildFeatures {
         dataBinding true
+        buildConfig true
     }
 
     defaultConfig {
         applicationId "com.centaury.cataloguemovie.search"
-        minSdkVersion Dependencies.ANDROID_MIN_SDK_VERSION
-        targetSdkVersion Dependencies.ANDROID_TARGET_SDK_VERSION
-        versionCode Dependencies.ANDROID_VERSION_CODE
-        versionName Dependencies.ANDROID_VERSION_NAME
+        minSdkVersion AppConfig.ANDROID_MIN_SDK_VERSION
+        targetSdkVersion AppConfig.ANDROID_TARGET_SDK_VERSION
+        versionCode AppConfig.ANDROID_VERSION_CODE
+        versionName AppConfig.ANDROID_VERSION_NAME
 
-        testInstrumentationRunner Dependencies.ANDROID_TEST_INSTRUMENTATION
+        testInstrumentationRunner AppConfig.ANDROID_TEST_INSTRUMENTATION
     }
 
     buildTypes {
@@ -44,10 +45,12 @@ android {
 }
 
 dependencies {
-    implementation project(AppDependencies.projectApp)
-    implementation project(AppDependencies.projectData)
-    implementation project(AppDependencies.projectDomain)
-    implementation AppDependencies.appDependencies
-    kapt AppDependencies.kaptAppDependencies
-    androidTestImplementation AppDependencies.androidTestAppDependencies
+    implementation project(":app")
+    implementation project(AppConfig.PROJECT_DATA)
+    implementation project(AppConfig.PROJECT_DOMAIN)
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.bundles.app
+    ksp libs.bundles.kspApp
+    androidTestImplementation platform(libs.androidx.compose.bom)
+    androidTestImplementation libs.bundles.androidTestApp
 }
