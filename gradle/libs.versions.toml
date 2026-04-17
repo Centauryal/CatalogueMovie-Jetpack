@@ -1,7 +1,10 @@
 [versions]
+# Plugins
 agp = "8.11.2"
 kotlin = "2.3.20"
 kotlinKsp = "2.1.20-1.0.32"
+
+# Androidx Dependencies
 coreKtx = "1.18.0"
 androidAnnotation = "1.10.0"
 androidLegacy = "1.0.0"
@@ -15,28 +18,37 @@ fragmentKtx = "1.8.9"
 composeBom = "2026.03.01"
 activityCompose = "1.13.0"
 lifecycleRuntimeKtx = "2.10.0"
+
+# Network
 retrofit2 = "3.0.0"
 loggingInterceptor = "5.3.2"
+
+# DI
 daggerHilt = "2.59.2"
 rxJava = "2.2.21"
 rxAndroid = "2.1.1"
-removeRxJava = "Remove RxJava with Coroutine Flow"
+
+# Common Dependencies
+# removeRxJava = "Remove RxJava with Coroutine Flow"
 coil = "3.4.0"
 timber = "5.0.1"
 shimmer = "0.5.0"
-changeShimmer = "TODO Change shimmer jetpack compose"
+# changeShimmer = "TODO Change shimmer jetpack compose"
 lottie = "6.7.1"
 intuit = "1.1.1"
-removeIntuit = "Remove Intuit"
+# removeIntuit = "Remove Intuit"
 sqlCipher = "4.5.4"
-removeSqlCipher = "Remove Sql Cipher"
-sqlCipherAndroid = "4.14.0"
+# removeSqlCipher = "Remove Sql Cipher"
+sqlCipherAndroid = "4.14.1"
+
+# Test Dependencies
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 leakCanary = "2.14"
 
 [libraries]
+# Androidx Dependencies
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-app-compact = { group = "androidx.appcompat", name = "appcompat", version.ref = "appCompact" }
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "androidAnnotation" }
@@ -62,16 +74,22 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+
+# Network
 retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
 retrofit2-adapter = { group = "com.squareup.retrofit2", name = "adapter-rxjava2", version.ref = "retrofit2" }
 retrofit2-converter = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit2" }
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "loggingInterceptor" }
+
+# DI
 dagger = { group = "com.google.dagger", name = "dagger", version.ref = "daggerHilt" }
 dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "daggerHilt" }
 dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "daggerHilt" }
 rxjava2 = { group = "io.reactivex.rxjava2", name = "rxjava", version.ref = "rxJava" }
 rxjava2-android = { group = "io.reactivex.rxjava2", name = "rxandroid", version.ref = "rxAndroid" }
+
+# Common Dependencies
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-compose-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
@@ -82,6 +100,8 @@ sdp-android = { group = "com.intuit.sdp", name = "sdp-android", version.ref = "i
 ssp-android = { group = "com.intuit.ssp", name = "ssp-android", version.ref = "intuit" }
 sql-cipher-database = { group = "net.zetetic", name = "android-database-sqlcipher", version.ref = "sqlCipher" }
 sql-cipher = { group = "net.zetetic", name = "sqlcipher-android", version.ref = "sqlCipherAndroid" }
+
+# Test Dependencies
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
