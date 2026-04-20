@@ -1,12 +1,11 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.dynamic.feature)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
 }
-
 android {
-    namespace = "com.centaury.cataloguemovie"
+    namespace = "com.centaury.cataloguemovie.search"
     compileSdk = AppConfig.ANDROID_COMPILE_SDK_VERSION
 
     buildFeatures {
@@ -16,29 +15,17 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.centaury.cataloguemovie"
         minSdk = AppConfig.ANDROID_MIN_SDK_VERSION
-        targetSdk = AppConfig.ANDROID_TARGET_SDK_VERSION
-        versionCode = AppConfig.ANDROID_VERSION_CODE
-        versionName = AppConfig.ANDROID_VERSION_NAME
 
         testInstrumentationRunner = AppConfig.ANDROID_TEST_INSTRUMENTATION
-        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-            )
+            isMinifyEnabled = false
         }
         debug {
             isDebuggable = true
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-            )
         }
 
         val imageUrl = project.properties["IMAGE_URL"] as String
@@ -47,16 +34,10 @@ android {
         }
     }
 
-    bundle {
-        language.enableSplit = false
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
-    setDynamicFeatures(mutableSetOf(":favorite", ":search"))
 }
 
 kotlin {
@@ -66,6 +47,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(":app"))
     implementation(project(AppConfig.PROJECT_DATA))
     implementation(project(AppConfig.PROJECT_DOMAIN))
     implementation(libs.bundles.app)
@@ -73,5 +55,4 @@ dependencies {
     ksp(libs.bundles.kspApp)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.bundles.androidTestApp)
-    debugImplementation(libs.bundles.debugApp)
 }
