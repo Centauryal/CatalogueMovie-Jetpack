@@ -14,6 +14,7 @@ material = "1.13.0"
 cardView = "1.0.0"
 recyclerView = "1.4.0"
 room = "2.8.4"
+paging = "3.4.2"
 fragmentKtx = "1.8.9"
 composeBom = "2026.03.01"
 activityCompose = "1.13.0"
@@ -66,7 +67,9 @@ androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = 
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
-androidx-room-rxjava2 = { group = "androidx.room", name = "room-rxjava2", version.ref = "room" }
+androidx-paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
+androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -121,11 +124,12 @@ app = [
     "androidx-fragment-ktx",
     "androidx-lifecycle-runtime-ktx",
     "androidx-material3",
+    "androidx-paging",
+    "androidx-paging-compose",
     "androidx-activity-compose",
     "androidx-ui",
     "androidx-ui-graphics",
     "androidx-ui-tooling-preview",
-    "dagger",
     "dagger-hilt",
     "rxjava2",
     "rxjava2-android",
@@ -139,7 +143,6 @@ app = [
     "timber"
 ]
 kspApp = [
-    "dagger-compiler",
     "dagger-hilt-compiler"
 ]
 androidTestApp = [
@@ -153,14 +156,11 @@ debugApp = [
     "leak-canary"
 ]
 data = [
-    "dagger",
+    "androidx-paging-common",
     "dagger-hilt",
-    "rxjava2",
-    "sql-cipher-database",
     "sql-cipher"
 ]
 kspData = [
-    "dagger-compiler",
     "dagger-hilt-compiler",
     "androidx-room-compiler"
 ]
@@ -168,20 +168,18 @@ apiData = [
     "androidx-room",
     "androidx-room-ktx",
     "androidx-room-paging",
-    "androidx-room-rxjava2",
     "retrofit2",
-    "retrofit2-adapter",
     "retrofit2-converter",
     "logging-interceptor"
 ]
 domain = [
-    "dagger",
+    "androidx-paging-common",
     "dagger-hilt",
-    "rxjava2",
-    "rxjava2-android"
 ]
 test = [
+    "androidx-paging-common",
     "junit"
+
 ]
 
 [plugins]

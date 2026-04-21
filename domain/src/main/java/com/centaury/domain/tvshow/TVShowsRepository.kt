@@ -1,9 +1,8 @@
 package com.centaury.domain.tvshow
 
+import androidx.paging.PagingData
 import com.centaury.domain.model.*
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)
@@ -11,19 +10,19 @@ import io.reactivex.Observable
  */
 interface TVShowsRepository {
 
-    fun getDiscoveryTVShows(): Observable<List<TVShow>>
+    fun getDiscoveryTVShows(): Flow<PagingData<TVShow>>
 
-    fun getDetailTVShow(tvShowId: Int): Observable<Detail>
+    suspend fun getDetailTVShow(tvShowId: Int): Detail
 
-    fun getGenreTVShows(): Observable<List<Genre>>
+    suspend fun getGenreTVShows(): List<Genre>
 
-    fun getSearchTVShowsAll(query: String): Observable<List<Search>>
+    fun getSearchTVShowsAll(query: String): Flow<PagingData<Search>>
 
-    fun getAllFavoriteTVShow(): Flowable<List<TVShowsDB>>
+    fun getAllFavoriteTVShow(): Flow<PagingData<TVShowsDB>>
 
-    fun getFavoriteTVShowById(id: Int): Flowable<TVShowsDB>
+    fun getFavoriteTVShowById(id: Int): Flow<TVShowsDB?>
 
-    fun insertFavoriteTVShow(tvShow: TVShowsDB): Completable
+    suspend fun insertFavoriteTVShow(tvShow: TVShowsDB)
 
-    fun deleteFavoriteTVShow(tvShow: TVShowsDB): Completable
+    suspend fun deleteFavoriteTVShow(tvShow: TVShowsDB)
 }
