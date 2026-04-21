@@ -1,22 +1,20 @@
 package com.centaury.domain.movies.interactor
 
+import androidx.paging.PagingData
 import com.centaury.domain.FlowableUseCase
 import com.centaury.domain.model.MoviesDB
 import com.centaury.domain.movies.MoviesRepository
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)
  * Created by Centaury on 7/27/2020.
  */
-class GetFavoriteMovieById @Inject constructor(
+class GetAllFavoriteMovie @Inject constructor(
     private val moviesRepository: MoviesRepository
-) : FlowableUseCase<MoviesDB, GetFavoriteMovieById.Params>() {
+) : FlowableUseCase<PagingData<MoviesDB>, FlowableUseCase.None>() {
 
-    override fun buildUseCase(params: Params): Flowable<MoviesDB> =
-        moviesRepository.getFavoriteMovieById(params.id)
-
-    data class Params(val id: Int)
-
+    override fun execute(params: None): Flow<PagingData<MoviesDB>> =
+        moviesRepository.getAllFavoriteMovie()
 }

@@ -3,7 +3,6 @@ package com.centaury.domain.movies.interactor
 import com.centaury.domain.UseCase
 import com.centaury.domain.model.Detail
 import com.centaury.domain.movies.MoviesRepository
-import io.reactivex.Observable
 import javax.inject.Inject
 
 /**
@@ -14,7 +13,7 @@ class GetDetailMovie @Inject constructor(
     private val moviesRepository: MoviesRepository
 ) : UseCase<Detail, GetDetailMovie.Params>() {
 
-    override fun buildUseCase(params: Params): Observable<Detail> =
+    override suspend fun execute(params: Params): Detail =
         moviesRepository.getDetailMovie(params.id)
 
     data class Params(val id: Int)
