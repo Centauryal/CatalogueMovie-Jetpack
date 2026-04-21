@@ -3,19 +3,20 @@ package com.centaury.domain.movies.interactor
 import com.centaury.domain.FlowableUseCase
 import com.centaury.domain.model.MoviesDB
 import com.centaury.domain.movies.MoviesRepository
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)
  * Created by Centaury on 7/27/2020.
  */
-class GetAllFavoriteMovie @Inject constructor(
+class GetFavoriteMovieById @Inject constructor(
     private val moviesRepository: MoviesRepository
-) : FlowableUseCase<List<MoviesDB>, FlowableUseCase.None>() {
+) : FlowableUseCase<MoviesDB?, GetFavoriteMovieById.Params>() {
 
-    override fun buildUseCase(params: None): Flowable<List<MoviesDB>> =
-        moviesRepository.getAllFavoriteMovie()
+    override fun execute(params: Params): Flow<MoviesDB?> =
+        moviesRepository.getFavoriteMovieById(params.id)
 
+    data class Params(val id: Int)
 
 }

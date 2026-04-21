@@ -3,7 +3,6 @@ package com.centaury.domain.movies.interactor
 import com.centaury.domain.CompletableUseCase
 import com.centaury.domain.model.MoviesDB
 import com.centaury.domain.movies.MoviesRepository
-import io.reactivex.Completable
 import javax.inject.Inject
 
 /**
@@ -12,9 +11,7 @@ import javax.inject.Inject
  */
 class GetInsertFavoriteMovie @Inject constructor(
     private val moviesRepository: MoviesRepository
-) : CompletableUseCase<CompletableUseCase.None, MoviesDB>() {
-
-    override fun buildUseCase(params: MoviesDB): Completable =
+) : CompletableUseCase<MoviesDB>() {
+    override suspend fun execute(params: MoviesDB) =
         moviesRepository.insertFavoriteMovie(params)
-
 }

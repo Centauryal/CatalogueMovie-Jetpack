@@ -1,9 +1,10 @@
 package com.centaury.domain.movies.interactor
 
-import com.centaury.domain.UseCase
+import androidx.paging.PagingData
+import com.centaury.domain.FlowableUseCase
 import com.centaury.domain.model.Movie
 import com.centaury.domain.movies.MoviesRepository
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -12,8 +13,8 @@ import javax.inject.Inject
  */
 class GetDiscoveryMovie @Inject constructor(
     private val moviesRepository: MoviesRepository
-) : UseCase<List<Movie>, UseCase.None>() {
+) : FlowableUseCase<PagingData<Movie>, FlowableUseCase.None>() {
 
-    override fun buildUseCase(params: None): Observable<List<Movie>> =
+    override fun execute(params: None): Flow<PagingData<Movie>> =
         moviesRepository.getDiscoveryMovies()
 }
