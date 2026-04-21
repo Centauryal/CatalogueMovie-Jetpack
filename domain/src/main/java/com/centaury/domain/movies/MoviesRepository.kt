@@ -1,9 +1,8 @@
 package com.centaury.domain.movies
 
+import androidx.paging.PagingData
 import com.centaury.domain.model.*
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 
 /**
  * @Author Centaury (alfa.arnialfa@gmail.com)
@@ -11,19 +10,19 @@ import io.reactivex.Observable
  */
 interface MoviesRepository {
 
-    fun getDiscoveryMovies(): Observable<List<Movie>>
+    fun getDiscoveryMovies(): Flow<PagingData<Movie>>
 
-    fun getDetailMovie(movieId: Int): Observable<Detail>
+    suspend fun getDetailMovie(movieId: Int): Detail
 
-    fun getGenreMovies(): Observable<List<Genre>>
+    suspend fun getGenreMovies(): List<Genre>
 
-    fun getSearchMoviesAll(query: String): Observable<List<Search>>
+    fun getSearchMoviesAll(query: String): Flow<PagingData<Search>>
 
-    fun getAllFavoriteMovie(): Flowable<List<MoviesDB>>
+    fun getAllFavoriteMovie(): Flow<PagingData<MoviesDB>>
 
-    fun getFavoriteMovieById(id: Int): Flowable<MoviesDB>
+    fun getFavoriteMovieById(id: Int): Flow<MoviesDB?>
 
-    fun insertFavoriteMovie(movie: MoviesDB): Completable
+    suspend fun insertFavoriteMovie(movie: MoviesDB)
 
-    fun deleteFavoriteMovie(movie: MoviesDB): Completable
+    suspend fun deleteFavoriteMovie(movie: MoviesDB)
 }
